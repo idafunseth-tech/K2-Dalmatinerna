@@ -1,17 +1,21 @@
 ## Daily Scrum – 261007
 
-### Framsteg mot sprintmålet
-* Skapade 5 user storys
-* Skapade 5 acceptandskriterier
-* Uppdaterade kanban tavlan så den är up to date
-* Läste igenom projektuppgiften
-### Arbete till nästa avstämning
-* Göra fler user storys
-* Skapa fler acceptanskriterier
-* Färdigställa DoD
-### Hinder eller risker
-* Tidsbrist
-### Hjälp eller beslut som behövs
-* Inget just nu
-### Förändring i planen eller tavlan
-* Den är uppdaterad med 5 user storys och tillhörande acceptanskriterier och samtliga ligger på "Ready"
+### Progress toward the sprint goal
+* Created 5 user stories
+* Created 5 acceptance criteria
+* Updated the Kanban board so it is up to date
+* Read through the project assignment
+
+### Work until the next check-in
+* Write more user stories
+* Create more acceptance criteria
+* Finalize the DoD (Definition of Done)
+
+### Obstacles or risks
+* Lack of time
+
+### Help or decisions needed
+* Nothing right now
+
+### Change in the plan or board
+* It has been updated with 5 user stories and their associated acceptance criteria, and all of them are in "Ready"
