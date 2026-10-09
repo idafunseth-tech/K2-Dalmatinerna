@@ -1,3 +1,29 @@
+<details>
+
+<summary>Daily Scrum Template</summary>
+
+```
+## Daily Scrum – [Date]
+* 
+
+### Progress toward the sprint goal
+* 
+
+### Work until the next check-in
+* 
+
+### Obstacles or risks
+* 
+
+### Help or decisions needed
+* 
+
+### Change in the plan or board
+* 
+```
+
+</details>
+
 ## Daily Scrum – 261007
 
 ### Progress toward the sprint goal
