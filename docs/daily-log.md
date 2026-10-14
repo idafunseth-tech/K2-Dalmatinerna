@@ -4,7 +4,6 @@
 
 ```
 ## Daily Scrum – [Date]
-* 
 
 ### Progress toward the sprint goal
 * 
@@ -23,6 +22,30 @@
 ```
 
 </details>
+
+## Daily Scrum – 261014
+
+### Progress toward the sprint goal
+* V1 and V2 of ERD
+* Normalization documentation
+
+### Work until the next check-in
+* Business-rules.md
+* 3NF-model
+* ER-diagram
+* Normalization documentation 
+* Kanban board refinement 
+* Write more user stories
+ 
+### Obstacles or risks
+* Lack of time
+* Missing team member
+
+### Help or decisions needed
+* Decisions if we should create user profile
+
+### Change in the plan or board
+* Added sprint goal column
 
 ## Daily Scrum – 261007
 
