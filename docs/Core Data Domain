@@ -1,0 +1,69 @@
+## Core Data Domain
+
+The core data domain is defined based on the system's primary user flow: **[Insert primary user flow here]**.
+---
+
+### 1. Required Information to Store
+To support the primary user flow, the system must store the following information:
+* **User information:** Name, Email and PhoneNumber.
+* **Event information:** Location, Time, Organizer and Eventname.
+* **Booking information:** Booking Date.
+
+---
+
+### 2. Meaning of Information Types
+* **[User / Information Type]** – 
+* **[Entity / Information Type]** – 
+* **[Entity / Information Type]** – 
+
+---
+
+### 3. Entities Requiring Unique Identity
+The following entities have unique identifiers (Primary Keys / `PK`) to distinguish each instance over time:
+
+| Entity | Primary Key (PK) | Description |
+| :--- | :--- | :--- |
+| **[Entity Name]** | `[Key_ID]` |  |
+| **[Entity Name]** | `[Key_ID]` |  |
+| **[Entity Name]** | `[Key_ID]` |  |
+| **[Entity Name]** | `[Key_ID]` |  |
+| **[Entity Name]** | `[Key_ID]` |  |
+
+---
+
+### 4. Required Relationships for User Flow
+The primary relationships connecting the entities across the user flow:
+
+* **[UserId] to [UserId] (`1 : N`)**  
+  * `[UserId A.Key_ID]` acts as a Foreign Key (`FK`) in `[UserId]`.
+* **[Entity B] to [Entity C] (`M : N`)**  
+  * Resolved via junction table `[Junction Entity]`.
+* **[Entity B] to [Entity D] (`1 : 1`)**  
+  * `[Entity B.Key_ID]` acts as a Foreign Key (`FK`) in `[Entity D]`.
+
+---
+
+### 5. ER Diagram Overview
+
+```mermaid
+erDiagram
+    ENTITY_A ||--o{ ENTITY_B : "places"
+    ENTITY_B ||--|{ JUNCTION_ENTITY : "contains"
+    ENTITY_C ||--o{ JUNCTION_ENTITY : "included in"
+
+    ENTITY_A {
+        int EntityA_ID PK
+        string AttributeName
+    }
+    ENTITY_B {
+        int EntityB_ID PK
+        int EntityA_ID FK
+    }
+    JUNCTION_ENTITY {
+        int EntityB_ID PK, FK
+        int EntityC_ID PK, FK
+    }
+    ENTITY_C {
+        int EntityC_ID PK
+        string AttributeName
+    }
