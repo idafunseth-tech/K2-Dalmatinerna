@@ -6,10 +6,14 @@
 - Tables under review: 
   - v1_1NF
   - v2_2NF
-- Assumptions and business rules: [for example, whether the same combination may occur multiple times]
+- Assumptions and business rules:
+  - Each Booking can only relate to one User
+  - Each Booking can only relate to one Event
+  - Each Event can have many Bookings
+  - Each User can have many Bookings
+
 - Before model v1: [v1_1NF](https://drive.google.com/file/d/12_fXK5D_X11H_AXJBwJ5Nd_gEsD5VHrM/view?usp=drive_link)
 - After model v2: [v2_2NF](https://drive.google.com/file/d/18tzZ8fFrBtjuZHA53LfZrLKPf17zoau9/view?usp=drive_link)
-- Example data: [link to shared spreadsheet or normalisering-exempel.xlsx] 
 
 ## 1. Before State – v1
 | Table | What does a row represent? | Primary key (PK) | Foreign keys (FK) |
@@ -17,7 +21,6 @@
 | v1 | Event bookings | FormId | - |
 
 ### Example Data and Repetition
-- Example rows can be found in: [sheets with the prefix v1_]
 - Necessarily repeated IDs for relationships:
   - None
 - Duplicated descriptive facts or lists:
@@ -44,12 +47,12 @@ Choose at least two situations. State the affected tables and IDs.
 
 ### 2NF
 - Candidate keys the check is based on: FormId has a unique value for each row.
-- Are there non-key attributes that depend on only part of a composite candidate key? [describe, or explain why not]
-- Change or verification: [what was changed, or why can the structure be kept?]
+- Are there non-key attributes that depend on only part of a composite candidate key? The model depends on columns that are not the Primary Key.
+- Change or verification: Split the model into 3 tables (Form, Booking, Event)
 
 ### 3NF
-- Are there non-key attributes that depend on the key via other non-key attributes? [specify any dependency chain]
-- Change or verification: [what was changed, or why can the structure be kept?]
+- Are there non-key attributes that depend on the key via other non-key attributes? EventCategory is dependent on EventName.
+- Change or verification: This was kept in v2 but will be rectified later.
 
 ## 3. After State – v2
 | Table | Responsibility | PK | FK and referenced table |
