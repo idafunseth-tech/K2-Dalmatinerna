@@ -19,7 +19,7 @@ and the 3NF schema.
 ### 3.1 Entity rules
 | ID    | Rule                                                              | Source |
 |-------|-------------------------------------------------------------------|--------|
-| BR-00 | Every user shall have a unique identifier, a name, an email. and phone number | TBD    |
+| BR-00 | Every user shall have a unique identifier, a name, an email, and phone number | TBD    |
 | BR-01 | Every event shall have a unique identifier and a name.            | TBD  |
 | BR-02 | Every event shall have a date and a start time.                   | TBD  |
 | BR-03 | Every event shall have a location.                                | TBD  |
@@ -45,11 +45,10 @@ relationship, resolved through Booking.
 | ID    | Rule                                                           | Enforced by       |
 |-------|----------------------------------------------------------------|-------------------|
 | BR-20 | A user's email shall be unique.                                | UNIQUE constraint |
-| BR-21 | A user's phone number shall be unique.                               | UNIQUE constraint |
-| BR-22 | A category name shall be unique.                               | UNIQUE constraint |
-| BR-23 | An event's capacity shall be greater than zero.                | CHECK constraint  |
-| BR-24 | A booking's quantity shall be at least one.                    | CHECK constraint  |
-| BR-25 | A booking's timestamp shall be set by the system when the booking is made. | Application / DEFAULT |
+| BR-21 | A category name shall be unique.                               | UNIQUE constraint |
+| BR-22 | An event's capacity shall be greater than zero.                | CHECK constraint  |
+| BR-23 | A booking's quantity shall be at least one.                    | CHECK constraint  |
+| BR-24 | A booking's timestamp shall be set by the system when the booking is made. | Application / DEFAULT |
 
 ### 3.4 Process / behavior rules
 | ID    | Rule                                                                              | Enforced by   |
@@ -69,6 +68,7 @@ relationship, resolved through Booking.
 - Can an event belong to more than one category? (currently: no)
 - Can a user book the same event more than once? (currently: yes, as separate bookings)
 - Can a booking be cancelled or changed? (currently: not modeled)
+- Can a phone number be NULL? (currently not modeled)
 
 ## 5. Change log
 | Date       | Change          | Author |
