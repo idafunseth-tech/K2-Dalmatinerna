@@ -1,0 +1,79 @@
+# Normalization – from ER Model v2 to v3
+
+## Scope and Basis
+- Team: Dalmatinerna
+- Selected part of the project: Booking forms for booking events.
+- Tables under review: 
+  - v2_2NF
+  - v3_3NF
+- Assumptions and business rules:
+  - Each Booking can only relate to one User
+  - Each Booking can only relate to one Event
+  - Each Event can have many Bookings
+  - Each User can have many Bookings
+
+- Before model v2: [v2_2NF](https://drive.google.com/file/d/18tzZ8fFrBtjuZHA53LfZrLKPf17zoau9/view?usp=drive_link)
+- After model v3: [v3_3NF](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/98f49f4db35aefa859109a96742807341df698da/docs/v3_3NF.png)
+
+## 1. Before State – v2
+| Table | Responsibility | PK | FK and referenced table |
+| --- | --- | --- | --- |
+| Form | Information from a filled out booking from | FormId | FormId -> FkFormId |
+| Booking | Date of booking | BookingId | FormId -> FkFormId , EventId -> FkEventId |
+| Event | Event information | EventId | EventId -> FkEventId |
+
+### Example Data and Repetition
+- Necessarily repeated IDs for relationships:
+  - FkFormId and FkEventId in the booking table.
+- Duplicated descriptive facts or lists:
+  - EventCategoy (Category information) repeated inside the Event table for each event sharing the same category.
+  - Personal user data bound directly to Form rather than a persistent User profile.
+
+### Situations to Test
+Choose at least two situations. State the affected tables and IDs.
+1. Updating a category name requires changing EventCategory across multiple rows in the Event table.
+2. A new category cannot be created on its own.
+3. User information are bound to a specific form submission rather then a stanalone user profile. If a user needs to update their phonenumber or email adress across past bookings, it would require updating Form data across multiple submission, leading to update anomalies.
+
+## 2. Normal Form Check
+### 1NF
+- Check: one value per cell, no lists or repeating column groups, and identifiable rows.
+- Our assessment and justification: FormId identifies the rows and none of the columns contain more than one value per cell.
+- Change or verification: This version violates none of the rules for 1NF.
+
+### 2NF
+- Candidate keys the check is based on: FormId has a unique value for each row.
+- Are there non-key attributes that depend on only part of a composite candidate key? The model depends on columns that are not the Primary Key.
+- Change or verification: Split the model into 3 tables (Form, Booking, Event)
+
+### 3NF
+- Check:Ensure the model is in 2NF and that non-key attributes depend on other non-key attributes.
+- Are there non-key attributes that depend on the key via other non-key attributes?  Yes. In v2, category attributes (such as CategoryName) were stored directly inside the Event table. The category details depended transitively on the event's category rather than directly on the EventId primary key. Additionally, storing personal contact information within submission forms created unnecessary attribute coupling instead of attributing them directly to an independent entity.
+- Change or verification: To achieve 3NF, we removed this transitive dependecy by exztracting Category into its own table connected to Event via FkCategoryId. We also normalized user attributes into a dedicated User table insted of Form.
+
+## 3. After State – v3
+| Table | Responsibility | PK | FK and referenced table |
+| --- | --- | --- | --- |
+| User | User personal details (UserName, UserEmail, UserPhoneNumber) | UserId | None |
+| Booking | Connects a user to an event (BookedAt, BookingQuantity| BookingId | FkUserId -> UserId , FkEventId -> Event(EventId) |
+| Event | Event information (EventName, EventDate, EventTime, EventCapacity, EventOrganizer) | EventId | FkCategoryId -> Category(CategoryId) |
+| Category | Event category details (CategoryName) | CategoryId | None |
+
+### Justified Decisions
+- Extracted Category into a separate table to eliminate transitive dependencies from Event.
+- Replaced the submission-focused Form table with a dedicated User table to decouple user profiles from individual form submissions.
+- Re-linked foreign keys in Booking (FkUserId, FkEventId) and Event (FkCategoryId) to maintain all relationships.
+
+## 4. Test Results
+The tests are performed manually on the conceptual model.
+
+| Situation and affected IDs | Expected result | Result in v1 | Result in v2 | Conclusion |
+| --- | --- | --- | --- | --- |
+| Updating a category name (CategoryName) | The name should be updated in a single place. | Required updating multiple rows in the Event table. | Updated in only one row in the Category table, automatically reflecting across all linked events. | Pass. 3NF achieved. Update anomalies are removed. |
+| Adding a new category (CategoryId) | Adding a category should be possible without creating an event. | Could not be added without creating dummy event entries or leaving null fields in Event. | The category is added directly into the Category table independently of any events. | Pass. Insertion anomalies are successfully eliminated. |
+| Updating a users contact information (UserId/Useremial) | A user should be able to update their personal details in one single place. | User details were tied to individual Form entries, requiring updates across multiple submission records if the user made multiple bookings. | Updated in a single row in the User table, automatically applying to all theri associated bookings. | Pass. Redundancy and update anomalies regarding user data are resolved by replacing form with a dedicated User entity. |
+
+## 5. Summary and Remaining Questions
+- Most important conclusion: By normalizing from v2 to v3, we achieved 3NF by extracting Category to eliminate transitive dependencies, and replaced the sibmission-bound Form structure wit a dedicated, structured User Entity.
+- Reduced redundancy or avoided anomalies: All descriptive attributes - such as personal user data in User, event details, booking quantities, and category names - now reside in exactly one table. Completely eliminating update, insertion and deletion anomalises.
+- Remaining questions or assumptions to check: Should an event support multiple categories in the future (A many-to-many relationship requiring a junction table), or is the current one-to-many relationship sufficient for our project requirements? Furthermore, do we need to store multiple adresses or contact channels per user later on? And should the EventOrganier has its own table? Then the organizer can host mupltiple events and change their event (Ex. EventName) in one place. 
