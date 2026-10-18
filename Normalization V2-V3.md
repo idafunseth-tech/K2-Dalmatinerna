@@ -13,7 +13,7 @@
   - Each User can have many Bookings
 
 - Before model v2: [v2_2NF](https://drive.google.com/file/d/18tzZ8fFrBtjuZHA53LfZrLKPf17zoau9/view?usp=drive_link)
-- After model v3: [v3_3NF](https://drive.google.com/file/d/1k88dVNvaSjydpzslpJy5gSwS2H8lgapU/view?usp=sharing)
+- After model v3: [v3_3NF](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/98f49f4db35aefa859109a96742807341df698da/docs/v3_3NF.png)
 
 ## 1. Before State – v2
 | Table | Responsibility | PK | FK and referenced table |
