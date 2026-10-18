@@ -49,7 +49,7 @@ Choose at least two situations. State the affected tables and IDs.
 ### 3NF
 - Check:Ensure the model is in 2NF and that non-key attributes depend on other non-key attributes.
 - Are there non-key attributes that depend on the key via other non-key attributes?  Yes. In v2, category attributes (such as CategoryName) were stored directly inside the Event table. The category details depended transitively on the event's category rather than directly on the EventId primary key. Additionally, storing personal contact information within submission forms created unnecessary attribute coupling instead of attributing them directly to an independent entity.
-- Change or verification: To achieve 3NF, we removed this transitive dependecy by exztracting Category into its own table connected tod Event via FkCategoryId. We also normalized user attributes into a dedicated User table insted of Form.
+- Change or verification: To achieve 3NF, we removed this transitive dependecy by exztracting Category into its own table connected to Event via FkCategoryId. We also normalized user attributes into a dedicated User table insted of Form.
 
 ## 3. After State – v3
 | Table | Responsibility | PK | FK and referenced table |
