@@ -9,7 +9,7 @@
 To support the primary user flow, the system must store the following information:
 * **User details:** Name, email address and phone number.
 * **Event details:** Event name, location, date, time, organizer, total capacity and assigned category.
-* **Booking details:** Booking date, time and quantity of booked seats.
+* **Booking details:** Booking date, time and quantity of booked slots.
 * **Category details:** Category name for event classifcation.
 
 ---
