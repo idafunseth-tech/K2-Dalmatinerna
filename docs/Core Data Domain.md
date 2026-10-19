@@ -16,7 +16,7 @@ To support the primary user flow, the system must store the following informatio
 
 ### 2. Meaning of Information Types
 * **User** – Represents an individual user who can make event bookings.
-* **Booking** – Represents a transaction where a user reserves seats for a specific event.
+* **Booking** – Represents a transaction where a user reserves slots for a specific event.
 * **Event** – Represents an upcoming activity or event that users can book.
 * **Category** – Represents a classification type used to group related events.
 ---
