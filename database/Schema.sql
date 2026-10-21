@@ -2,6 +2,7 @@ CREATE DATABASE EventDB;
 GO
 
 
+
 USE EventDB
 GO
 CREATE TABLE Users
@@ -32,3 +33,18 @@ CREATE TABLE Events (
  FOREIGN KEY (CategoryID)
   REFERENCES Category(CategoryID)
  );
+ 
+ 
+ CREATE TABLE Bookings
+(
+	BookingID INT IDENTITY(1,1) PRIMARY KEY,
+	BookedAt DATETIME2 NOT NULL,
+	BookingQuantity INT NOT NULL,
+	
+	FOREIGN KEY(UserID)
+		REFERENCES Users(UserID),
+
+	FOREIGN KEY(EventID)
+		REFERENCES Events(EventID)
+);
+
