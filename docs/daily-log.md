@@ -29,9 +29,9 @@
 
 ### Work until the next check-in
 * Create a database.
-* Implement our 4 tables (Event, User, Booking, Category.
+* Implement our 4 tables (Event, User, Booking, Category).
 * Create reproducible test data.
-* Implement JOIN- and agreggate queries.
+* Implement JOIN and agreggate queries.
 * Verified data integrity using intentional error testing
 * Delivered database increments through Pull Requests
 
