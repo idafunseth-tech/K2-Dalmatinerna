@@ -14,11 +14,13 @@ CREATE TABLE Users
 );
 
 
+
 CREATE TABLE Category
 (
 	CategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	CategoryName INT NOT NULL
 );
+
 
 
 CREATE TABLE Events (
@@ -34,12 +36,15 @@ CREATE TABLE Events (
   REFERENCES Category(CategoryID)
  );
  
+
  
  CREATE TABLE Bookings
 (
 	BookingID INT IDENTITY(1,1) PRIMARY KEY,
 	BookedAt DATETIME2 NOT NULL,
 	BookingQuantity INT NOT NULL,
+	UserID INT NOT NULL,
+	EventID INT NOT NULL
 	
 	FOREIGN KEY(UserID)
 		REFERENCES Users(UserID),
@@ -47,4 +52,3 @@ CREATE TABLE Events (
 	FOREIGN KEY(EventID)
 		REFERENCES Events(EventID)
 );
-
