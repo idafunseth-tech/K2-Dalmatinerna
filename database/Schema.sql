@@ -1,2 +1,8 @@
 CREATE DATABASE EventDB;
 GO
+
+CREATE TABLE Category
+(
+	CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+	CategoryName INT NOT NULL
+);
