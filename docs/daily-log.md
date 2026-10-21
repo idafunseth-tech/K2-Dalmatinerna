@@ -20,8 +20,30 @@
 ### Change in the plan or board
 * 
 ```
-
 </details>
+
+## Daily Scrum – [2026-10-21]
+
+### Progress toward the sprint goal
+* Aggregat query written.
+
+### Work until the next check-in
+* Create a database.
+* Implement our 4 tables (Event, User, Booking, Category).
+* Create reproducible test data.
+* Implement JOIN and agreggate queries.
+* Verified data integrity using intentional error testing
+* Delivered database increments through Pull Requests
+
+### Obstacles or risks
+* Lack of time
+* Sickness (Missing team member)
+
+### Help or decisions needed
+* What should we call our database?
+
+### Change in the plan or board
+* It has been updated with 7 user stories (Including substories) and their associated acceptance criteria, and all of them are in "Ready". 
 
 ## Daily Scrum – 261014
 
