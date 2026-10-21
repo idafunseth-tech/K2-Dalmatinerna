@@ -1,2 +1,15 @@
 CREATE DATABASE EventDB;
 GO
+
+CREATE TABLE Bookings
+(
+	BookingID INT IDENTITY(1,1) PRIMARY KEY,
+	BookedAt DATETIME2 NOT NULL,
+	BookingQuantity INT NOT NULL,
+	
+	FOREIGN KEY(UserID)
+		REFERENCES Users(UserID),
+
+	FOREIGN KEY(EventID)
+		REFERENCES Events(EventID)
+);
