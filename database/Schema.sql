@@ -5,12 +5,12 @@ GO
 
 USE EventDB
 GO
-CREATE TABLE Account
+CREATE TABLE Person
 (
-	AccountID INT IDENTITY(1,1) PRIMARY KEY,
-	AccountName NVARCHAR(50) NOT NULL,
-	AccountEmail NVARCHAR(100) NOT NULL,
-	AccountPhoneNumber INT
+	PersonID INT IDENTITY(1,1) PRIMARY KEY,
+	PersonName NVARCHAR(50) NOT NULL,
+	PersonEmail NVARCHAR(100) NOT NULL,
+	PersonPhoneNumber INT
 );
 
 
@@ -42,11 +42,11 @@ CREATE TABLE Activity (
 	BookingID INT IDENTITY(1,1) PRIMARY KEY,
 	BookedAt DATETIME2 NOT NULL,
 	BookingQuantity INT NOT NULL,
-	AccountID INT NOT NULL,
+	PersonID INT NOT NULL,
 	ActivityID INT NOT NULL
 	
-	FOREIGN KEY(AccountID)
-		REFERENCES Account(AccountID),
+	FOREIGN KEY(PersonID)
+		REFERENCES Person(PersonID),
 
 	FOREIGN KEY(ActivityID)
 		REFERENCES Activity(ActivityID)

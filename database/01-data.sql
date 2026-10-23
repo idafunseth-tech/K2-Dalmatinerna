@@ -2,7 +2,7 @@ USE EventDB;
 GO
 
 
-INSERT INTO Account (AccountName, AccountEmail, AccountPhoneNumber)
+INSERT INTO Person (PersonName, PersonEmail, PersonPhoneNumber)
 VALUES
 	(N'Emma Johansson', N'emma.johansson@example.com', 0701234567),
 	(N'Liam Andersson', N'liam.andersson@example.com', 0702345678),
@@ -42,7 +42,7 @@ VALUES
 	(N'Local Art Exhibition', N'William Gustafsson', 120, '2027-02-13T16:00:00', 8);
 
 
-INSERT INTO Booking (BookedAt, BookingQuantity, AccountID, ActivityID)
+INSERT INTO Booking (BookedAt, BookingQuantity, PersonID, ActivityID)
 VALUES
 	('2026-11-02T09:15:00', 3, 7, 4),
 	('2026-11-09T14:30:00', 5, 2, 9),
