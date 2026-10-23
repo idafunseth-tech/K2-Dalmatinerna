@@ -5,12 +5,12 @@ GO
 
 USE EventDB
 GO
-CREATE TABLE Users
+CREATE TABLE Account
 (
-	UserID INT IDENTITY(1,1) PRIMARY KEY,
-	UserName nvarchar(50) NOT NULL,
-	UserEmail nvarchar(100) NOT NULL,
-	UserPhoneNumber INT
+	AccountID INT IDENTITY(1,1) PRIMARY KEY,
+	AccountName nvarchar(50) NOT NULL,
+	AccountEmail nvarchar(100) NOT NULL,
+	AccountPhoneNumber INT
 );
 
 
@@ -23,13 +23,13 @@ CREATE TABLE Category
 
 
 
-CREATE TABLE Events (
- EventID INT IDENTITY(1,1) PRIMARY KEY,
- EventName VARCHAR(150) NOT NULL,
- EventOrganizer VARCHAR(150),
- EventCapacity INT NOT NULL,
- EventDate DATE NOT NULL,
- EventTime TIME NOT NULL,
+CREATE TABLE Activity (
+ ActivityID INT IDENTITY(1,1) PRIMARY KEY,
+ ActivityName VARCHAR(150) NOT NULL,
+ ActivityOrganizer VARCHAR(150),
+ ActivityCapacity INT NOT NULL,
+ ActivityDate DATE NOT NULL,
+ ActivityTime TIME NOT NULL,
  CategoryID INT NOT NULL,
  
  FOREIGN KEY (CategoryID)
@@ -38,17 +38,17 @@ CREATE TABLE Events (
  
 
  
- CREATE TABLE Bookings
+ CREATE TABLE Booking
 (
 	BookingID INT IDENTITY(1,1) PRIMARY KEY,
 	BookedAt DATETIME2 NOT NULL,
 	BookingQuantity INT NOT NULL,
-	UserID INT NOT NULL,
-	EventID INT NOT NULL
+	AccountID INT NOT NULL,
+	ActivityID INT NOT NULL
 	
-	FOREIGN KEY(UserID)
-		REFERENCES Users(UserID),
+	FOREIGN KEY(AccountID)
+		REFERENCES Account(AccountID),
 
-	FOREIGN KEY(EventID)
-		REFERENCES Events(EventID)
+	FOREIGN KEY(ActivityID)
+		REFERENCES Activity(ActivityID)
 );
