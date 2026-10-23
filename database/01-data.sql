@@ -2,7 +2,7 @@ USE EventDB;
 GO
 
 
-INSERT INTO Person (PersonName, PersonEmail, PersonPhoneNumber) person
+INSERT INTO Person (PersonName, PersonEmail, PersonPhoneNumber)
 VALUES
 	(N'Emma Johansson', N'emma.johansson@example.com', 0701234567),
 	(N'Liam Andersson', N'liam.andersson@example.com', 0702345678),
