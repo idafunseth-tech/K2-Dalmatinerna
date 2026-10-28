@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #766f40;
+    line-height: 2;
+    margin: 0;
+    background: #3e282c;
+    a {
+        color: #766f40;
+    }
+    a:hover {
+  color: #6e4048;
+}
+}
+
+
+main 
+{
+    width: 90%;
+    max-width: 960px;
+    margin-inline: auto;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.site-header
+{
+    width: 90%;
+    max-width: 960px;
+    margin-inline: auto;
+}
+
+.nav-list 
+{
+    width: 90%;
+    max-width: 960px;
+    margin-inline: auto;
+}
+
+.activity-card 
+{
+    margin-bottom: 1rem;
+    width: 320px;
+    padding: 1rem;
+    border: 4px solid #404041;
+    box-sizing: border-box;
+}
+
+
+@media(min-width: 700px) {
+    .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .nav-list {
+        flex-direction: row;
+    }
+
+    .activity-list {
+        flex-direction: row;
+    }
+    .activity-card {
+        flex: 1;
+    }
+}
