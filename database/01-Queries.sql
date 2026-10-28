@@ -1,3 +1,5 @@
+USE EventDB
+
 SELECT
   b.BookingID,
   p.PersonName,
