@@ -22,6 +22,36 @@
 ```
 </details>
 
+## Daily Scrum – [2026-10-28]
+
+### Progress toward the sprint goal
+* Created Aggregate queries.
+* Created database.
+* Created user stories related to boiler room.
+* Created JOIN queries.
+* Tested integrity constrains.
+* The database increment is reviewed and merged.
+* Renamed Tables.
+
+### Work until the next check-in
+* Create daily scrum
+* Create view in SQL
+* Create stored procedure
+* Create a trigger in SQL
+* Create semantic frontend
+* Coordinate SQL and frontend
+* Create SQL review
+* Create frontend review
+
+### Obstacles or risks
+* Missing team member
+
+### Help or decisions needed
+* None
+
+### Change in the plan or board
+* Updated with new cards related to boiler room.
+
 ## Daily Scrum – [2026-10-21]
 
 ### Progress toward the sprint goal
