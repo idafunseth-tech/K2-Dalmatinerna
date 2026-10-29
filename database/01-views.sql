@@ -1,7 +1,7 @@
 USE EventDB;
 GO
 
-CREATE VIEW [ActivityBookedSlots]
+CREATE VIEW vw_BookedSlotsByActivity
 AS
 SELECT
   a.ActivityID,
