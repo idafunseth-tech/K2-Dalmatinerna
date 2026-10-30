@@ -43,11 +43,13 @@ main
     width: 90%;
     max-width: 960px;
     margin-inline: auto;
+    list-style: none;
 
 }
 
 .activity-card 
 {
+    width: 100%;
     display: grid;
     margin-bottom: 1rem;
     min-width: 400px;
@@ -78,9 +80,6 @@ main
   line-height: 1.4;
 }
 
-.image {
-    
-}
 
 button {
         justify-self: start;
