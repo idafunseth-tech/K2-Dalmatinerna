@@ -27,6 +27,7 @@ CREATE TABLE Activity (
  ActivityID INT IDENTITY(1,1) PRIMARY KEY,
  ActivityName NVARCHAR(150) NOT NULL,
  ActivityOrganizer NVARCHAR(150),
+ ActivityLocation NVARCHAR(150),
  ActivityCapacity INT NOT NULL,
  ActivityDateTime DATETIME2 NOT NULL,
  CategoryID INT NOT NULL
