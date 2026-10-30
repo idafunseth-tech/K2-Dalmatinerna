@@ -1,4 +1,4 @@
-git branschCREATE DATABASE EventDB;
+CREATE DATABASE EventDB;
 GO
 
 
