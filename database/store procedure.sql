@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[usp_CreateBooking]
+CREATE PROCEDURE [dbo].[usp_CreateBooking]
     @PersonID INT,
     @ActivityID INT
 AS
