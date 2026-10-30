@@ -78,6 +78,10 @@ main
   line-height: 1.4;
 }
 
+.image {
+    
+}
+
 button {
         justify-self: start;
         color: #404041;
