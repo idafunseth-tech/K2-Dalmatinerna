@@ -34,11 +34,11 @@ VALUES
 	(N'Toppmöte för teknisk innovation', N'Innovationsrådet', N'Stadsbiblioteket', 250, '2026-11-14T09:00:00', 6),
 	(N'Vintergalan för välgörenhet', N'Stiftelsen Hjälpande Hand', N'Grand Hotels festsal', 150, '2026-12-19T19:30:00', 4),
 	(N'Pitchkväll för startupbolag', N'Innovationsrådet', N'Stadsbiblioteket', 80, '2026-11-03T17:30:00', 6),
-	(N'Årlig bokmässa', N'Ava Eriksson', 300, N'Stadsbiblioteket', '2027-01-16T10:00:00', 2),
+	(N'Årlig bokmässa', N'Ava Eriksson', N'Stadsbiblioteket', 300, '2027-01-16T10:00:00', 2),
 	(N'Vårens matmarknad', N'Matgillet', N'Stora torget', 400, '2027-04-24T11:00:00', 7),
 	(N'Yoga i parken', N'Mia Olsson', N'Stadsparken', 60, '2026-11-08T08:30:00', 1),
 	(N'Stadsmaraton', N'Oliver Persson', N'Start och mål vid Stora torget', 2000, '2027-05-09T07:00:00', 1),
-	(N'Fotografiworkshop', N'Konstföreningen', 25, N'Kulturhuset', '2026-12-02T13:00:00', 5),
+	(N'Fotografiworkshop', N'Konstföreningen', N'Kulturhuset', 25, '2026-12-02T13:00:00', 5),
 	(N'Lokal konstutställning', N'Konstföreningen', N'Kulturhuset', 120, '2027-02-13T16:00:00', 8);
 
 
