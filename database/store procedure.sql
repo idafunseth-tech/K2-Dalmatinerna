@@ -9,13 +9,14 @@ GO
 CREATE PROCEDURE [dbo].[usp_CreateBooking]
     @PersonID INT,
     @ActivityID INT
+    @BookingQuantity INT = 1 -- Sätter ett standardvärde om inget annat anges
 AS
 BEGIN
     SET NOCOUNT ON;
 
     -- 1. Kriterium: Hantera ogiltiga/matchningslösa indata utan att krascha (returnera tom tabell)
     IF NOT EXISTS (SELECT 1 FROM dbo.Person WHERE PersonID = @PersonID) 
-       OR NOT EXISTS (SELECT 1 FROM dbo.Activity WHERE ActivityID = @ActivityId)
+       OR NOT EXISTS (SELECT 1 FROM dbo.Activity WHERE ActivityID = @ActivityID)
     BEGIN
         -- Returnerar en tom resultatuppsättning med samma kolumner som din vy
         SELECT 
@@ -27,8 +28,8 @@ BEGIN
     END
 
     -- 2. Lägg till den nya bokningen i tabellen
-    INSERT INTO dbo.Booking (PersonID, ActivityID, BookedAt)
-    VALUES (@PersonID, @ActivityID, GETDATE());
+    INSERT INTO dbo.Booking (PersonID, ActivityID, BookingQuantity, BookedAt)
+    VALUES (@PersonID, @ActivityID, @BookingQuantity GETDATE());
 
     -- 3. Kriterium: Returnera ett rent och läsbart resultat via din vy
     -- Vi hämtar den aktuella aktivitetens nya status/antal från din befintliga vy
