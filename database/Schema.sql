@@ -52,3 +52,16 @@ CREATE TABLE Activity (
 	FOREIGN KEY(ActivityID)
 		REFERENCES Activity(ActivityID)
 );
+
+
+
+CREATE TABLE CancellationLog
+(
+	CancellationLogID INT IDENTITY(1,1) PRIMARY KEY,
+	BookingID INT NOT NULL,
+	BookedAt DATETIME2 NOT NULL,
+	BookingQuantity INT NOT NULL,
+	PersonID INT NOT NULL,
+	ActivityID INT NOT NULL,
+	CancellationTime DATETIME2 NOT NULL DEFAULT GETDATE()
+);
