@@ -29,7 +29,7 @@ BEGIN
 
     -- 2. Lägg till den nya bokningen i tabellen
     INSERT INTO dbo.Booking (PersonID, ActivityID, BookingQuantity, BookedAt)
-    VALUES (@PersonID, @ActivityID, @BookingQuantity GETDATE());
+    VALUES (@PersonID, @ActivityID, @BookingQuantity, GETDATE());
 
     -- 3. Kriterium: Returnera ett rent och läsbart resultat via din vy
     -- Vi hämtar den aktuella aktivitetens nya status/antal från din befintliga vy
