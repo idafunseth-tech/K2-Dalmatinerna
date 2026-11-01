@@ -8,7 +8,7 @@ GO
 
 CREATE PROCEDURE [dbo].[usp_CreateBooking]
     @PersonID INT,
-    @ActivityID INT
+    @ActivityID INT,
     @BookingQuantity INT = 1 -- Sätter ett standardvärde om inget annat anges
 AS
 BEGIN
