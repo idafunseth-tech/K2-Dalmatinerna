@@ -4,16 +4,16 @@
 - Team: Dalmatinerna
 - Selected part of the project: Booking forms for booking events.
 - Tables under review: 
-  - v2_2NF
-  - v3_3NF
+  - 02-logical-model
+  - 03-logical-model
 - Assumptions and business rules:
   - Each Booking can only relate to one User
   - Each Booking can only relate to one Event
   - Each Event can have many Bookings
   - Each User can have many Bookings
 
-- Before model v2: [v2_2NF](https://drive.google.com/file/d/18tzZ8fFrBtjuZHA53LfZrLKPf17zoau9/view?usp=drive_link)
-- After model v3: [v3_3NF](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/98f49f4db35aefa859109a96742807341df698da/docs/v3_3NF.png)
+- Before model v2: [02-logical-model](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/feature-UpdateRepo-JT/docs/02-logical-model.png?raw=true)
+- After model v3: [03-logical-model](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/feature-UpdateRepo-JT/docs/03-logical-model.png?raw=true)
 
 ## 1. Before State – v2
 | Table | Responsibility | PK | FK and referenced table |
