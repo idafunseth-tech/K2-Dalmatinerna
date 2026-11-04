@@ -1,5 +1,4 @@
-CREATE DATABASE EventDB;
-GO
+
 
 
 
@@ -21,21 +20,41 @@ CREATE TABLE Category
 	CategoryName NVARCHAR(50) NOT NULL
 );
 
+ CREATE TABLE Organizer
+ (
+  OrganizerID INT IDENTITY(1, 1) PRIMARY KEY,
+  OrganizerName NVARCHAR(150) NOT NULL,
+  OrganizerEmail NVARCHAR(100) NOT NULL,
+  OrganizerPhoneNumber INT
+ );
+
+ CREATE TABLE Location 
+ (
+  LocationID INT IDENTITY(1, 1) PRIMARY KEY,
+  LocationName NVARCHAR(150) NOT NULL,
+  LocationAdress NVARCHAR(100) NOT NULL
+ );
+
 
 
 CREATE TABLE Activity (
  ActivityID INT IDENTITY(1,1) PRIMARY KEY,
  ActivityName NVARCHAR(150) NOT NULL,
- ActivityOrganizer NVARCHAR(150),
- ActivityLocation NVARCHAR(150),
  ActivityCapacity INT NOT NULL,
  ActivityDateTime DATETIME2 NOT NULL,
- CategoryID INT NOT NULL
+ CategoryID INT NOT NULL,
+ OrganizerID INT NOT NULL,
+ LocationID INT NOT NULL,
  
  FOREIGN KEY (CategoryID)
-  REFERENCES Category(CategoryID)
+  REFERENCES Category(CategoryID),
+
+  FOREIGN KEY (OrganizerID)
+   REFERENCES Organizer(OrganizerID),
+
+ FOREIGN KEY (LocationID)
+  REFERENCES Location(LocationID)
  );
- 
 
  
  CREATE TABLE Booking

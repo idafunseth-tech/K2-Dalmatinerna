@@ -27,19 +27,32 @@ VALUES
 	(N'Food'),
 	(N'Art');
 
-
-INSERT INTO Activity (ActivityName, ActivityOrganizer, ActivityCapacity, ActivityDateTime, CategoryID)
+INSERT INTO Location (LocationName, LocationAdress)
 VALUES
-	(N'Summer Music Festival', N'Emma Johansson', 500, '2026-12-05T18:00:00', 3),
-	(N'Tech Innovation Summit', N'Liam Andersson', 250, '2026-11-14T09:00:00', 6),
-	(N'Winter Charity Gala', N'Olivia Karlsson', 150, '2026-12-19T19:30:00', 4),
-	(N'Startup Pitch Night', N'Noah Nilsson', 80, '2026-11-03T17:30:00', 6),
-	(N'Annual Book Fair', N'Ava Eriksson', 300, '2027-01-16T10:00:00', 2),
-	(N'Spring Food Market', N'Lucas Larsson', 400, '2027-04-24T11:00:00', 7),
-	(N'Yoga in the Park', N'Mia Olsson', 60, '2026-11-08T08:30:00', 1),
-	(N'City Marathon', N'Oliver Persson', 2000, '2027-05-09T07:00:00', 1),
-	(N'Photography Workshop', N'Sofia Svensson', 25, '2026-12-02T13:00:00', 5),
-	(N'Local Art Exhibition', N'William Gustafsson', 120, '2027-02-13T16:00:00', 8);
+	(N'Sundsvall City', N'SveaVägen 2 Sundsvall'),
+	(N'Östermalm Torg', N'Östermalmvägen 4 Stockholm'),
+	(N'Liseberg', N'Lisebergvägen 5 Göteborg');
+
+INSERT INTO Organizer (OrganizerName, OrganizerEmail, OrganizerPhoneNumber)
+VALUES
+	(N'UpplevelseTorget', N'UTorget@Example.se', 0738745566),
+	(N'DjurFonden', N'DF@Example.se', 0727567788),
+	(N'BiljettMannen', N'MannenB@Example.se', 0734446677)
+
+
+
+INSERT INTO Activity (ActivityName, ActivityCapacity, ActivityDateTime, CategoryID, LocationID, OrganizerID)
+VALUES
+	(N'Summer Music Festival', 500, '2026-12-05T18:00:00', 3, 3, 1),
+	(N'Tech Innovation Summit', 250, '2026-11-14T09:00:00', 6, 1, 1), 
+	(N'Winter Charity Gala', 150, '2026-12-19T19:30:00', 4, 2, 2),
+	(N'Startup Pitch Night', 80, '2026-11-03T17:30:00', 6, 1, 3),
+	(N'Annual Book Fair', 300, '2027-01-16T10:00:00', 2, 1, 3),
+	(N'Spring Food Market', 400, '2027-04-24T11:00:00', 7, 3, 1),
+	(N'Yoga in the Park', 60, '2026-11-08T08:30:00', 1, 2, 2),
+	(N'City Marathon', 2000, '2027-05-09T07:00:00', 1, 2, 2),
+	(N'Photography Workshop', 25, '2026-12-02T13:00:00', 5, 1, 3),
+	(N'Local Art Exhibition', 120, '2027-02-13T16:00:00', 8, 2, 3);
 
 
 INSERT INTO Booking (BookedAt, BookingQuantity, PersonID, ActivityID)
@@ -54,3 +67,5 @@ VALUES
 	('2027-01-12T10:30:00', 1, 9, 5),
 	('2027-01-19T17:00:00', 4, 1, 7),
 	('2027-01-26T12:40:00', 2, 4, 3);
+
+	SELECT * FROM Organizer;
