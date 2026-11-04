@@ -22,6 +22,38 @@
 ```
 </details>
 
+## Daily Scrum – 2026-11-04
+
+### Progress toward the sprint goal
+* Create daily scrum
+* Create view in SQL
+* Create stored procedure
+* Create a trigger in SQL
+* Create semantic frontend
+* Coordinate SQL and frontend
+* Create SQL review
+* Create frontend review
+
+### Work until the next check-in
+* v4 conceptual model
+* v4 logical model
+* Normalization Documentation v3-v4
+* Update Database
+* Update Repo
+* Create sign-up form
+* Create test matrix for sign-up form
+
+### Obstacles or risks
+* Lack of time
+* Sickness (Missing team member)
+
+### Help or decisions needed
+* None
+
+### Change in the plan or board
+* Changed the database model to include separate tables for organizer and location
+* Changed the plan from requiring log in to using form.  
+
 ## Daily Scrum – [2026-10-28]
 
 ### Progress toward the sprint goal
