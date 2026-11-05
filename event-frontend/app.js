@@ -3,21 +3,28 @@ const detailViewButton = document.getElementById("detail-view-button");
 // Get modal
 const modalWindow = document.getElementById("modal-window");
 // Get the <span> element that closes the modal
-const span = document.getElementsByClassName("span")[0];
+const close = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
-detailViewButton.onclick = function() {
-  modal.style.display = "block";
-}
+detailViewButton.addEventListener('click', () => {
+  modalWindow.classList.add('show');
+});
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+close.addEventListener('click', () => {
+  modalWindow.classList.remove('show');
+});
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == modalWindow) {
-    modal.style.display = "none";
+  if (event.target === modalWindow) {
+    modalWindow.classList.remove('show');
   }
 }
+
+// When the user presses escape, close the modal
+document.addEventListener("keydown", function(event){
+  if (event.key === "Escape") {
+    modalWindow.classList.remove('show');
+  }
+});
