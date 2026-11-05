@@ -114,15 +114,16 @@
     <h3>Boka event</h3>
         <div>
             <label for="person-name">Namn</label>
-            <input id="person-name" name="personName" type="text">
+            <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
+  oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" title="Ange för- och efternamn" required>
         </div>
         <div>
             <label for="person-email">E-post</label>
-            <input id="person-email" name="personEmail" type="email">
+            <input id="person-email" name="personEmail" type="email" title="Ange en giltigt e-postadress">
         </div>
         <div>
             <label for="person-phone-number">Telefonnummer</label>
-            <input id="person-phone-number" name="personPhoneNumber" type="tel">
+            <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" required>
         </div>
         <div>
             <label for="booking-quantity">Antal biljetter</label>

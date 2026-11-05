@@ -16,7 +16,7 @@ form.addEventListener("submit", event => {
 console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
 
     if (personName === "" || personEmail === "" || personPhoneNumber === "" || bookingQuantity === "") {
-        feedback.textContent = "Fyll i namn, e-post och välj antal biljetter.";
+        feedback.textContent = "Fyll i namn, e-post, telefonnummer och välj antal biljetter.";
         feedback.classList.add("error");
         feedback.classList.remove("success");
         return;
