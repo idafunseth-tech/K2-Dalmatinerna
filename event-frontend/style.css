@@ -144,9 +144,11 @@ footer {
 .modal-window.show {
     pointer-events: auto;
     opacity: 1;
+}
+
+body.modal-open {
     overflow: hidden;
 }
-    
 
 .modal-content {
     background-color: #222222;
