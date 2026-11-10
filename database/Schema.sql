@@ -1,4 +1,5 @@
-
+CREATE DATABASE EventDB;
+GO
 
 
 
