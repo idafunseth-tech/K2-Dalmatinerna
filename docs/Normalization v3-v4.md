@@ -12,7 +12,7 @@
   - An Organizer can host many Activities.
   - A Location can host many Activities.
 
-- Before model v3: [03-logical-model](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/feature-UpdateRepo-JT/docs/03-logical-model.png?raw=true)
+- Before model v3: [03-logical-model](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/main/docs/03-logical-model.png)
 - After model v4: [04-logical-model](https://github.com/idafunseth-tech/K2-Dalmatinerna/blob/main/docs/04-Logical-Model.png)
 
 ## 1. Before State – v3
@@ -34,7 +34,7 @@
 ### Situations to Test
 1. Updating an organizers contatct details (Phone number or email) required modifying multiple rows across different events hosted by the same organizer.
 2. Updating a locations adress shared by multiple events required updating text fields in multiple event records.
-3. A new location or organizer could not be added to the system independently without creating a dummy event entry. 
+3. A new location or organizer could not be added to the system independently without creating a practice event entry. 
 
 ## 2. Normal Form Check
 ### 1NF
@@ -73,7 +73,7 @@ The tests are performed manually on the conceptual model.
 | --- | --- | --- | --- | --- |
 | Updating an organizer's contact details (PkOrganizerID) | The organizer's info should be updated in a single place. | Required updating multiple text rows inside the Event table. | Updated in a single row in the Organizer table, reflecting across all hosted activities[cite: 1]. | Pass. 3NF achieved. Update anomalies are eliminated. |
 | Updating a location's address (PkLocationID) | The address should be updated in a single place. | Required changing text fields across multiple event records. | Updated in a single row in the Location table. | Pass. Redundancy and update anomalies are removed. |
-| Adding a new location or organizer | Adding a location/organizer should be possible without creating an activity. | Could not be added without creating dummy event entries or leaving null fields in Event. | Added directly into their respective tables (Location or Organizer) independently of any activities. | Pass. Insertion anomalies are successfully eliminated. |
+| Adding a new location or organizer | Adding a location/organizer should be possible without creating an activity. | Could not be added without creating practice event entries or leaving null fields in Event. | Added directly into their respective tables (Location or Organizer) independently of any activities. | Pass. Insertion anomalies are successfully eliminated. |
 
 ## 5. Summary and Remaining Questions
 - Most important conclusion: Moving from v3 to v4 achieved 3NF by extracting Location and Organizer into independent tables. The semantic shift from User to Person accurately reflects our decision to use a direct booking form instead of user account authentication.
