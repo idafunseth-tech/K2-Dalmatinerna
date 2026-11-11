@@ -22,6 +22,40 @@
 ```
 </details>
 
+## Daily Scrum – 2026-11-11
+
+### Progress toward the sprint goal
+* v4 conceptual model
+* v4 logical model
+* Normalization Documentation v3-v4
+* Update Database
+* Update Repo
+* Create sign-up form
+* Create test matrix for sign-up form
+
+### Work until the next check-in
+* Sign-up form in modal window
+* Refine list view
+* Clone and run EventFlow API
+* Connect EventFlow API with frontend
+* API documentation
+* Implement four UI states
+* Test and verify UI states in DevTools
+* Security check
+* Implement Data Fetching Flow
+
+### Obstacles or risks
+* Lack of time
+* Lack of understanding
+
+### Help or decisions needed
+* None
+
+### Change in the plan or board
+* No changes
+* New cards added on Kanban board: #113, #114, #115, #116, #117, #118, added sub-issue #111 into #10
+
+
 ## Daily Scrum – 2026-11-04
 
 ### Progress toward the sprint goal
@@ -45,7 +79,6 @@
 
 ### Obstacles or risks
 * Lack of time
-* Sickness (Missing team member)
 
 ### Help or decisions needed
 * None
