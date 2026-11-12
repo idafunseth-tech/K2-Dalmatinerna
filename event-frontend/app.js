@@ -1,5 +1,5 @@
 // Get the button that opens the modal
-const detailViewButton = document.querySelectorAll('.detail-view-button');
+// const detailViewButton = document.querySelectorAll('.detail-view-button');
 // Get the <span> element that closes the modal
 const close = document.getElementsByClassName("close")[0];
 
@@ -18,11 +18,11 @@ function closeModal(modalWindow) {
 }
 
 // When the user clicks on the button, open the modal
-detailViewButton.forEach(button => {
+/*detailViewButton.forEach(button => {
   button.addEventListener('click', () => {
     openModal(button.dataset.id);
   });
-});
+});*/
 
 // When the user clicks on <span> (x), close the modal
 document.querySelectorAll('.modal-window .close').forEach(closeBtn => {
@@ -72,4 +72,52 @@ console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
     feedback.textContent = `Tack ${personName} för din bokning! Du har valt activityName och reserverat ${bookingQuantity} platser. Bekräftelse har skickats till ${personEmail}. Vid frågor kontakta oss på info@event.se`;
     feedback.classList.add("success");
     feedback.classList.remove("error");
+});
+
+const apiUrl = "http://localhost:5043/api/events";
+const activityList = document.getElementById("activity-list");
+
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value ?? "";
+  return div.innerHTML;
+}
+
+function createCard(activity) {
+  return `
+  <article class="activity-card">
+    <h3>${escapeHtml(activity.title)}</h3>
+    <p>${escapeHtml(activity.category)}</p>
+    <p>${escapeHtml(activity.description)}</p>
+    <p><b>Plats: </b>${escapeHtml(activity.venue)}</p>
+    <p><b>Tid: </b>${escapeHtml(activity.startsAt)}
+    <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
+    <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
+  </article>`;
+}
+
+async function loadActivities() {
+  try {
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const activities = await response.json();
+
+    activityList.innerHTML = activities.map(createCard).join("");
+  } catch (error) {
+    console.error("ERROR");
+    activityList.innerHTML = "<p>ERROR</p>"
+  }
+}
+
+loadActivities();
+
+activityList.addEventListener("click", (event) => {
+  console.log("clicked", event.target);
+  const button = event.target.closest(".detail-view-button");
+  console.log("button:", button);
+  if (!button) return;
+  console.log("id:", button.dataset.id);
+  openModal(button.dataset.id);
 });
