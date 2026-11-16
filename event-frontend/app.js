@@ -83,6 +83,17 @@ function escapeHtml(value) {
   return div.innerHTML;
 }
 
+function formatDate(iso) {
+  const d = new Date(iso);
+  const date = d.toLocaleDateString("sv-SE", {
+    day: "numeric", month: "short", year: "numeric"
+  }).replace(".", "");
+  const time = d.toLocaleTimeString("sv-SE", {
+    hour: "2-digit", minute: "2-digit"
+  });
+  return `${date} - Kl ${time}`;
+}
+
 function createCard(activity) {
   return `
   <article class="activity-card">
@@ -90,7 +101,7 @@ function createCard(activity) {
     <p>${escapeHtml(activity.category)}</p>
     <p>${escapeHtml(activity.description)}</p>
     <p><b>Plats: </b>${escapeHtml(activity.venue)}</p>
-    <p><b>Tid: </b>${escapeHtml(activity.startsAt)}</p>
+    <p><b>Tid: </b>${escapeHtml(formatDate(activity.startsAt))}</p>
     <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
     <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
   </article>`;
