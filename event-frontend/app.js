@@ -113,9 +113,20 @@ async function loadActivities() {
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    const activities = await response.json();
+    const data = await response.json();
 
-    if (activities == 0) {
+    let activities;
+    if (Array.isArray(data)) {
+      activities = data;
+    } else if (Array.isArray(data?.items)) {
+      activities = data.items;
+    } else if (data && typeof data === "object") {
+      activities = [data];
+    } else {
+      activities = [];
+    }
+
+    if (activities === 0) {
       emptyState();
       return;
     }
