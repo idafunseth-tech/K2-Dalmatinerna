@@ -18,7 +18,7 @@ main
     max-width: 1600px;
     margin-inline: auto;
     list-style: none;
-    margin-bottom: 50px;
+    margin-bottom: 1rem;
 }
 
 .activity-list {
@@ -50,9 +50,21 @@ main
 
 }
 
+.outer-card {
+    background-color: rgba(53, 53, 53, 0.5);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(189, 185, 185, 0.08);
+    margin-bottom: 1rem;
+    width: 90%;
+    max-width: 1600px;
+    margin-inline: auto;
+}
+
 .activity-card 
 {
     width: 100%;
+    background: #424242;
     display: flex;
     margin-bottom: 1rem;
     min-width: 400px;
@@ -63,16 +75,63 @@ main
     flex-direction: column;
     justify-content: space-between;
     line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(189, 185, 185, 0.08);
 }
 
 .activity-card h3 {
   margin-top: 0;
   margin-bottom: 0;
+  gap: 1;
 }
 
 .activity-card p {
   margin-top: 0;
   margin-bottom: 0.6rem;
+  gap: 1;
+}
+
+#event-booking-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  gap: 23px;
+}
+
+.floating-group {
+  position: relative;
+}
+
+.floating-group input {
+  padding: 8px 10px;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+}
+
+/* The label in its default state (inside the white box). */
+.floating-group label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666666;
+  font-size: 16px;
+  pointer-events: none; 
+  transition: all 0.2s ease;
+}
+
+/* When the user focuses on the input field OR when the field contains text. */
+.floating-group input:focus + label,
+.floating-group input:not(:placeholder-shown) + label {
+  top: -12px;              /* Moves the label above the input field. */
+  left: 2px;
+  font-size: 12px;
+  color: #ffffff;
+  background-color: #141414; 
+  padding: 0 4px;
 }
 
 button {
@@ -150,7 +209,7 @@ body.modal-open {
 }
 
 .modal-content {
-    background-color: #222222;
+    background-color: #424242;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 3px solid #404041;
@@ -172,4 +231,11 @@ body.modal-open {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* So that the image adjusts to different screen sizes. */
+.modal-content img {
+  width: 100%;
+  height: auto;
+  display: block;
 }

@@ -1,5 +1,5 @@
 // Get the button that opens the modal
-// const detailViewButton = document.querySelectorAll('.detail-view-button');
+const detailViewButton = document.querySelectorAll('.detail-view-button');
 // Get the <span> element that closes the modal
 const close = document.getElementsByClassName("close")[0];
 
@@ -18,11 +18,11 @@ function closeModal(modalWindow) {
 }
 
 // When the user clicks on the button, open the modal
-/*detailViewButton.forEach(button => {
+detailViewButton.forEach(button => {
   button.addEventListener('click', () => {
     openModal(button.dataset.id);
   });
-});*/
+});
 
 // When the user clicks on <span> (x), close the modal
 document.querySelectorAll('.modal-window .close').forEach(closeBtn => {
