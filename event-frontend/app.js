@@ -100,6 +100,10 @@ function loadingState() {
   activityList.innerHTML = `<p class="loading-state" role="status">Loading state...</p>`
 }
 
+function emptyState() {
+  activityList.innerHTML = `<p class="empty-state">Empty state</p>`;
+}
+
 async function loadActivities() {
   loadingState();
 
@@ -110,6 +114,11 @@ async function loadActivities() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const activities = await response.json();
+
+    if (activities == 0) {
+      emptyState();
+      return;
+    }
 
     activityList.innerHTML = activities.map(createCard).join("");
   } catch (error) {
