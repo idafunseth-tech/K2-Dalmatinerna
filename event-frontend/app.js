@@ -90,13 +90,20 @@ function createCard(activity) {
     <p>${escapeHtml(activity.category)}</p>
     <p>${escapeHtml(activity.description)}</p>
     <p><b>Plats: </b>${escapeHtml(activity.venue)}</p>
-    <p><b>Tid: </b>${escapeHtml(activity.startsAt)}
+    <p><b>Tid: </b>${escapeHtml(activity.startsAt)}</p>
     <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
     <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
   </article>`;
 }
 
+function loadingState() {
+  activityList.innerHTML = `<p class="loading-state" role="status">Loading state...</p>`
+}
+
 async function loadActivities() {
+  loadingState();
+
+
   try {
     const response = await fetch(apiUrl);
 
