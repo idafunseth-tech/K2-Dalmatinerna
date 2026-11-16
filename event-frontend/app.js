@@ -108,12 +108,16 @@ function createCard(activity) {
 }
 
 function loadingState() {
-  activityList.innerHTML = `<p class="loading-state" role="status">Loading state...</p>`
+  activityList.innerHTML = `<p class="loading-state" role="status">Hämtar events...</p>`
 }
 
 
 function emptyState() {
-  activityList.innerHTML = `<p class="empty-state">Empty state</p>`;
+  activityList.innerHTML = `
+  <div class="empty-state">
+  <p>Det finns inga event att hitta just nu. Försök igen senare.</p>
+  <button class="retry-button">Försök igen</button>
+  </div>`;
 }
 
 function errorState(message) {
@@ -126,7 +130,7 @@ function errorState(message) {
 
 function getErrorMessage(error) {
   if (!error.status) {
-    return "Error Offline"
+    return "Servern kunde tyvärr inte nås just nu."
   }
 
   switch (error.status) {
@@ -134,9 +138,9 @@ function getErrorMessage(error) {
         return "Error 404";
       default:
         if (error.status >= 500) {
-          return "Error 500";
+          return "Ett simulerat serverfel.";
         }
-        return `Något gick fel (felkod ${error.status}).`;
+        return "Något gick fel.";
   }
 }
 
@@ -187,10 +191,7 @@ activityList.addEventListener("click", (event) => {
 loadActivities();
 
 activityList.addEventListener("click", (event) => {
-  console.log("clicked", event.target);
   const button = event.target.closest(".detail-view-button");
-  console.log("button:", button);
   if (!button) return;
-  console.log("id:", button.dataset.id);
   openModal(button.dataset.id);
 });
