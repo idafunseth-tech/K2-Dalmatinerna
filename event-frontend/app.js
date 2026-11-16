@@ -100,8 +100,33 @@ function loadingState() {
   activityList.innerHTML = `<p class="loading-state" role="status">Loading state...</p>`
 }
 
+
 function emptyState() {
   activityList.innerHTML = `<p class="empty-state">Empty state</p>`;
+}
+
+function errorState(message) {
+  activityList.innerHTML = `
+  <div class="state-message error" role="alert">
+  <p>${escapeHtml(message)}</p>
+  <button class="retry-button">Försök igen</button>
+  </div>`;
+}
+
+function getErrorMessage(error) {
+  if (!error.status) {
+    return "Error Offline"
+  }
+
+  switch (error.status) {
+      case 404:
+        return "Error 404";
+      default:
+        if (error.status >= 500) {
+          return "Error 500";
+        }
+        return `Något gick fel (felkod ${error.status}).`;
+  }
 }
 
 async function loadActivities() {
@@ -111,7 +136,11 @@ async function loadActivities() {
   try {
     const response = await fetch(apiUrl);
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      const error = new Error(`HTTP ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
 
     const data = await response.json();
 
@@ -126,17 +155,23 @@ async function loadActivities() {
       activities = [];
     }
 
-    if (activities === 0) {
+    if (activities == 0) {
       emptyState();
       return;
     }
 
     activityList.innerHTML = activities.map(createCard).join("");
   } catch (error) {
-    console.error("ERROR");
-    activityList.innerHTML = "<p>ERROR</p>"
+    console.error("ERROR", error);
+    errorState(getErrorMessage(error));
   }
 }
+
+activityList.addEventListener("click", (event) => {
+  if (event.target.closest(".retry-button")) {
+    loadActivities();
+  }
+});
 
 loadActivities();
 
