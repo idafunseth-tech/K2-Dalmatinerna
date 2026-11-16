@@ -127,6 +127,31 @@ main
     gap: 23px;
 }
 
+.event-booking-form button {
+    justify-self: start;
+    color: #2b2a2a;
+    padding: 7px;
+    font-size: 1rem;
+    margin-top: 10px;
+    background: #acacac;
+    border: 0;
+    letter-spacing: 0.5px;
+    border-radius: 0.25rem;
+    gap: 2rem;
+    cursor: pointer;
+    margin-bottom: 18px;
+}
+
+.event-booking-form button:hover {
+    background: #5c5c5c;
+    color: #ececec;
+}
+
+.booking-feedback {
+    margin-top: 16px;
+    line-height: 1.5;
+}
+
 .floating-group {
     position: relative;
 }
@@ -178,25 +203,6 @@ button {
 }
 
 button:hover {
-    background: #5c5c5c;
-    color: #ececec;
-}
-
-.event-booking-form button {
-    justify-self: start;
-    color: #2b2a2a;
-    padding: 7px;
-    font-size: 1rem;
-    margin-top: 10px;
-    background: #acacac;
-    border: 0;
-    letter-spacing: 0.5px;
-    border-radius: 0.25rem;
-    gap: 2rem;
-    cursor: pointer;
-}
-
-.event-booking-form button:hover {
     background: #5c5c5c;
     color: #ececec;
 }
