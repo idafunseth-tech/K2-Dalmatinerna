@@ -108,7 +108,11 @@ function createCard(activity) {
 }
 
 function loadingState() {
-  activityList.innerHTML = `<p class="loading-state" role="status">Hämtar events...</p>`
+  activityList.innerHTML = `
+  <section class="loading-state" role="status">
+  <p>Hämtar events...</p>
+  <p class="loading-spinner"></p>
+  </section>`
 }
 
 
