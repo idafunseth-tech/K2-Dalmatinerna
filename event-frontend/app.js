@@ -74,7 +74,7 @@ console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
     feedback.classList.remove("error");
 });
 
-const apiUrl = "http://localhost:5043/api/events";
+const apiUrl = "http://localhost:5043/api/test/error";
 const activityList = document.getElementById("activity-list");
 
 function escapeHtml(value) {
@@ -139,7 +139,7 @@ function getErrorMessage(error) {
 
   switch (error.status) {
       case 404:
-        return "Error 404";
+        return "Något gick fel. Vi kan inte hitta några events just nu.";
       default:
         if (error.status >= 500) {
           return "Ett simulerat serverfel.";
