@@ -311,3 +311,19 @@ body.modal-open {
     margin-top: 12px;
     margin-bottom: 12px;
 }
+
+.loading-spinner{
+    height: 30px;
+    width: 30px;
+    border: 3px;
+    border-style: solid;
+    border-color: #aaa transparent;
+    border-radius: 50%;
+    animation: spin 1.5s ease infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
