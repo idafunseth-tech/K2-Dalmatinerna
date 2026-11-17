@@ -94,7 +94,7 @@ document.addEventListener("submit", (event) => {
     form.reset();
 });
 
-const apiUrl = "http://localhost:5043/api/test/error";
+const apiUrl = "http://localhost:5043/api/events";
 const activityList = document.getElementById("activity-list");
 
 function escapeHtml(value) {
