@@ -1,5 +1,5 @@
 // Get the button that opens the modal
-// const detailViewButton = document.querySelectorAll('.detail-view-button');
+const detailViewButton = document.querySelectorAll('.detail-view-button');
 // Get the <span> element that closes the modal
 const close = document.getElementsByClassName("close")[0];
 
@@ -18,11 +18,11 @@ function closeModal(modalWindow) {
 }
 
 // When the user clicks on the button, open the modal
-/*detailViewButton.forEach(button => {
+detailViewButton.forEach(button => {
   button.addEventListener('click', () => {
     openModal(button.dataset.id);
   });
-});*/
+});
 
 // When the user clicks on <span> (x), close the modal
 document.querySelectorAll('.modal-window .close').forEach(closeBtn => {
@@ -45,22 +45,40 @@ document.addEventListener("keydown", function(event){
   }
 });
 
-const form = document.querySelector("#event-booking-form");
-const personNameInput = document.querySelector("#person-name");
-const personEmailInput = document.querySelector("#person-email");
-const personPhoneNumberInput = document.querySelector("#person-phone-number")
-const bookingQuantityInput = document.querySelector("#booking-quantity");
-const feedback = document.querySelector("#booking-feedback");
+// Click listener (works for both API IDs 1-4 and hardcoded IDs 5-10)
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".detail-view-button");
+    if (!btn) return;
 
-form.addEventListener("submit", event => {
+    // Get the ID directly from the card's button
+    const eventId = btn.dataset.id;
+
+    // Locate the form
+    const modal = document.querySelector(`.modal-window[data-id="${eventId}"]`) || document.querySelector(".modal-window");
+    const form = modal.querySelector(".event-booking-form");
+
+    // THE CONNECTION: Save the button's ID directly onto the form.
+    form.dataset.eventId = eventId;
+});
+
+document.addEventListener("submit", (event) => {
+    const form = event.target.closest(".event-booking-form");
+    if (!form) return;
+
     event.preventDefault();
 
-    const personName = personNameInput.value.trim();
-    const personEmail = personEmailInput.value.trim();
-    const personPhoneNumber = personPhoneNumberInput.value.trim();
-    const bookingQuantity = bookingQuantityInput.value;
+    // Retrieve the ID linked to the form by the card's button
+    const eventId = form.dataset.eventId;
 
-console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
+    const modalWindow = form.closest(".modal-window");
+    const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+
+    const personName = form.querySelector('[name="personName"]').value.trim();
+    const personEmail = form.querySelector('[name="personEmail"]').value.trim();
+    const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
+    const bookingQuantity = form.querySelector('[name="bookingQuantity"]').value;
+
+    const feedback = modalWindow.querySelector(".booking-feedback");
 
     if (personName === "" || personEmail === "" || personPhoneNumber === "" || bookingQuantity === "") {
         feedback.textContent = "Fyll i namn, e-post, telefonnummer och välj antal biljetter.";
@@ -69,9 +87,11 @@ console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
         return;
     }
 
-    feedback.textContent = `Tack ${personName} för din bokning! Du har valt activityName och reserverat ${bookingQuantity} platser. Bekräftelse har skickats till ${personEmail}. Vid frågor kontakta oss på info@event.se`;
+    feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
     feedback.classList.add("success");
     feedback.classList.remove("error");
+
+    form.reset();
 });
 
 const apiUrl = "http://localhost:5043/api/test/error";

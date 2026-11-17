@@ -18,7 +18,8 @@ main
     max-width: 1600px;
     margin-inline: auto;
     list-style: none;
-    margin-bottom: 50px;
+    margin-bottom: 1rem;
+    padding-bottom: 20px;
 }
 
 .activity-list {
@@ -36,7 +37,7 @@ main
     margin-inline: auto;
     background: #0e0e0e;
     padding-inline: 1rem;
-}
+    margin-bottom: 20px}
 
 .nav-list 
 {
@@ -50,9 +51,21 @@ main
 
 }
 
+.outer-card {
+    background-color: rgba(53, 53, 53, 0.5);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
+    width: 90%;
+    max-width: 1600px;
+    margin-inline: auto;
+}
+
 .activity-card 
 {
     width: 100%;
+    background: #424242;
     display: flex;
     margin-bottom: 1rem;
     min-width: 400px;
@@ -61,23 +74,127 @@ main
     box-sizing: border-box;
     border-radius: 0.5rem;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.activity-card button,
+.activity-card a {
+    margin-top: 12px;
+    padding-top: 3px;
+}
+
+/* Position date, time, and location at the bottom of the card */
+.card-bottom {
+    margin-top: auto;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.card-bottom p {
+    margin: 0;
+    line-height: 1.3;
 }
 
 .activity-card h3 {
-  margin-top: 0;
-  margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 2px;
+    gap: 1;
 }
 
 .activity-card p {
-  margin-top: 0;
-  margin-bottom: 0.6rem;
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+    gap: 1;
+}
+
+.activity-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 2px;    /* Luft mellan "Musik" och bilden */
+    margin-bottom: 10px; /* Luft mellan bilden och beskrivningen under */
+}
+
+.event-booking-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 23px;
+}
+
+.event-booking-form button {
+    justify-self: start;
+    color: #2b2a2a;
+    padding: 7px;
+    font-size: 1rem;
+    margin-top: 10px;
+    background: #acacac;
+    border: 0;
+    letter-spacing: 0.5px;
+    border-radius: 0.25rem;
+    gap: 2rem;
+    cursor: pointer;
+    margin-bottom: 18px;
+}
+
+.event-booking-form button:hover {
+    background: #5c5c5c;
+    color: #ececec;
+}
+
+.booking-feedback {
+    margin-top: 16px;
+    line-height: 1.5;
+}
+
+.floating-group {
+    position: relative;
+}
+
+.floating-group input {
+    padding: 8px 10px;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #111111;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+}
+
+/* The label in its default state (inside the white box). */
+.floating-group label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666666;
+    font-size: 16px;
+    pointer-events: none; 
+    transition: all 0.2s ease;
+}
+
+/* When the user focuses on the input field OR when the field contains text. */
+.floating-group input:focus + label,
+.floating-group input:not(:placeholder-shown) + label {
+    top: -12px;              /* Moves the label above the input field. */
+    left: 2px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #141414; 
+    padding: 0 4px;
 }
 
 button {
     justify-self: start;
-    color: #404041;
+    color: #2b2a2a;
+    padding: 1px;
+    font-size: 1rem;
+    margin-top: 10px;
     background: #acacac;
     border: 0;
     border-radius: 0.25rem;
@@ -86,7 +203,7 @@ button {
 }
 
 button:hover {
-    background: #404041;
+    background: #5c5c5c;
     color: #ececec;
 }
 
@@ -150,13 +267,25 @@ body.modal-open {
 }
 
 .modal-content {
-    background-color: #222222;
+    background-color: #424242;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 3px solid #404041;
     border-radius: 0.5rem;
     box-shadow: 0 10px 10px rgba(0,0,0,0.4);
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content h2,
+.modal-content h3 { 
+    margin-top: 1;
+    margin-bottom: 0px;
+}
+
+.modal-content p {
+    margin-top: 0px;
+    margin-bottom: 4px;
+    line-height: 1.5; 
 }
 
 /* The Close Button */
@@ -172,6 +301,15 @@ body.modal-open {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* So that the image adjusts to different screen sizes. */
+.modal-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .loading-spinner{
