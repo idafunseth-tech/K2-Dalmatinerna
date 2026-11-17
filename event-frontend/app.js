@@ -74,13 +74,24 @@ console.log(personName, personEmail, personPhoneNumber, bookingQuantity);
     feedback.classList.remove("error");
 });
 
-const apiUrl = "http://localhost:5043/api/events";
+const apiUrl = "http://localhost:5043/api/test/error";
 const activityList = document.getElementById("activity-list");
 
 function escapeHtml(value) {
   const div = document.createElement("div");
   div.textContent = value ?? "";
   return div.innerHTML;
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  const date = d.toLocaleDateString("sv-SE", {
+    day: "numeric", month: "short", year: "numeric"
+  }).replace(".", "");
+  const time = d.toLocaleTimeString("sv-SE", {
+    hour: "2-digit", minute: "2-digit"
+  });
+  return `${date} - Kl ${time}`;
 }
 
 function createCard(activity) {
@@ -90,34 +101,101 @@ function createCard(activity) {
     <p>${escapeHtml(activity.category)}</p>
     <p>${escapeHtml(activity.description)}</p>
     <p><b>Plats: </b>${escapeHtml(activity.venue)}</p>
-    <p><b>Tid: </b>${escapeHtml(activity.startsAt)}
+    <p><b>Tid: </b>${escapeHtml(formatDate(activity.startsAt))}</p>
     <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
     <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
   </article>`;
 }
 
+function loadingState() {
+  activityList.innerHTML = `
+  <section class="loading-state" role="status">
+  <p>Hämtar events...</p>
+  <p class="loading-spinner"></p>
+  </section>`
+}
+
+
+function emptyState() {
+  activityList.innerHTML = `
+  <div class="empty-state">
+  <p>Det finns inga event att hitta just nu. Försök igen senare.</p>
+  <button class="retry-button">Försök igen</button>
+  </div>`;
+}
+
+function errorState(message) {
+  activityList.innerHTML = `
+  <div class="state-message error" role="alert">
+  <p>${escapeHtml(message)}</p>
+  <button class="retry-button">Försök igen</button>
+  </div>`;
+}
+
+function getErrorMessage(error) {
+  if (!error.status) {
+    return "Servern kunde tyvärr inte nås just nu."
+  }
+
+  switch (error.status) {
+      case 404:
+        return "Något gick fel. Vi kan inte hitta några events just nu.";
+      default:
+        if (error.status >= 500) {
+          return "Ett simulerat serverfel.";
+        }
+        return "Något gick fel.";
+  }
+}
+
 async function loadActivities() {
+  loadingState();
+
+
   try {
     const response = await fetch(apiUrl);
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      const error = new Error(`HTTP ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
 
-    const activities = await response.json();
+    const data = await response.json();
+
+    let activities;
+    if (Array.isArray(data)) {
+      activities = data;
+    } else if (Array.isArray(data?.items)) {
+      activities = data.items;
+    } else if (data && typeof data === "object") {
+      activities = [data];
+    } else {
+      activities = [];
+    }
+
+    if (activities == 0) {
+      emptyState();
+      return;
+    }
 
     activityList.innerHTML = activities.map(createCard).join("");
   } catch (error) {
-    console.error("ERROR");
-    activityList.innerHTML = "<p>ERROR</p>"
+    console.error("ERROR", error);
+    errorState(getErrorMessage(error));
   }
 }
+
+activityList.addEventListener("click", (event) => {
+  if (event.target.closest(".retry-button")) {
+    loadActivities();
+  }
+});
 
 loadActivities();
 
 activityList.addEventListener("click", (event) => {
-  console.log("clicked", event.target);
   const button = event.target.closest(".detail-view-button");
-  console.log("button:", button);
   if (!button) return;
-  console.log("id:", button.dataset.id);
   openModal(button.dataset.id);
 });
