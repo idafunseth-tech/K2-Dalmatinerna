@@ -194,7 +194,7 @@ async function loadActivities() {
       activities = [];
     }
 
-    if (activities == 0) {
+    if (activities.length === 0) {
       emptyState();
       return;
     }
