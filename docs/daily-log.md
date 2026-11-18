@@ -21,6 +21,39 @@
 * 
 ```
 </details>
+## Daily Scrum – 2026-11-18
+
+### Progress toward the sprint goal
+* Sign-up form in modal windows
+*  Create daily scrum
+*  Clone and run EventFlow API.
+* Connect EventFlow API with frontend.
+* API documentation.
+* Implement four UI states.
+* Test and verify UI states in DevTools.
+* Security Check.
+* Implement data fetching flow.
+
+### Work until the next check-in
+* Error matrix
+* Formalized PR review
+* Use AI as a secondary reviewer
+* Preliminary release plan
+* Risk Classification of API Change
+
+### Remaining from previous Sprint Goals
+* API Documentation
+* Test and Verify UI States in DevTools
+
+### Obstacles or risks
+* Lack of time
+* Missing/sick team member (uncertain when team member will be able to work)
+
+### Help or decisions needed
+* Should cards be taken from sick team member from last Sprint Goal and/or give new ones?
+
+### Change in the plan or board
+* New cards added on Kanban board: #128, #129, #132, #133 and added sub-issue #131 into 130
 
 ## Daily Scrum – 2026-11-11
 
