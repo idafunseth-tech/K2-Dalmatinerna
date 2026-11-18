@@ -21,6 +21,7 @@
 * 
 ```
 </details>
+
 ## Daily Scrum – 2026-11-18
 
 ### Progress toward the sprint goal
@@ -40,6 +41,7 @@
 * Use AI as a secondary reviewer
 * Preliminary release plan
 * Risk Classification of API Change
+* Search Function
 
 ### Remaining from previous Sprint Goals
 * API Documentation
