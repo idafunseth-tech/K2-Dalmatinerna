@@ -162,7 +162,7 @@ function getErrorMessage(error) {
         return "Något gick fel. Vi kan inte hitta några events just nu.";
       default:
         if (error.status >= 500) {
-          return "Ett simulerat serverfel.";
+          return "Oops... Något gick fel, försök igen senare!";
         }
         return "Något gick fel.";
   }
