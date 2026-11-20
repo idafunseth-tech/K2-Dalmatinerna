@@ -163,7 +163,7 @@ main
 }
 
 #search-form .search-button:hover {
-    background-color: #444444; /* Eller den hover-färg du hade innan */
+    background-color: #444444; 
     border-color: #555555;
 }
 
