@@ -96,6 +96,7 @@ document.addEventListener("submit", (event) => {
 
 const apiUrl = "http://localhost:5043/api/events";
 const activityList = document.getElementById("activity-list");
+const apiModals = document.getElementById("api-modals")
 
 function escapeHtml(value) {
   const div = document.createElement("div");
@@ -125,6 +126,66 @@ function createCard(activity) {
     <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
     <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
   </article>`;
+}
+
+function createModal(activity) {
+  return `
+    <div class="modal-window" data-id="${escapeHtml(activity.id)}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Sommarmusik festival</h2>
+                <p>Musik</p>
+            </div>
+            <div class="modal-body">
+                <img src="images/sommar musikfestival.jpeg" alt="sommar musikfestivalen år 2025">
+                <p>Summer Music Festival är en fartfylld och färgstark musikfestival som firar 
+                  sommaren med liveframträdanden från populära artister inom genrer som pop, 
+                  rock, elektroniskt och hiphop. Festivalen bjuder på en härlig utomhuskänsla med mat, 
+                  dryck och en god gemenskap för musikälskare i alla åldrar.</p>
+                <br>
+                <p><b>Plats:</b> Stadsparkens friluftscen</p>
+                <p><b>Adress:</b> Gustav Adolfsvägen 10, 856 40 Sundsvall</p>
+                <p><b>Tid:</b> 5 jul 2027 - Kl 18:00</p>
+                <p><b>Arrangör:</b> Sommarmusik Produktion AB</p>
+                <p><b>Kontakta arragör:</b> info@sommarmusikproduktion.se eller på telefonnummer 060-12 34 56</p>
+                <p><b>Antal platser:</b> 500</p>
+                <br>
+                    <hr>
+            </div>
+            <div class="modal-footer">
+                <form class="event-booking-form">
+                <h3>Boka event</h3>
+                <div class="floating-group">
+                    <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
+                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
+                    title="Ange för- och efternamn" placeholder=" " required>
+                    <label for="person-name">Namn</label>
+                </div>
+
+                <div class="floating-group">
+                    <input id="person-email" name="personEmail" type="email" 
+                    title="Ange en giltig e-postadress" placeholder=" ">
+                    <label for="person-email">E-post</label>
+                </div>
+
+                <div class="floating-group">
+                    <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                    pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
+                    placeholder=" " required>
+                    <label for="person-phone-number">Telefonnummer</label>
+                </div>
+
+                    <div class="floating-group">
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <label for="booking-quantity">Antal biljetter</label>
+                    </div>
+                        <button type="submit">Boka biljetter</button>
+                    </form>
+                        <p class="booking-feedback" role="status" aria-live="polite"></p>
+            </div>
+        </div>
+    </div>`
 }
 
 function loadingState() {
@@ -200,6 +261,7 @@ async function loadActivities() {
     }
 
     activityList.innerHTML = activities.map(createCard).join("");
+    apiModals.innerHTML = activities.map(createModal).join("");
   } catch (error) {
     console.error("ERROR", error);
     errorState(getErrorMessage(error));
