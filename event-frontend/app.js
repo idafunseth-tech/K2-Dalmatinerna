@@ -24,18 +24,18 @@ detailViewButton.forEach(button => {
   });
 });
 
-// When the user clicks on <span> (x), close the modal
-document.querySelectorAll('.modal-window .close').forEach(closeBtn => {
-  closeBtn.addEventListener('click', () => {
-    closeModal(closeBtn.closest('.modal-window'))
-  });
-});
+document.addEventListener("click", (event) => {
+  // Close button
+  const closeBtn = event.target.closest(".modal-window .close");
+  if (closeBtn) {
+    closeModal(closeBtn.closest(".modal-window"));
+    return;
+  }
 
-// When the user clicks anywhere outside of the modal, close it
-document.querySelectorAll('.modal-window').forEach(modal => {
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) closeModal(modal);
-  });
+  // Click on the backdrop (outside .modal-content)
+  if (event.target.classList.contains("modal-window")) {
+    closeModal(event.target);
+  }
 });
 
 // When the user presses escape, close the modal
