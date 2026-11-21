@@ -134,22 +134,15 @@ function createModal(activity) {
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close">&times;</span>
-                <h2>Sommarmusik festival</h2>
-                <p>Musik</p>
+                <h2>${escapeHtml(activity.title)}</h2>
+                <p>${escapeHtml(activity.category)}</p>
             </div>
             <div class="modal-body">
-                <img src="images/sommar musikfestival.jpeg" alt="sommar musikfestivalen år 2025">
-                <p>Summer Music Festival är en fartfylld och färgstark musikfestival som firar 
-                  sommaren med liveframträdanden från populära artister inom genrer som pop, 
-                  rock, elektroniskt och hiphop. Festivalen bjuder på en härlig utomhuskänsla med mat, 
-                  dryck och en god gemenskap för musikälskare i alla åldrar.</p>
+                <p>${escapeHtml(activity.description)}</p>
                 <br>
-                <p><b>Plats:</b> Stadsparkens friluftscen</p>
-                <p><b>Adress:</b> Gustav Adolfsvägen 10, 856 40 Sundsvall</p>
-                <p><b>Tid:</b> 5 jul 2027 - Kl 18:00</p>
-                <p><b>Arrangör:</b> Sommarmusik Produktion AB</p>
-                <p><b>Kontakta arragör:</b> info@sommarmusikproduktion.se eller på telefonnummer 060-12 34 56</p>
-                <p><b>Antal platser:</b> 500</p>
+                <p><b>Plats:</b> ${escapeHtml(activity.venue)}</p>
+                <p><b>Tid:</b> ${escapeHtml(formatDate(activity.startsAt))}</p>
+                <p><b>Arrangör:</b> ${escapeHtml(activity.organizer)}</p>
                 <br>
                     <hr>
             </div>
