@@ -287,6 +287,12 @@ body.modal-open {
 
 /* The Close Button */
 .close {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin-top: 0;
+    line-height: 1;
+    float: right;
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -295,8 +301,8 @@ body.modal-open {
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
+    background: none;
+    color: #ececec;
     cursor: pointer;
 }
 
