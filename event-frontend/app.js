@@ -6,15 +6,14 @@ const close = document.getElementsByClassName("close")[0];
 // Get modal
 function openModal(id) {
   const modalWindow = document.querySelector(`.modal-window[data-id = "${id}"]`);
-  if (!modalWindow) return;
+  if (!modalWindow || modalWindow.open) return;
 
-  modalWindow.classList.add('show');
+  modalWindow.showModal();
   document.body.classList.add('modal-open');
 }
 
 function closeModal(modalWindow) {
-  modalWindow.classList.remove('show');
-  document.body.classList.remove('modal-open');
+  modalWindow.close();
 }
 
 // When the user clicks on the button, open the modal
@@ -23,6 +22,12 @@ detailViewButton.forEach(button => {
     openModal(button.dataset.id);
   });
 });
+
+document.addEventListener("close", (event) =>{
+  if (event.target.matches(".modal-window")) {
+    document.body.classList.remove('modal-open')
+  }
+}, true);
 
 document.addEventListener("click", (event) => {
   // Close button
