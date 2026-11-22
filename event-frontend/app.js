@@ -130,10 +130,10 @@ function createCard(activity) {
 
 function createModal(activity) {
   return `
-    <div class="modal-window" data-id="${escapeHtml(activity.id)}">
+    <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
+                <button type="button" class="close" aria-label="Stäng">&times;</button>
                 <h2>${escapeHtml(activity.title)}</h2>
                 <p>${escapeHtml(activity.category)}</p>
             </div>
@@ -178,7 +178,7 @@ function createModal(activity) {
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
             </div>
         </div>
-    </div>`
+    </dialog>`
 }
 
 function loadingState() {
