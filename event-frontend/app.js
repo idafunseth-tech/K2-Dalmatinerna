@@ -43,10 +43,10 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// When the user presses escape, close the modal
-document.addEventListener("keydown", function(event){
+// Backup escape listener incase of nonstandard browser e.g. VS Code
+document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    document.querySelectorAll('.modal-window.show').forEach(closeModal);
+    document.querySelectorAll(".modal-window[open]").forEach(closeModal);
   }
 });
 
