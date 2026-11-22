@@ -299,11 +299,17 @@ body.modal-open {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover{
     background: none;
     color: #ececec;
     cursor: pointer;
+}
+
+.close:focus-visible {
+    background: none;
+    color: #ececec;
+    outline: 2px solid #ececec;
+    outline-offset: 2px;
 }
 
 /* So that the image adjusts to different screen sizes. */
