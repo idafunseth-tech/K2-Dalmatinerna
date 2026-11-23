@@ -61,6 +61,8 @@ document.addEventListener("click", (e) => {
     form.dataset.eventId = eventId;
 });
 
+
+// EVENT BOOKING FORM
 document.addEventListener("submit", (event) => {
     const form = event.target.closest(".event-booking-form");
     if (!form) return;
@@ -219,3 +221,59 @@ activityList.addEventListener("click", (event) => {
   if (!button) return;
   openModal(button.dataset.id);
 });
+
+
+// -------- SEARCH FUNCTION SECTION --------
+const searchForm = document.getElementById('search-form');
+const searchInput = searchForm.querySelector('.search-input');
+
+// Filters all activity cards based on what the user types in the search bar
+function filterActivityCards() {
+  const query = searchInput.value.trim().toLowerCase();
+  
+  // Hide the "about" section while searching, and show them again when the input is empty
+  const sectionsToHide = document.querySelectorAll('.hide-on-search');
+  sectionsToHide.forEach((section) => {
+    section.style.display = query.length > 0 ? 'none' : '';
+  });
+
+  // Get all activity cards currently on the page (both hardcoded and API-fetched)
+  const cards = document.querySelectorAll('.activity-card');
+
+  cards.forEach((card) => {
+    // Get all text inside the card and convert to lowercase to compare with the search query
+    const cardText = card.textContent.toLowerCase();
+
+    if (cardText.includes(query)) {
+      card.style.display = ''; 
+    } else {
+      card.style.display = 'none'; // Hide cards that don't match
+    }
+  });
+
+  // Check all outercard containers to hide any box that has 0 visible cards
+  document.querySelectorAll('.outer-card').forEach((box) => {
+    // Find all activity cards inside this specific outercard
+    const cardsInside = box.querySelectorAll('.activity-card');
+
+    // Only check outercards that actually hold activity cards (leaves the search bar untouched)
+    if (cardsInside.length > 0) {
+      // Count how many of the cards inside are still visible
+      const visibleCards = Array.from(cardsInside).filter(
+        (card) => card.style.display !== 'none'
+      );
+
+      // Hide the outercard if 0 cards match, otherwise show it
+      box.style.display = visibleCards.length === 0 ? 'none' : '';
+    }
+  });
+}
+
+// Run the filter when the user clicks "Search" or presses Enter
+searchForm.addEventListener('submit', (e) => {
+  e.preventDefault(); // Prevent the browser from reloading the page
+  filterActivityCards();
+});
+
+// Live search: filter immediately while typing, and show everything again if the input is cleared
+searchInput.addEventListener('input', filterActivityCards);
