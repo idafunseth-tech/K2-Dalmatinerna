@@ -23,6 +23,8 @@
 <main>
     <div class="outer-card">
         <form id="search-form" class="search-form" role="search">
+            <!--Top row containing the search input and submit button -->
+                <div class="search-row">
                 <div class="input-wrapper">
                 <!-- Icon inside the label-->
                     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -32,11 +34,26 @@
                 <input type="text" id="search-input" class="search-input" placeholder=" "  required>
                 <label for="search-input" class="floating-label">Sök på sidan...</label>
             </div>
-
+            <!-- search button -->
             <button type="submit" class="search-button">Sök</button>
+        </div>
+
+        <!-- Category tags section below the search row inside the same card -->
+        <div class="category-filter-section">
+            <h3 class="category-heading">Filtrera på kategori</h3>
+            <div class="category-tags" role="group" aria-label="Filtrera på kategori">
+                <!-- "Alla" resets the active category filter -->
+                <button type="button" class="category-tag active" data-category="">Alla</button>
+                <button type="button" class="category-tag" data-category="Musik">Musik</button>
+                <button type="button" class="category-tag" data-category="Näringsliv">Näringsliv</button>
+                <button type="button" class="category-tag" data-category="Insamling">Insamling</button>
+                <button type="button" class="category-tag" data-category="Kultur">Kultur</button>
+                <button type="button" class="category-tag" data-category="Mat">Mat</button>
+            </div>
+        </div>
         </form>
     </div>
-    
+   
     <div class="outer-card hide-on-search">
     <section id="about">
         <h2>eventEtt erbjuder lokala event för alla</h2>
@@ -529,6 +546,11 @@
                 </div>
                 
         <p>Kontakta oss på info@event.se</p>
+        
+        <!-- Button to toggle reduced motion directly on the page -->
+            <button type="button" id="toggle-motion-btn" class="motion-toggle-btn" aria-pressed="false">
+                Minska animationer: Av
+            </button>
     </section>
     </footer>
     
