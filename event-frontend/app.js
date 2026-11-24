@@ -71,14 +71,14 @@ document.addEventListener("submit", (event) => {
   const bookingQuantity = Number(rawQuantity);
   const feedback = modalWindow.querySelector(".booking-feedback");
 
-  // Hjälpfunktion så vi slipper upprepa classList-koden
+  // Helper function to display errors without repeating classList logic
   const showError = (message) => {
     feedback.textContent = message;
     feedback.classList.add("error");
     feedback.classList.remove("success");
   };
 
-  // Helper function to display errors without repeating classList logic
+  // Check if name field is completely empty
   if (personName === "") {
       showError("Vänligen fyll i ditt namn.");
       form.querySelector('[name="personName"]').focus();
@@ -112,9 +112,22 @@ document.addEventListener("submit", (event) => {
       form.querySelector('[name="bookingQuantity"]').focus();
       return;
   }
+  // Format name (capitalize first letter) and ticket label
+  const formattedName = personName.charAt(0).toUpperCase() + personName.slice(1);
+  const ticketWord = bookingQuantity === 1 ? "plats" : "platser";
 
   // Display booking confirmation and reset form
-  feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
+  feedback.innerHTML = `
+    <h3>Tack för din bokning, ${formattedName}!</h3>
+    <p>Vi har reserverat dina biljetter för:</p>
+    <ul>
+      <li><b>Event:</b> ${activityName}</li>
+      <li><b>Antal:</b> ${bookingQuantity} ${ticketWord}</li>
+    </ul>
+    <p>En bekräftelse har skickats till ${personEmail} och via SMS till ${personPhoneNumber}.</p>
+    <p>Vid frågor, kontakta oss på info@event.se.</p>
+  `;
+
   feedback.classList.add("success");
   feedback.classList.remove("error");
 
