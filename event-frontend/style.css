@@ -487,3 +487,10 @@ body.modal-open {
     align-items: center;
     width: 100%;
 }
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
