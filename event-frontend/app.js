@@ -207,7 +207,7 @@ function emptyState() {
 
 function errorState(message) {
   activityList.innerHTML = `
-  <div class="state-message error" role="alert">
+  <div class="error-state" role="alert">
   <p>${escapeHtml(message)}</p>
   <button type="button" class="retry-button">
     <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
