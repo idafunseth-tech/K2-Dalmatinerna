@@ -67,7 +67,7 @@ document.addEventListener("click", (e) => {
 });
 
 
-// EVENT BOOKING FORM
+// -------- EVENT BOOKING FORM --------
 document.addEventListener("submit", (event) => {
     const form = event.target.closest(".event-booking-form");
     if (!form) return;
@@ -154,6 +154,7 @@ function createModal(activity) {
                     <hr>
             </div>
             <div class="modal-footer">
+              <div class="booking-card">
                 <form class="event-booking-form">
                 <h3>Boka event</h3>
                 <div class="floating-group">
@@ -183,6 +184,7 @@ function createModal(activity) {
                         <button type="submit">Boka biljetter</button>
                     </form>
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
+              </div>
             </div>
         </div>
     </dialog>`
