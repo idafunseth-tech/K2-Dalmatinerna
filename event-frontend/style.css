@@ -226,26 +226,41 @@ main
 }
 
 /* ---- EVENT BOOKING FORM ---- */
+/* Main container for the booking section */
+.booking-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 16px 20px;
+    background-color: #222222;
+    border: 1px solid #444444;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+}
+/* Form wrapper stacking the heading, inputs, and submit button vertically */
 .event-booking-form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    max-width: 100%;
-    width: 100%;
-    margin-top: 20px;
-    padding: 20px;
+    align-items: flex-start;
     gap: 12px;
-    background-color: #222222; 
-    border: 1px solid #444444;
-    border-radius: 12px;
-    box-sizing: border-box;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
-
+/* Heading spacing inside the booking form */
 .event-booking-form h3 {
     margin: 0 0 4px 0;
 }
-
+/* Submit booking-button styling */
 .event-booking-form button {
     justify-self: start;
     padding: 12px 24px;
@@ -261,15 +276,37 @@ main
     box-sizing: border-box;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-
+/* Lighter background and border when hovering over the submit booking-button */
 .event-booking-form button:hover {
     background-color: #444444;
     border-color: #555555;
 }
-
+/* Base text styling for the booking confirmation message */
 .booking-feedback {
-    margin-top: 16px;
+    margin: 0;
+    font-size: 15px;
     line-height: 1.5;
+    color: #e6f4ea;
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Styled confirmation card with fade-in animation, shown only when text is present */
+.booking-feedback:not(:empty) {
+    padding: 18px 20px;
+    background-color: #5e5e5e;
+    border: 1px solid #838383;
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease;
+}
+/* Hides the feedback container completely when no message is displayed */
+.booking-feedback:empty {
+    display: none;
+}
+
+/* Makes the feedback show up soft */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .floating-group {
@@ -292,7 +329,7 @@ main
 
 /* The label in its default state (inside the dark box). */
 .floating-group label {
-position: absolute;
+    position: absolute;
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
@@ -359,12 +396,25 @@ footer {
         padding: 0;
         white-space: nowrap;
     }
-
     .activity-list {
         flex-direction: row;
     }
     .activity-card {
         flex: 1;
+    }
+    .booking-card {
+        grid-template-columns: auto auto 1fr 1fr;
+        gap: 48px;
+        justify-content: center;
+        align-items: center;
+    }
+    .booking-feedback {
+        grid-column: 2 / -1;
+        margin: 0;
+        align-self: center;
+        width: 95%;
+        position: relative;
+        top: -15px;
     }
 }
 
@@ -437,6 +487,11 @@ body.modal-open {
     color: #ececec;
     outline: 2px solid #ececec;
     outline-offset: 2px;
+}
+
+.modal-footer {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* So that the image adjusts to different screen sizes. */
