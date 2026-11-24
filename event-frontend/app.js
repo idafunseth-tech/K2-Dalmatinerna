@@ -50,55 +50,66 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// Click listener (works for both API IDs 1-4 and hardcoded IDs 5-10)
-document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".detail-view-button");
-    if (!btn) return;
-
-    // Get the ID directly from the card's button
-    const eventId = btn.dataset.id;
-
-    // Locate the form
-    const modal = document.querySelector(`.modal-window[data-id="${eventId}"]`) || document.querySelector(".modal-window");
-    const form = modal.querySelector(".event-booking-form");
-
-    // THE CONNECTION: Save the button's ID directly onto the form.
-    form.dataset.eventId = eventId;
-});
-
-
 // -------- EVENT BOOKING FORM --------
 document.addEventListener("submit", (event) => {
-    const form = event.target.closest(".event-booking-form");
-    if (!form) return;
+  const form = event.target.closest(".event-booking-form");
+  if (!form) return;
 
-    event.preventDefault();
+  event.preventDefault();
 
-    // Retrieve the ID linked to the form by the card's button
-    const eventId = form.dataset.eventId;
+  const modalWindow = form.closest(".modal-window");
+  const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
 
-    const modalWindow = form.closest(".modal-window");
-    const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+  const personName = form.querySelector('[name="personName"]').value.trim();
+  const personEmail = form.querySelector('[name="personEmail"]').value.trim();
+  const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
+  const rawQuantity = form.querySelector('[name="bookingQuantity"]').value.trim();
+  const bookingQuantity = Number(rawQuantity);
 
-    const personName = form.querySelector('[name="personName"]').value.trim();
-    const personEmail = form.querySelector('[name="personEmail"]').value.trim();
-    const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
-    const bookingQuantity = form.querySelector('[name="bookingQuantity"]').value;
+  const feedback = modalWindow.querySelector(".booking-feedback");
 
-    const feedback = modalWindow.querySelector(".booking-feedback");
+  // Hjälpfunktion så vi slipper upprepa classList-koden
+  const showError = (message) => {
+    feedback.textContent = message;
+    feedback.classList.add("error");
+    feedback.classList.remove("success");
+  };
 
-    if (personName === "" || personEmail === "" || personPhoneNumber === "" || bookingQuantity === "") {
-        feedback.textContent = "Fyll i namn, e-post, telefonnummer och välj antal biljetter.";
-        feedback.classList.add("error");
-        feedback.classList.remove("success");
-        return;
-    }
+  if (personName === "") {
+      showError("Vänligen fyll i ditt namn.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
-    feedback.classList.add("success");
-    feedback.classList.remove("error");
+  if (personName.length < 2) {
+      showError("Namnet måste innehålla minst 2 bokstäver.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    form.reset();
+  if (personEmail === "" || !personEmail.includes("@")) {
+      showError("Vänligen fyll i en giltig e-postadress.");
+      form.querySelector('[name="personEmail"]').focus();
+      return;
+  }
+
+  if (!/^[0-9]{10}$/.test(personPhoneNumber)) {
+      showError("Vänligen fyll i ett giltigt telefonnummer (10 siffror).");
+      form.querySelector('[name="personPhoneNumber"]').focus();
+      return;
+  }
+
+  if (rawQuantity === "" || bookingQuantity < 1 || bookingQuantity > 10 || !Number.isInteger(bookingQuantity)) {
+      showError("Välj mellan 1 och 10 biljetter.");
+      form.querySelector('[name="bookingQuantity"]').focus();
+      return;
+  }
+
+  feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
+  feedback.classList.add("success");
+  feedback.classList.remove("error");
+
+  form.reset();
 });
 
 const apiUrl = "http://localhost:5043/api/events";
