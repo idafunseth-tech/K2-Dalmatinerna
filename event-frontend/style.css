@@ -480,3 +480,10 @@ body.modal-open {
 @keyframes retry-spin {
     to { transform: rotate(360deg); }
 }
+
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
