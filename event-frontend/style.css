@@ -221,10 +221,11 @@ main
     width: 100%;
     height: auto;
     display: block;
-    margin-top: 2px;    /* Luft mellan "Musik" och bilden */
-    margin-bottom: 10px; /* Luft mellan bilden och beskrivningen under */
+    margin-top: 2px;
+    margin-bottom: 10px;
 }
 
+/* ---- EVENT BOOKING FORM ---- */
 .event-booking-form {
     display: flex;
     flex-direction: column;
@@ -263,36 +264,40 @@ main
 }
 
 .floating-group input {
-    padding: 8px 10px;
-    font-size: 16px;
-    background-color: #ffffff;
-    color: #111111;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    width: 100%;
+    padding: 16px 14px 8px 14px; /* Add some extra top padding so the label fits inside the field */
+    font-size: 15px;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-sizing: border-box;
     outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    color-scheme: dark; /* Makes the browser's default number arrows dark */
 }
 
-/* The label in its default state (inside the white box). */
+/* The label in its default state (inside the dark box). */
 .floating-group label {
-    position: absolute;
-    left: 10px;
+position: absolute;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666666;
-    font-size: 16px;
-    pointer-events: none; 
+    color: #9a9a9a;
+    font-size: 15px;
+    pointer-events: none;
     transition: all 0.2s ease;
 }
 
 /* When the user focuses on the input field OR when the field contains text. */
 .floating-group input:focus + label,
 .floating-group input:not(:placeholder-shown) + label {
-    top: -12px;              /* Moves the label above the input field. */
-    left: 2px;
-    font-size: 12px;
-    color: #ffffff;
-    background-color: #141414; 
-    padding: 0 4px;
+    top: 10px;
+    left: 14px;
+    font-size: 11px;
+    color: #b0b0b0;
+    background-color: transparent;
+    padding: 0;
 }
 
 button {
