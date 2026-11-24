@@ -486,6 +486,7 @@ body.modal-open {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    min-height: 131px;
 }
 
 .empty-state {
@@ -493,6 +494,7 @@ body.modal-open {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    min-height: 131px;
 }
 
 .loading-state {
@@ -500,4 +502,5 @@ body.modal-open {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    min-height: 131px;
 }
