@@ -494,3 +494,10 @@ body.modal-open {
     align-items: center;
     width: 100%;
 }
+
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
