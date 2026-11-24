@@ -441,3 +441,42 @@ body.modal-open {
         transform: rotate(360deg);
     }
 }
+
+/* The Retry Button */
+.retry-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0.6rem 1rem;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Retry button hover state */
+.retry-button:hover,
+.retry-button:focus-visible {
+    background: #404040;
+}
+
+/* The Retry arrow icon */
+.retry-icon {
+    flex-shrink: 0;
+}
+
+/* Plays retry-spin when retry button is hovered or has focus */
+.retry-button:hover .retry-icon,
+.retry-button:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
+}
+
+/* Rotates retry-icon one full turn */
+@keyframes retry-spin {
+    to { transform: rotate(360deg); }
+}
