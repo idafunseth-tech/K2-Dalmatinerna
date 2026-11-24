@@ -51,21 +51,24 @@ document.addEventListener("keydown", (event) => {
 });
 
 // -------- EVENT BOOKING FORM --------
+// Listen for all form submissions via event delegation (works for both static and API modals)
 document.addEventListener("submit", (event) => {
   const form = event.target.closest(".event-booking-form");
   if (!form) return;
 
+  // Prevent page reload on submit
   event.preventDefault();
-
+  
+  // Get modal elements and event title
   const modalWindow = form.closest(".modal-window");
   const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
-
+  
+  // Get and trim user input values
   const personName = form.querySelector('[name="personName"]').value.trim();
   const personEmail = form.querySelector('[name="personEmail"]').value.trim();
   const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
   const rawQuantity = form.querySelector('[name="bookingQuantity"]').value.trim();
   const bookingQuantity = Number(rawQuantity);
-
   const feedback = modalWindow.querySelector(".booking-feedback");
 
   // Hjälpfunktion så vi slipper upprepa classList-koden
@@ -75,36 +78,42 @@ document.addEventListener("submit", (event) => {
     feedback.classList.remove("success");
   };
 
+  // Helper function to display errors without repeating classList logic
   if (personName === "") {
       showError("Vänligen fyll i ditt namn.");
       form.querySelector('[name="personName"]').focus();
       return;
   }
 
+  // Check if name is too short (at least 2 characters required)
   if (personName.length < 2) {
       showError("Namnet måste innehålla minst 2 bokstäver.");
       form.querySelector('[name="personName"]').focus();
       return;
   }
 
+  // Validate email format
   if (personEmail === "" || !personEmail.includes("@")) {
       showError("Vänligen fyll i en giltig e-postadress.");
       form.querySelector('[name="personEmail"]').focus();
       return;
   }
 
+  // Validate phone number (exactly 10 digits)
   if (!/^[0-9]{10}$/.test(personPhoneNumber)) {
       showError("Vänligen fyll i ett giltigt telefonnummer (10 siffror).");
       form.querySelector('[name="personPhoneNumber"]').focus();
       return;
   }
 
+  // Validate ticket quantity (integer between 1 and 10)
   if (rawQuantity === "" || bookingQuantity < 1 || bookingQuantity > 10 || !Number.isInteger(bookingQuantity)) {
       showError("Välj mellan 1 och 10 biljetter.");
       form.querySelector('[name="bookingQuantity"]').focus();
       return;
   }
 
+  // Display booking confirmation and reset form
   feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
   feedback.classList.add("success");
   feedback.classList.remove("error");

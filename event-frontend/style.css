@@ -312,7 +312,7 @@ main
 .floating-group {
     position: relative;
 }
-
+/* Styling for the text and number input fields inside the floating group */
 .floating-group input {
     width: 100%;
     padding: 16px 14px 8px 14px; /* Add some extra top padding so the label fits inside the field */
