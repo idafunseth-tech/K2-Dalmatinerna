@@ -6,15 +6,14 @@ const close = document.getElementsByClassName("close")[0];
 // Get modal
 function openModal(id) {
   const modalWindow = document.querySelector(`.modal-window[data-id = "${id}"]`);
-  if (!modalWindow) return;
+  if (!modalWindow || modalWindow.open) return;
 
-  modalWindow.classList.add('show');
+  modalWindow.showModal();
   document.body.classList.add('modal-open');
 }
 
 function closeModal(modalWindow) {
-  modalWindow.classList.remove('show');
-  document.body.classList.remove('modal-open');
+  modalWindow.close();
 }
 
 // When the user clicks on the button, open the modal
@@ -24,24 +23,30 @@ detailViewButton.forEach(button => {
   });
 });
 
-// When the user clicks on <span> (x), close the modal
-document.querySelectorAll('.modal-window .close').forEach(closeBtn => {
-  closeBtn.addEventListener('click', () => {
-    closeModal(closeBtn.closest('.modal-window'))
-  });
+document.addEventListener("close", (event) =>{
+  if (event.target.matches(".modal-window")) {
+    document.body.classList.remove('modal-open')
+  }
+}, true);
+
+document.addEventListener("click", (event) => {
+  // Close button
+  const closeBtn = event.target.closest(".modal-window .close");
+  if (closeBtn) {
+    closeModal(closeBtn.closest(".modal-window"));
+    return;
+  }
+
+  // Click on the backdrop (outside .modal-content)
+  if (event.target.classList.contains("modal-window")) {
+    closeModal(event.target);
+  }
 });
 
-// When the user clicks anywhere outside of the modal, close it
-document.querySelectorAll('.modal-window').forEach(modal => {
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) closeModal(modal);
-  });
-});
-
-// When the user presses escape, close the modal
-document.addEventListener("keydown", function(event){
+// Backup escape listener incase of nonstandard browser e.g. VS Code
+document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    document.querySelectorAll('.modal-window.show').forEach(closeModal);
+    document.querySelectorAll(".modal-window[open]").forEach(closeModal);
   }
 });
 
@@ -98,6 +103,7 @@ document.addEventListener("submit", (event) => {
 
 const apiUrl = "http://localhost:5043/api/events";
 const activityList = document.getElementById("activity-list");
+const apiModals = document.getElementById("api-modals")
 
 function escapeHtml(value) {
   const div = document.createElement("div");
@@ -127,6 +133,59 @@ function createCard(activity) {
     <p><b>Arrangör: </b>${escapeHtml(activity.organizer)}</p>
     <button class="detail-view-button" data-id="${escapeHtml(activity.id)}">Läs mer och boka</button>
   </article>`;
+}
+
+function createModal(activity) {
+  return `
+    <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Stäng">&times;</button>
+                <h2>${escapeHtml(activity.title)}</h2>
+                <p>${escapeHtml(activity.category)}</p>
+            </div>
+            <div class="modal-body">
+                <p>${escapeHtml(activity.description)}</p>
+                <br>
+                <p><b>Plats:</b> ${escapeHtml(activity.venue)}</p>
+                <p><b>Tid:</b> ${escapeHtml(formatDate(activity.startsAt))}</p>
+                <p><b>Arrangör:</b> ${escapeHtml(activity.organizer)}</p>
+                <br>
+                    <hr>
+            </div>
+            <div class="modal-footer">
+                <form class="event-booking-form">
+                <h3>Boka event</h3>
+                <div class="floating-group">
+                    <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
+                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
+                    title="Ange för- och efternamn" placeholder=" " required>
+                    <label for="person-name">Namn</label>
+                </div>
+
+                <div class="floating-group">
+                    <input id="person-email" name="personEmail" type="email" 
+                    title="Ange en giltig e-postadress" placeholder=" ">
+                    <label for="person-email">E-post</label>
+                </div>
+
+                <div class="floating-group">
+                    <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                    pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
+                    placeholder=" " required>
+                    <label for="person-phone-number">Telefonnummer</label>
+                </div>
+
+                    <div class="floating-group">
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <label for="booking-quantity">Antal biljetter</label>
+                    </div>
+                        <button type="submit">Boka biljetter</button>
+                    </form>
+                        <p class="booking-feedback" role="status" aria-live="polite"></p>
+            </div>
+        </div>
+    </dialog>`
 }
 
 function loadingState() {
@@ -202,6 +261,7 @@ async function loadActivities() {
     }
 
     activityList.innerHTML = activities.map(createCard).join("");
+    apiModals.innerHTML = activities.map(createModal).join("");
   } catch (error) {
     console.error("ERROR", error);
     errorState(getErrorMessage(error));
