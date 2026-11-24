@@ -192,7 +192,7 @@ function loadingState() {
   activityList.innerHTML = `
   <section class="loading-state" role="status">
   <p>Hämtar events...</p>
-  <p class="loading-spinner"></p>
+  <p class="loading-spinner" aria-hidden="true"></p>
   </section>`
 }
 
