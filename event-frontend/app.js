@@ -169,27 +169,24 @@ function createModal(activity) {
                 <form class="event-booking-form">
                 <h3>Boka event</h3>
                 <div class="floating-group">
-                    <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                    title="Ange för- och efternamn" placeholder=" " required>
+                    <input id="person-name" name="personName" type="text" 
+                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                     <label for="person-name">Namn</label>
                 </div>
 
                 <div class="floating-group">
-                    <input id="person-email" name="personEmail" type="email" 
-                    title="Ange en giltig e-postadress" placeholder=" ">
+                    <input id="person-email" name="personEmail" type="email" placeholder=" ">
                     <label for="person-email">E-post</label>
                 </div>
 
                 <div class="floating-group">
                     <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                    pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                    placeholder=" " required>
+                    maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                     <label for="person-phone-number">Telefonnummer</label>
                 </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
