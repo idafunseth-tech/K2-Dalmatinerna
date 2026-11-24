@@ -10,7 +10,7 @@ Users on **eventEtt** need to view current local events in the interface, open d
 * Full URL: http://localhost:5043/api/events
 
 ## HTTP Method
-`FETCH` — Fetches a list of events (or a single object depending on the API response) that the frontend renders as cards in **activity-list** and corresponding modals in **api-modals**.
+`fetch` — Fetches a list of events (or a single object depending on the API response) that the frontend renders as cards in **activity-list** and corresponding modals in **api-modals**.
 
 ## Response Examples
 In loadActivities(), the frontend handles plain JSON arrays, objects with an .items array, and single objects:
