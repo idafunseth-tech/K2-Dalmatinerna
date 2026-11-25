@@ -39,7 +39,6 @@
 
 ### Work until the next check-in
 #### Sprint Goals
-* Daily Scrum
 * Release candidate branch
 * Update README
 * Update Swedish README
