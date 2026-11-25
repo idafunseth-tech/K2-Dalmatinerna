@@ -118,13 +118,13 @@ document.addEventListener("submit", (event) => {
 
   // Display booking confirmation and reset form
   feedback.innerHTML = `
-    <h3>Tack för din bokning, ${formattedName}!</h3>
+    <h3>Tack för din bokning, ${escapeHtml(formattedName)}!</h3>
     <p>Vi har reserverat dina biljetter för:</p>
     <ul>
-      <li><b>Event:</b> ${activityName}</li>
-      <li><b>Antal:</b> ${bookingQuantity} ${ticketWord}</li>
+      <li><b>Event:</b> ${escapeHtml(activityName)}</li>
+      <li><b>Antal:</b> ${escapeHtml(bookingQuantity)} ${escapeHtml(ticketWord)}</li>
     </ul>
-    <p>En bekräftelse har skickats till ${personEmail} och via SMS till ${personPhoneNumber}.</p>
+    <p>En bekräftelse har skickats till ${escapeHtml(personEmail)} och via SMS till ${escapeHtml(personPhoneNumber)}.</p>
     <p>Vid frågor, kontakta oss på info@event.se.</p>
   `;
 
