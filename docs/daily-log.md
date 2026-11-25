@@ -22,6 +22,44 @@
 ```
 </details>
 
+## Daily Scrum – 2026-11-25
+
+### Progress toward the sprint goal
+#### Sprint Goals
+* Error matrix
+* Formalized PR review
+* Use AI as a secondary reviewer
+* ~Preliminary release plan~
+* ~Risk Classification of API Change~
+* Search Function
+
+#### Remaining from Last Sprint
+* API documentation.
+* Test and verify UI states in DevTools.
+
+### Work until the next check-in
+#### Sprint Goals
+* Release candidate branch
+* Update README
+* Update Swedish README
+* Update Booking forms
+* Search filter
+
+---
+
+#### Remaining from Last Sprint
+* Preliminary release plan
+* Risk Classification of API Change
+
+### Obstacles or risks
+* Lack of time (As usual)
+
+### Help or decisions needed
+* None
+
+### Change in the plan or board
+* New cards added on Kanban board: #138, #144, #147 and #151.
+
 ## Daily Scrum – 2026-11-18
 
 ### Progress toward the sprint goal
