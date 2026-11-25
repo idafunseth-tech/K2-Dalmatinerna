@@ -55,55 +55,88 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// Click listener (works for both API IDs 1-4 and hardcoded IDs 5-10)
-document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".detail-view-button");
-    if (!btn) return;
-
-    // Get the ID directly from the card's button
-    const eventId = btn.dataset.id;
-
-    // Locate the form
-    const modal = document.querySelector(`.modal-window[data-id="${eventId}"]`) || document.querySelector(".modal-window");
-    const form = modal.querySelector(".event-booking-form");
-
-    // THE CONNECTION: Save the button's ID directly onto the form.
-    form.dataset.eventId = eventId;
-});
-
-
-// EVENT BOOKING FORM
+// -------- EVENT BOOKING FORM --------
+// Listen for all form submissions via event delegation (works for both static and API modals)
 document.addEventListener("submit", (event) => {
-    const form = event.target.closest(".event-booking-form");
-    if (!form) return;
+  const form = event.target.closest(".event-booking-form");
+  if (!form) return;
 
-    event.preventDefault();
+  // Prevent page reload on submit
+  event.preventDefault();
+  
+  // Get modal elements and event title
+  const modalWindow = form.closest(".modal-window");
+  const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+  
+  // Get and trim user input values
+  const personName = form.querySelector('[name="personName"]').value.trim();
+  const personEmail = form.querySelector('[name="personEmail"]').value.trim();
+  const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
+  const rawQuantity = form.querySelector('[name="bookingQuantity"]').value.trim();
+  const bookingQuantity = Number(rawQuantity);
+  const feedback = modalWindow.querySelector(".booking-feedback");
 
-    // Retrieve the ID linked to the form by the card's button
-    const eventId = form.dataset.eventId;
+  // Helper function to display errors without repeating classList logic
+  const showError = (message) => {
+    feedback.textContent = message;
+    feedback.classList.add("error");
+    feedback.classList.remove("success");
+  };
 
-    const modalWindow = form.closest(".modal-window");
-    const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+  // Check if name field is completely empty
+  if (personName === "") {
+      showError("Vänligen fyll i ditt namn.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    const personName = form.querySelector('[name="personName"]').value.trim();
-    const personEmail = form.querySelector('[name="personEmail"]').value.trim();
-    const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
-    const bookingQuantity = form.querySelector('[name="bookingQuantity"]').value;
+  // Check if name is too short (at least 2 characters required)
+  if (personName.length < 2) {
+      showError("Namnet måste innehålla minst 2 bokstäver.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    const feedback = modalWindow.querySelector(".booking-feedback");
+  // Validate email format
+  if (personEmail === "" || !personEmail.includes("@")) {
+      showError("Vänligen fyll i en giltig e-postadress.");
+      form.querySelector('[name="personEmail"]').focus();
+      return;
+  }
 
-    if (personName === "" || personEmail === "" || personPhoneNumber === "" || bookingQuantity === "") {
-        feedback.textContent = "Fyll i namn, e-post, telefonnummer och välj antal biljetter.";
-        feedback.classList.add("error");
-        feedback.classList.remove("success");
-        return;
-    }
+  // Validate phone number (exactly 10 digits)
+  if (!/^[0-9]{10}$/.test(personPhoneNumber)) {
+      showError("Vänligen fyll i ett giltigt telefonnummer (10 siffror).");
+      form.querySelector('[name="personPhoneNumber"]').focus();
+      return;
+  }
 
-    feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
-    feedback.classList.add("success");
-    feedback.classList.remove("error");
+  // Validate ticket quantity (integer between 1 and 10)
+  if (rawQuantity === "" || bookingQuantity < 1 || bookingQuantity > 10 || !Number.isInteger(bookingQuantity)) {
+      showError("Välj mellan 1 och 10 biljetter.");
+      form.querySelector('[name="bookingQuantity"]').focus();
+      return;
+  }
+  // Format name (capitalize first letter) and ticket label
+  const formattedName = personName.charAt(0).toUpperCase() + personName.slice(1);
+  const ticketWord = bookingQuantity === 1 ? "plats" : "platser";
 
-    form.reset();
+  // Display booking confirmation and reset form
+  feedback.innerHTML = `
+    <h3>Tack för din bokning, ${escapeHtml(formattedName)}!</h3>
+    <p>Vi har reserverat dina biljetter för:</p>
+    <ul>
+      <li><b>Event:</b> ${escapeHtml(activityName)}</li>
+      <li><b>Antal:</b> ${escapeHtml(bookingQuantity)} ${escapeHtml(ticketWord)}</li>
+    </ul>
+    <p>En bekräftelse har skickats till ${escapeHtml(personEmail)} och via SMS till ${escapeHtml(personPhoneNumber)}.</p>
+    <p>Vid frågor, kontakta oss på info@event.se.</p>
+  `;
+
+  feedback.classList.add("success");
+  feedback.classList.remove("error");
+
+  form.reset();
 });
 
 // -------- API / RENDERING SECTION --------
@@ -168,35 +201,34 @@ function createModal(activity) {
                     <hr>
             </div>
             <div class="modal-footer">
+              <div class="booking-card">
                 <form class="event-booking-form">
                 <h3>Boka event</h3>
                 <div class="floating-group">
-                    <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                    title="Ange för- och efternamn" placeholder=" " required>
+                    <input id="person-name" name="personName" type="text" 
+                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                     <label for="person-name">Namn</label>
                 </div>
 
                 <div class="floating-group">
-                    <input id="person-email" name="personEmail" type="email" 
-                    title="Ange en giltig e-postadress" placeholder=" ">
+                    <input id="person-email" name="personEmail" type="email" placeholder=" ">
                     <label for="person-email">E-post</label>
                 </div>
 
                 <div class="floating-group">
                     <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                    pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                    placeholder=" " required>
+                    maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                     <label for="person-phone-number">Telefonnummer</label>
                 </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
+              </div>
             </div>
         </div>
     </dialog>`
