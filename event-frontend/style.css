@@ -95,8 +95,9 @@ main
 
 .category-tags {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;       
+    gap: 0.5rem;
 }
 
 .category-tag {
