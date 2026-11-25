@@ -359,15 +359,18 @@ footer {
     overflow: auto; /* Enable scroll if needed */
 }
 
+/* Dimmed, slightly blurred backdrop behind an open modal */
 .modal-window::backdrop {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(1.5px);
 }
 
+/* Stops the page behind the modal from scrolling while it is open */
 body.modal-open {
     overflow: hidden;
 }
 
+/* The modal box itself */
 .modal-content {
     background-color: #424242;
     margin: 5% auto; /* 15% from the top and centered */
@@ -404,12 +407,14 @@ body.modal-open {
     font-weight: bold;
 }
 
+/* Close button hover state */
 .close:hover{
     background: none;
     color: #ececec;
     cursor: pointer;
 }
 
+/* Visible focus outline on the close button for keyboard users */
 .close:focus-visible {
     background: none;
     color: #ececec;
@@ -426,6 +431,7 @@ body.modal-open {
     margin-bottom: 12px;
 }
 
+/* Spinner shown while events are loading */
 .loading-spinner{
     height: 30px;
     width: 30px;
@@ -436,6 +442,7 @@ body.modal-open {
     animation: spin 1.5s ease infinite;
 }
 
+/* Rotates the spinner one full turn */
 @keyframes spin {
     to {
         transform: rotate(360deg);

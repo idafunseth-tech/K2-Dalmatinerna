@@ -1,17 +1,20 @@
 // Get the button that opens the modal
 const detailViewButton = document.querySelectorAll('.detail-view-button');
-// Get the <span> element that closes the modal
+// Get the <button> element that closes the modal
 const close = document.getElementsByClassName("close")[0];
 
 // Get modal
 function openModal(id) {
   const modalWindow = document.querySelector(`.modal-window[data-id = "${id}"]`);
+  // Do nothing if the modal doesn't exist or is already open
   if (!modalWindow || modalWindow.open) return;
 
+  // Open modal (top layer + backdrop) and lock scrolling on the page behind it
   modalWindow.showModal();
   document.body.classList.add('modal-open');
 }
 
+// Close modal; the 'close' listener below then unlocks page scrolling
 function closeModal(modalWindow) {
   modalWindow.close();
 }
@@ -23,12 +26,14 @@ detailViewButton.forEach(button => {
   });
 });
 
+// When any modal closes, allow the page to scroll again.
 document.addEventListener("close", (event) =>{
   if (event.target.matches(".modal-window")) {
     document.body.classList.remove('modal-open')
   }
 }, true);
 
+// When any modal closes, allow the page to scroll again.
 document.addEventListener("click", (event) => {
   // Close button
   const closeBtn = event.target.closest(".modal-window .close");
@@ -101,16 +106,23 @@ document.addEventListener("submit", (event) => {
     form.reset();
 });
 
+// -------- API / RENDERING SECTION --------
+// Endpoint that returns the list of events
 const apiUrl = "http://localhost:5043/api/events";
+// Container for the API event cards
 const activityList = document.getElementById("activity-list");
+// Container for the modals that belong to the API event cards
 const apiModals = document.getElementById("api-modals")
 
+// Escape special HTML characters in API data so it can't inject markup (XSS protection).
+// Works by setting textContent on a temporary element and reading back the escaped innerHTML.
 function escapeHtml(value) {
   const div = document.createElement("div");
   div.textContent = value ?? "";
   return div.innerHTML;
 }
 
+// Convert an ISO date string to Swedish format, e.g. "5 jul 2027 - Kl 18:00"
 function formatDate(iso) {
   const d = new Date(iso);
   const date = d.toLocaleDateString("sv-SE", {
@@ -122,6 +134,7 @@ function formatDate(iso) {
   return `${date} - Kl ${time}`;
 }
 
+// Build the HTML for one event card from an API event object
 function createCard(activity) {
   return `
   <article class="activity-card">
@@ -135,6 +148,7 @@ function createCard(activity) {
   </article>`;
 }
 
+// Build the HTML for one modal (<dialog>) with event details and the booking form
 function createModal(activity) {
   return `
     <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
@@ -188,6 +202,7 @@ function createModal(activity) {
     </dialog>`
 }
 
+// Show a "loading" message and spinner while events are being fetched
 function loadingState() {
   activityList.innerHTML = `
   <section class="loading-state" role="status">
@@ -196,7 +211,7 @@ function loadingState() {
   </section>`
 }
 
-
+// Show a message (and retry button) when the API returns no events
 function emptyState() {
   activityList.innerHTML = `
   <div class="empty-state">
@@ -205,6 +220,7 @@ function emptyState() {
   </div>`;
 }
 
+// Show an error message (and retry button) when loading fails
 function errorState(message) {
   activityList.innerHTML = `
   <div class="state-message error" role="alert">
@@ -213,11 +229,14 @@ function errorState(message) {
   </div>`;
 }
 
+// Translate an error (with optional HTTP status) into a user-friendly Swedish message
 function getErrorMessage(error) {
+  // No status code means the request never reached the server (e.g. network error or server down)
   if (!error.status) {
     return "Servern kunde tyvärr inte nås just nu."
   }
 
+  // Pick a message based on the HTTP status code
   switch (error.status) {
       case 404:
         return "Något gick fel. Vi kan inte hitta några events just nu.";
@@ -229,21 +248,27 @@ function getErrorMessage(error) {
   }
 }
 
+// Fetch events from the API and render the cards and modals
 async function loadActivities() {
   loadingState();
 
 
   try {
+    // Request the events
     const response = await fetch(apiUrl);
 
+    // Treat non-2xx responses as errors and keep the status code for getErrorMessage()
     if (!response.ok) {
       const error = new Error(`HTTP ${response.status}`);
       error.status = response.status;
       throw error;
     }
 
+    // Parse the JSON body
     const data = await response.json();
 
+    /* Normalise the response to an array: the API may return an array,
+       an object with an 'items' array, or a single event object. */
     let activities;
     if (Array.isArray(data)) {
       activities = data;
@@ -255,27 +280,34 @@ async function loadActivities() {
       activities = [];
     }
 
+    // Checks if the response is empty
     if (activities.length === 0) {
       emptyState();
       return;
     }
 
+    // Render a card and a modal for every event
     activityList.innerHTML = activities.map(createCard).join("");
     apiModals.innerHTML = activities.map(createModal).join("");
   } catch (error) {
+    // Log the details for debugging and show a friendly message to the user
     console.error("ERROR", error);
     errorState(getErrorMessage(error));
   }
 }
 
+// Retry button (event delegation, since the button is re-created in every state)
 activityList.addEventListener("click", (event) => {
   if (event.target.closest(".retry-button")) {
     loadActivities();
   }
 });
 
+// Load the events when the page loads
 loadActivities();
 
+/* Open the modal when a "Läs mer och boka" button on an API-rendered card is clicked
+   (event delegation, since these cards are created after the page loads) */
 activityList.addEventListener("click", (event) => {
   const button = event.target.closest(".detail-view-button");
   if (!button) return;
