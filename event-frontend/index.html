@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
+ 
 
 <body>
     <header class="site-header">
@@ -16,7 +17,11 @@
                 <li><a href="#activity">Event</a></li>               
                 <li><a href="#about">Om oss</a></li>
                 <li><a href="#contact">Kontakt</a></li>
-            </ul>
+             </ul>
+             <!-- Button to toggle reduced motion directly on the page -->
+             <button type="button" id="toggle-motion-btn" class="motion-toggle-btn" aria-pressed="false">
+            Minska animationer: Av
+        </button>
         </nav>
     </header>
 
@@ -547,10 +552,7 @@
                 
         <p>Kontakta oss på info@event.se</p>
         
-        <!-- Button to toggle reduced motion directly on the page -->
-            <button type="button" id="toggle-motion-btn" class="motion-toggle-btn" aria-pressed="false">
-                Minska animationer: Av
-            </button>
+    
     </section>
     </footer>
     
