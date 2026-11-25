@@ -26,7 +26,6 @@
 
 ### Progress toward the sprint goal
 #### Sprint Goals
-* Daily Scrum
 * Error matrix
 * Formalized PR review
 * Use AI as a secondary reviewer
