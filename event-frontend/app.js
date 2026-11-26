@@ -613,3 +613,75 @@ if (toggleMotionBtn) {
 }
 
 applySavedMotionPreference();
+
+// -------- Contact form --------
+document.addEventListener("DOMContentLoaded", () => {
+  // Handle contact form validation and confirmation feedback
+  const contactForm = document.getElementById("contact-form");
+  const contactFeedback = document.getElementById("contact-feedback");
+
+  if (!contactForm || !contactFeedback) return;
+
+  contactForm.addEventListener("submit", (event) => {
+    // Prevent page reload / scroll to top on submit
+    event.preventDefault();
+
+    const nameInput = document.getElementById("contact-name");
+    const emailInput = document.getElementById("contact-email");
+    const questionInput = document.getElementById("contact-question");
+
+    const name = nameInput ? nameInput.value.trim() : "";
+    const email = emailInput ? emailInput.value.trim() : "";
+    const question = questionInput ? questionInput.value.trim() : "";
+
+    const missingFields = [];
+    if (!name) missingFields.push("Namn");
+    if (!email) missingFields.push("E-post");
+    if (!question) missingFields.push("Fråga");
+
+    if (missingFields.length > 0) {
+      contactFeedback.className = "contact-feedback error";
+      contactFeedback.textContent = `Vänligen fyll i: ${missingFields.join(", ")}.`;
+      return;
+    }
+
+    if (emailInput && !emailInput.checkValidity()) {
+      contactFeedback.className = "contact-feedback error";
+      contactFeedback.textContent = "Vänligen ange en giltig e-postadress.";
+      emailInput.focus();
+      return;
+    }
+
+    contactFeedback.className = "contact-feedback success";
+    contactFeedback.innerHTML = `
+      <h3>Tack för ditt meddelande, <span class="fb-name"></span>!</h3>
+      <p>Vi har tagit emot din fråga och kommer att svara dig via e-post så snart vi kan.</p>
+      <div class="feedback-details">
+        <p><strong>E-post:</strong> <span class="fb-email"></span></p>
+        <p><strong>Fråga:</strong> <span class="fb-question"></span></p>
+      </div>
+    `;
+
+    contactFeedback.querySelector(".fb-name").textContent = name;
+    contactFeedback.querySelector(".fb-email").textContent = email;
+    contactFeedback.querySelector(".fb-question").textContent = question;
+
+    contactForm.reset();
+  });
+
+  // Hide confirmation/error feedback when clicking outside the form and feedback box
+  document.addEventListener("click", (event) => {
+    if (!contactFeedback.textContent.trim() && !contactFeedback.innerHTML.trim()) {
+      return;
+    }
+
+    const clickedInsideForm = contactForm.contains(event.target);
+    const clickedInsideFeedback = contactFeedback.contains(event.target);
+
+    if (!clickedInsideForm && !clickedInsideFeedback) {
+      contactFeedback.className = "contact-feedback";
+      contactFeedback.innerHTML = "";
+    }
+  });
+});
+

@@ -535,24 +535,36 @@
     <section id="api-modals"></section>
 
 </main>
-    <footer>
-        <section id="contact" >
-            <form id="contact-form" class="contact">
-                <h3>Kontakt</h3>
-                <div>
-                    <label for="name">Namn</label>
-                    <input id="name" name="name" type="text">
+<footer id="contact">
+    <div class="contact">
+        <h2>Kontakta oss</h2>
+
+        <div class="contact-row">
+            <form id="contact-form" class="contact-form" novalidate>
+                <div class="floating-group">
+                    <input type="text" id="contact-name" name="name" placeholder=" " required />
+                    <label for="contact-name">Namn</label>
                 </div>
-                <div>
-                    <label for="email">E-post</label>
-                    <input id="email" name="email" type="email">
+
+                <div class="floating-group">
+                    <input type="email" id="contact-email" name="email" placeholder=" " required />
+                    <label for="contact-email">E-post</label>
                 </div>
-                
-        <p>Kontakta oss på info@event.se</p>
-        
-    
-    </section>
-    </footer>
-    
+
+                <div class="floating-group">
+                    <textarea id="contact-question" name="question" rows="2" placeholder=" " required></textarea>
+                    <label for="contact-question">Fråga</label>
+                </div>
+
+                <button type="submit" class="contact-submit-btn">Skicka</button>
+            </form>
+            
+            
+
+            <div id="contact-feedback" class="contact-feedback" role="status" aria-live="polite"></div>
+        </div>
+        <p>Kontaka oss på info@eventet.se</p>
+    </div>
+</footer>
 </body>
 </html>
