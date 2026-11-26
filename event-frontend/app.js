@@ -374,11 +374,16 @@ let activeCategory = "";
 
 // Create suggestion dropdown element inside .input-wrapper
 const suggestionsBox = document.createElement("div");
+suggestionsBox.id = "search-suggestions-list"; // Unique ID required for aria-controls on the search input
 suggestionsBox.className = "search-suggestions";
 suggestionsBox.setAttribute("role", "listbox");
 suggestionsBox.setAttribute("aria-label", "Sökförslag");
 if (inputWrapper) {
   inputWrapper.appendChild(suggestionsBox);
+  // Link the search input to the dropdown list so screen readers know which element it controls
+  searchInput.setAttribute("aria-controls", "search-suggestions-list"); 
+  // Indicate to screen readers whether the suggestions dropdown is currently open or closed (starts closed)
+  searchInput.setAttribute("aria-expanded", "false"); 
 }
 
 // Extract searchable fields (title, venue, date, organizer) from a card element
@@ -416,6 +421,8 @@ function updateSuggestions() {
   if (query.length === 0) {
     suggestionsBox.innerHTML = "";
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed
+    searchInput.setAttribute("aria-expanded", "false");
     return;
   }
 
@@ -439,6 +446,8 @@ function updateSuggestions() {
   if (matches.length === 0) {
     suggestionsBox.innerHTML = "";
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed
+    searchInput.setAttribute("aria-expanded", "false");
     return;
   }
 
@@ -447,7 +456,7 @@ function updateSuggestions() {
     .slice(0, 8)
     .map(
       (item) => `
-      <button type="button" class="suggestion-item" data-value="${escapeHtml(item.value)}">
+      <button type="button" role="option" class="suggestion-item" data-value="${escapeHtml(item.value)}">
         <span>${escapeHtml(item.value)}</span>
         <span class="suggestion-meta">${escapeHtml(item.label)}</span>
       </button>`
@@ -455,6 +464,8 @@ function updateSuggestions() {
     .join("");
 
   suggestionsBox.classList.add("open");
+  // Inform screen readers that the suggestions list is now open
+  searchInput.setAttribute("aria-expanded", "true");
 }
 
 // Filters activity cards by both search query (matching title, venue, date, organizer) and category
@@ -503,6 +514,8 @@ suggestionsBox.addEventListener("click", (event) => {
   searchInput.value = item.dataset.value || "";
   searchInput.required = searchInput.value.trim().length > 0;
   suggestionsBox.classList.remove("open");
+  // Inform screen readers that the suggestions list is now closed after selecting an option
+  searchInput.setAttribute("aria-expanded", "false");
   filterActivityCards();
 });
 
@@ -510,6 +523,8 @@ suggestionsBox.addEventListener("click", (event) => {
 document.addEventListener("click", (event) => {
   if (!inputWrapper || !inputWrapper.contains(event.target)) {
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed when clicking outside
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
   }
 });
 
@@ -521,9 +536,12 @@ if (categoryTagsContainer) {
 
     activeCategory = (tag.dataset.category || "").trim();
 
-    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
-      btn.classList.toggle("active", btn === tag);
-    });
+  categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+    const isSelected = btn === tag;
+    btn.classList.toggle("active", isSelected);
+    // Sync aria-pressed so screen readers announce which category filter is active
+    btn.setAttribute("aria-pressed", String(isSelected));
+  });
 
     if (searchInput) {
       searchInput.value = "";
@@ -531,6 +549,8 @@ if (categoryTagsContainer) {
     }
 
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed when switching category
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
     filterActivityCards();
   });
 }
@@ -540,6 +560,8 @@ if (searchForm) {
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed upon form submission
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
     filterActivityCards();
   });
 }
@@ -572,6 +594,8 @@ if (searchInput) {
     } else if (event.key === "Escape") {
       event.preventDefault();
       suggestionsBox.classList.remove("open"); // Close the suggestions list
+      // Inform screen readers that the suggestions list is now closed
+      searchInput.setAttribute("aria-expanded", "false");
     }
   });
 
@@ -595,6 +619,8 @@ if (searchInput) {
     } else if (event.key === "Escape") {
       event.preventDefault();
       suggestionsBox.classList.remove("open"); // Close the list
+      // Inform screen readers that the suggestions list is now closed
+      searchInput.setAttribute("aria-expanded", "false");
       searchInput.focus(); // Return focus to the search input
     }
   });
