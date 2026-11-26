@@ -160,7 +160,7 @@ main
 }
 
 /* Makes the input border brighter when active */
-.search-input:focus {
+.search-input:focus-visible {
     border-color: #ffffff;
     background-color: #242424;
     box-shadow: 0 0 0 3px rgba(236, 236, 236, 0.08);
@@ -291,6 +291,18 @@ main
 
 #search-form .search-button:active {
     transform: translateY(0) scale(0.98);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 1px;
+}
+
+input:focus-visible {
+    border-color: #ffffff;
+    outline: 1px solid #ffffff;
+    outline-offset: 0px;
 }
 
 .activity-card 
@@ -467,7 +479,6 @@ main
     border: 1px solid #444;
     border-radius: 8px;
     box-sizing: border-box;
-    outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease;
     color-scheme: dark; /* Makes the browser's default number arrows dark */
 }
