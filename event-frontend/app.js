@@ -156,15 +156,36 @@ function escapeHtml(value) {
 }
 
 // Convert an ISO date string to Swedish format, e.g. "5 jul 2027 - Kl 18:00"
+const DATE_FALLBACK = "Datum saknas";
+
 function formatDate(iso) {
-  const d = new Date(iso);
-  const date = d.toLocaleDateString("sv-SE", {
-    day: "numeric", month: "short", year: "numeric"
-  }).replace(".", "");
-  const time = d.toLocaleTimeString("sv-SE", {
-    hour: "2-digit", minute: "2-digit"
-  });
-  return `${date} - Kl ${time}`;
+  try {
+    const isValidType =
+      (typeof iso === "string" && iso.trim() !== "") ||
+      (typeof iso === "number" && Number.isFinite(iso));
+
+    if (!isValidType) {
+      console.warn("formatDate: invalid input", iso);
+      return DATE_FALLBACK;
+    }
+
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) {
+      console.warn("formatDate: could not parse date", iso);
+      return DATE_FALLBACK;
+    }
+
+    const date = d.toLocaleDateString("sv-SE", {
+      day: "numeric", month: "short", year: "numeric"
+    }).replace(".", "");
+    const time = d.toLocaleTimeString("sv-SE", {
+      hour: "2-digit", minute: "2-digit"
+    });
+    return `${date} - Kl ${time}`;
+  } catch (err) {
+    console.warn("formatDate: unexpected error", err);
+    return DATE_FALLBACK;
+  }
 }
 
 // Build the HTML for one event card from an API event object
