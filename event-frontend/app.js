@@ -561,6 +561,32 @@ if (searchInput) {
     }
   });
 }
+
+// Reset search query, suggestion dropdown, and active category tag back to default
+function clearAllFilters() {
+  activeCategory = "";
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllTag = (btn.dataset.category || "") === "";
+      btn.classList.toggle("active", isAllTag);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  suggestionsBox.innerHTML = "";
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener("click", clearAllFilters);
+}
+
 // -------- REDUCED MOTION TOGGLE BUTTON --------
 const toggleMotionBtn = document.getElementById("toggle-motion-btn");
 const MOTION_STORAGE_KEY = "eventEtt_reduced_motion";
@@ -594,27 +620,3 @@ if (toggleMotionBtn) {
 
 applySavedMotionPreference();
 
-// Reset search query, suggestion dropdown, and active category tag back to default
-function clearAllFilters() {
-  activeCategory = "";
-
-  if (categoryTagsContainer) {
-    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
-      const isAllTag = (btn.dataset.category || "") === "";
-      btn.classList.toggle("active", isAllTag);
-    });
-  }
-
-  if (searchInput) {
-    searchInput.value = "";
-    searchInput.required = false;
-  }
-
-  suggestionsBox.innerHTML = "";
-  suggestionsBox.classList.remove("open");
-  filterActivityCards();
-}
-
-if (clearFiltersBtn) {
-  clearFiltersBtn.addEventListener("click", clearAllFilters);
-}

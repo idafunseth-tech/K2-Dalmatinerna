@@ -322,6 +322,7 @@ main
     animation: clearPulse 0.35s ease;
 }
 
+/* Animation for the clear filters button when clicked */
 @keyframes clearPulse {
     0% {
         transform: scale(0.95);
