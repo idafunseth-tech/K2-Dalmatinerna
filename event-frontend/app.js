@@ -373,6 +373,39 @@ const clearFiltersBtn = document.getElementById("clear-filters-btn");
 // Tracks the selected category filter (empty string means all categories)
 let activeCategory = "";
 
+const clearFiltersBtn = document.getElementById("clear-filters-btn");
+
+function hasActiveFilters() {
+  const hasSearchText = searchInput ? searchInput.value.trim().length > 0 : false;
+  const hasCategory = activeCategory.trim().length > 0;
+  return hasSearchText || hasCategory;
+}
+
+function updateClearFiltersButton() {
+  if (!clearFiltersBtn) return;
+  clearFiltersBtn.hidden = !hasActiveFilters();
+}
+
+function clearAllFilters() {
+  activeCategory = "";
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+  }
+
+  suggestionsBox.innerHTML = "";
+  suggestionsBox.classList.remove("open");
+  updateClearFiltersButton();
+  filterActivityCards();
+}
+
 // Create suggestion dropdown element inside .input-wrapper
 const suggestionsBox = document.createElement("div");
 suggestionsBox.className = "search-suggestions";
@@ -463,6 +496,7 @@ function filterActivityCards() {
   const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
   const normalizedCategory = activeCategory.trim().toLowerCase();
   const isFiltering = query.length > 0 || normalizedCategory.length > 0;
+  updateClearFiltersButton();
 
   // Hide informational sections while searching or filtering by category
   document.querySelectorAll(".hide-on-search").forEach((section) => {
@@ -617,6 +651,12 @@ if (toggleMotionBtn) {
     updateMotionButtonState();
   });
 }
+
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener("click", clearAllFilters);
+}
+
+updateClearFiltersButton();
 
 applySavedMotionPreference();
 
