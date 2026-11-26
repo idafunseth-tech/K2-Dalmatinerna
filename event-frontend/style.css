@@ -95,9 +95,9 @@ main
 
 .category-tags {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     justify-content: center;
-    flex-wrap: wrap;       
-    gap: 0.5rem;
 }
 
 .category-tag {
@@ -291,6 +291,53 @@ main
 
 #search-form .search-button:active {
     transform: translateY(0) scale(0.98);
+}
+
+/* Primary button to reset search text and category filter */
+.clear-filters-btn {
+    margin-top: 0;
+    padding: 6px 14px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    
+}
+
+
+.clear-filters-btn:hover {
+    background-color: #383838;
+    padding-left: 18px;
+    color: #ffffff;
+}
+
+.clear-filters-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.clear-filters-btn.is-clearing {
+    animation: clearPulse 0.35s ease;
+}
+
+@keyframes clearPulse {
+    0% {
+        transform: scale(0.95);
+        background-color: #ececec;
+        color: #181818;
+        border-color: #ececec;
+    }
+    60% {
+        transform: scale(1.04);
+        background-color: #4a4a4a;
+        color: #ffffff;
+        border-color: #888888;
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .activity-card 
@@ -794,4 +841,10 @@ body.reduced-motion .loading-spinner {
     align-items: center;
     width: 100%;
     min-height: 131px;
+}
+
+body.reduced-motion .clear-filters-btn {
+    transition: none;
+    animation: none;
+    transform: none;
 }

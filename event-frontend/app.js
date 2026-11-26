@@ -368,6 +368,7 @@ const searchForm = document.getElementById("search-form");
 const searchInput = searchForm ? searchForm.querySelector(".search-input") : null;
 const inputWrapper = searchForm ? searchForm.querySelector(".input-wrapper") : null;
 const categoryTagsContainer = document.querySelector(".category-tags");
+const clearFiltersBtn = document.getElementById("clear-filters-btn");
 
 // Tracks the selected category filter (empty string means all categories)
 let activeCategory = "";
@@ -592,3 +593,28 @@ if (toggleMotionBtn) {
 }
 
 applySavedMotionPreference();
+
+// Reset search query, suggestion dropdown, and active category tag back to default
+function clearAllFilters() {
+  activeCategory = "";
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllTag = (btn.dataset.category || "") === "";
+      btn.classList.toggle("active", isAllTag);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  suggestionsBox.innerHTML = "";
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener("click", clearAllFilters);
+}
