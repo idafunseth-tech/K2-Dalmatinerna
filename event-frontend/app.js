@@ -184,11 +184,11 @@ function createCard(activity) {
 // Build the HTML for one modal (<dialog>) with event details and the booking form
 function createModal(activity) {
   return `
-    <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
+    <dialog class="modal-window" aria-labelledby="modal-title-${escapeHtml(activity.id)}" data-id="${escapeHtml(activity.id)}">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                <h2>${escapeHtml(activity.title)}</h2>
+                <h2 id="modal-title-${escapeHtml(activity.id)}">${escapeHtml(activity.title)}</h2>
                 <p>${escapeHtml(activity.category)}</p>
             </div>
             <div class="modal-body">
