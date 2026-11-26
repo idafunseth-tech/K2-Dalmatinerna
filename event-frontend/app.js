@@ -363,57 +363,232 @@ activityList.addEventListener("click", (event) => {
 });
 
 
-// -------- SEARCH FUNCTION SECTION --------
-const searchForm = document.getElementById('search-form');
-const searchInput = searchForm.querySelector('.search-input');
+// -------- SEARCH & CATEGORY FILTER SECTION --------
+const searchForm = document.getElementById("search-form");
+const searchInput = searchForm ? searchForm.querySelector(".search-input") : null;
+const inputWrapper = searchForm ? searchForm.querySelector(".input-wrapper") : null;
+const categoryTagsContainer = document.querySelector(".category-tags");
 
-// Filters all activity cards based on what the user types in the search bar
-function filterActivityCards() {
+// Tracks the selected category filter (empty string means all categories)
+let activeCategory = "";
+
+// Create suggestion dropdown element inside .input-wrapper
+const suggestionsBox = document.createElement("div");
+suggestionsBox.className = "search-suggestions";
+suggestionsBox.setAttribute("role", "listbox");
+suggestionsBox.setAttribute("aria-label", "Sökförslag");
+if (inputWrapper) {
+  inputWrapper.appendChild(suggestionsBox);
+}
+
+// Extract searchable fields (title, venue, date, organizer) from a card element
+function getCardSearchFields(card) {
+  const title = (card.querySelector("h3")?.textContent || "").trim();
+  const paragraphs = Array.from(card.querySelectorAll("p"));
+
+  const venueLine = paragraphs.find((p) => p.textContent.includes("Plats:"))?.textContent || "";
+  const dateLine = paragraphs.find((p) => p.textContent.includes("Tid:"))?.textContent || "";
+  const organizerLine = paragraphs.find((p) => p.textContent.includes("Arrangör:"))?.textContent || "";
+
+  const venue = venueLine.replace(/Plats:\s*/i, "").trim();
+  const date = dateLine.replace(/Tid:\s*/i, "").trim();
+  const organizer = organizerLine.replace(/Arrangör:\s*/i, "").trim();
+
+  return [
+    { label: "Titel", value: title },
+    { label: "Plats", value: venue },
+    { label: "Datum", value: date },
+    { label: "Arrangör", value: organizer },
+  ].filter((field) => field.value.length > 0);
+}
+
+// Check if any word in a text value starts with the query prefix
+function startsWithWord(text, prefix) {
+  const words = text.toLowerCase().split(/[\s,–-]+/);
+  return words.some((word) => word.startsWith(prefix));
+}
+
+// Build and display suggestions where title, venue, date, or organizer starts with query
+function updateSuggestions() {
+  if (!searchInput) return;
+
   const query = searchInput.value.trim().toLowerCase();
-  
-  // Hide the "about" section while searching, and show them again when the input is empty
-  const sectionsToHide = document.querySelectorAll('.hide-on-search');
-  sectionsToHide.forEach((section) => {
-    section.style.display = query.length > 0 ? 'none' : '';
-  });
+  if (query.length === 0) {
+    suggestionsBox.innerHTML = "";
+    suggestionsBox.classList.remove("open");
+    return;
+  }
 
-  // Get all activity cards currently on the page (both hardcoded and API-fetched)
-  const cards = document.querySelectorAll('.activity-card');
+  const cards = Array.from(document.querySelectorAll(".activity-card"));
+  const seen = new Set();
+  const matches = [];
 
   cards.forEach((card) => {
-    // Get all text inside the card and convert to lowercase to compare with the search query
-    const cardText = card.textContent.toLowerCase();
-
-    if (cardText.includes(query)) {
-      card.style.display = ''; 
-    } else {
-      card.style.display = 'none'; // Hide cards that don't match
-    }
+    const fields = getCardSearchFields(card);
+    fields.forEach((field) => {
+      if (startsWithWord(field.value, query)) {
+        const key = `${field.label.toLowerCase()}::${field.value.toLowerCase()}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          matches.push(field);
+        }
+      }
+    });
   });
 
-  // Check all outercard containers to hide any box that has 0 visible cards
-  document.querySelectorAll('.outer-card').forEach((box) => {
-    // Find all activity cards inside this specific outercard
-    const cardsInside = box.querySelectorAll('.activity-card');
+  if (matches.length === 0) {
+    suggestionsBox.innerHTML = "";
+    suggestionsBox.classList.remove("open");
+    return;
+  }
 
-    // Only check outercards that actually hold activity cards (leaves the search bar untouched)
+  // Render up to 8 clickable suggestion buttons
+  suggestionsBox.innerHTML = matches
+    .slice(0, 8)
+    .map(
+      (item) => `
+      <button type="button" class="suggestion-item" data-value="${escapeHtml(item.value)}">
+        <span>${escapeHtml(item.value)}</span>
+        <span class="suggestion-meta">${escapeHtml(item.label)}</span>
+      </button>`
+    )
+    .join("");
+
+  suggestionsBox.classList.add("open");
+}
+
+// Filters activity cards by both search query (matching title, venue, date, organizer) and category
+function filterActivityCards() {
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const normalizedCategory = activeCategory.trim().toLowerCase();
+  const isFiltering = query.length > 0 || normalizedCategory.length > 0;
+
+  // Hide informational sections while searching or filtering by category
+  document.querySelectorAll(".hide-on-search").forEach((section) => {
+    section.style.display = isFiltering ? "none" : "";
+  });
+
+  const cards = document.querySelectorAll(".activity-card");
+  cards.forEach((card) => {
+    const fields = getCardSearchFields(card);
+    const searchableText = fields.map((f) => f.value.toLowerCase()).join(" ");
+    const cardFullText = card.textContent.toLowerCase();
+
+    const matchesQuery = query.length === 0 || searchableText.includes(query);
+    const matchesCategory =
+      normalizedCategory.length === 0 || cardFullText.includes(normalizedCategory);
+
+    card.style.display = matchesQuery && matchesCategory ? "" : "none";
+  });
+
+  // Hide outer cards that have zero visible activity cards
+  document.querySelectorAll(".outer-card").forEach((box) => {
+    if (box.contains(searchForm)) return;
+
+    const cardsInside = box.querySelectorAll(".activity-card");
     if (cardsInside.length > 0) {
-      // Count how many of the cards inside are still visible
-      const visibleCards = Array.from(cardsInside).filter(
-        (card) => card.style.display !== 'none'
-      );
-
-      // Hide the outercard if 0 cards match, otherwise show it
-      box.style.display = visibleCards.length === 0 ? 'none' : '';
+      const visibleCount = Array.from(cardsInside).filter(
+        (card) => card.style.display !== "none"
+      ).length;
+      box.style.display = visibleCount === 0 ? "none" : "";
     }
   });
 }
 
-// Run the filter when the user clicks "Search" or presses Enter
-searchForm.addEventListener('submit', (e) => {
-  e.preventDefault(); // Prevent the browser from reloading the page
+// Select a suggestion when clicked
+suggestionsBox.addEventListener("click", (event) => {
+  const item = event.target.closest(".suggestion-item");
+  if (!item || !searchInput) return;
+
+  searchInput.value = item.dataset.value || "";
+  searchInput.required = searchInput.value.trim().length > 0;
+  suggestionsBox.classList.remove("open");
   filterActivityCards();
 });
 
-// Live search: filter immediately while typing, and show everything again if the input is cleared
-searchInput.addEventListener('input', filterActivityCards);
+// Close suggestion dropdown when clicking outside the search input area
+document.addEventListener("click", (event) => {
+  if (!inputWrapper || !inputWrapper.contains(event.target)) {
+    suggestionsBox.classList.remove("open");
+  }
+});
+
+// Handle category tag clicks
+if (categoryTagsContainer) {
+  categoryTagsContainer.addEventListener("click", (event) => {
+    const tag = event.target.closest(".category-tag");
+    if (!tag) return;
+
+    activeCategory = (tag.dataset.category || "").trim();
+
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      btn.classList.toggle("active", btn === tag);
+    });
+
+    if (searchInput) {
+      searchInput.value = "";
+      searchInput.required = false;
+    }
+
+    suggestionsBox.classList.remove("open");
+    filterActivityCards();
+  });
+}
+
+// Run filter on form submit and close suggestions
+if (searchForm) {
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    suggestionsBox.classList.remove("open");
+    filterActivityCards();
+  });
+}
+
+// Update suggestions and filter cards live while typing
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.trim().length > 0) {
+      searchInput.required = true;
+    }
+    updateSuggestions();
+    filterActivityCards();
+  });
+
+  searchInput.addEventListener("focus", () => {
+    if (searchInput.value.trim().length > 0) {
+      updateSuggestions();
+    }
+  });
+}
+// -------- REDUCED MOTION TOGGLE BUTTON --------
+const toggleMotionBtn = document.getElementById("toggle-motion-btn");
+const MOTION_STORAGE_KEY = "eventEtt_reduced_motion";
+
+// Apply saved motion preference on page load if present
+function applySavedMotionPreference() {
+  const savedPreference = localStorage.getItem(MOTION_STORAGE_KEY);
+  if (savedPreference === "true") {
+    document.body.classList.add("reduced-motion");
+  }
+  updateMotionButtonState();
+}
+
+// Keep button label and aria-pressed attribute in sync with body class
+function updateMotionButtonState() {
+  if (!toggleMotionBtn) return;
+  const isReduced = document.body.classList.contains("reduced-motion");
+  toggleMotionBtn.setAttribute("aria-pressed", String(isReduced));
+  toggleMotionBtn.textContent = isReduced
+    ? "Minska animationer: På"
+    : "Minska animationer: Av";
+}
+
+if (toggleMotionBtn) {
+  toggleMotionBtn.addEventListener("click", () => {
+    const isReduced = document.body.classList.toggle("reduced-motion");
+    localStorage.setItem(MOTION_STORAGE_KEY, String(isReduced));
+    updateMotionButtonState();
+  });
+}
+
+applySavedMotionPreference();

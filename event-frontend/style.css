@@ -37,7 +37,26 @@ main
     margin-inline: auto;
     background: #0e0e0e;
     padding-inline: 1rem;
-    margin-bottom: 20px}
+    margin-bottom: 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;          
+    gap: 2rem;              
+}  
+
+    .motion-toggle-btn {
+    margin-left: auto;
+}
+
+.site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+
 
 .nav-list 
 {
@@ -64,7 +83,48 @@ main
 
 .search-form {
     display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.search-row {
+    display: flex;
     gap: 12px;
+    width: 100%;
+}
+
+.category-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;       
+    gap: 0.5rem;
+}
+
+.category-tag {
+    margin-top: 0;
+    padding: 6px 14px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.category-tag:hover {
+    background-color: #3d3d3d;
+    border-color: #686868;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.category-tag.active {
+    background-color: #ececec;
+    color: #181818;
+    border-color: #ececec;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(236, 236, 236, 0.18);
 }
 
 .input-wrapper {
@@ -96,12 +156,14 @@ main
     color: #ffffff;
     font-size: 15px;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 /* Makes the input border brighter when active */
 .search-input:focus {
-    border-color: #666;
+    border-color: #7a7a7a;
+    background-color: #242424;
+    box-shadow: 0 0 0 3px rgba(236, 236, 236, 0.08);
 }
 
 /* Makes the icon brighter when the field is active */
@@ -130,6 +192,64 @@ main
     color: #aaa;
 }
 
+/* Dropdown container for search suggestions below the input wrapper */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background-color: #262626;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    max-height: 260px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-suggestions.open {
+    display: block;
+    animation: suggestionFadeIn 0.16s ease forwards;
+}
+
+/* Individual clickable suggestion row */
+.suggestion-item {
+    width: 100%;
+    margin-top: 0;
+    padding: 10px 14px;
+    background: transparent;
+    color: #ececec;
+    border: none;
+    border-bottom: 1px solid #353535;
+    border-radius: 0;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background-color 0.16s ease, padding-left 0.16s ease, color 0.16s ease;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #383838;
+    padding-left: 18px;
+    color: #ffffff;
+}
+
+/* Subtle label showing which field matched (Title, Venue, Date, Organizer) */
+.suggestion-meta {
+    font-size: 12px;
+    color: #a8a8a8;
+    white-space: nowrap;
+}
+
 .search-button {
     padding: 0 24px;
     background-color: #333333;
@@ -139,7 +259,7 @@ main
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .search-button:hover {
@@ -159,12 +279,18 @@ main
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 #search-form .search-button:hover {
-    background-color: #444444; 
-    border-color: #555555;
+    background-color: #444444;
+    border-color: #666666;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#search-form .search-button:active {
+    transform: translateY(0) scale(0.98);
 }
 
 .activity-card 
@@ -399,6 +525,32 @@ footer {
     margin-inline: auto;
 }
 
+/* Styling for the reduced-motion toggle button in the footer */
+.motion-toggle-btn {
+    margin-top: 12px;
+    padding: 8px 14px;
+    background-color: #2c2c2c;
+    color: #ececec;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.motion-toggle-btn:hover {
+    background-color: #3d3d3d;
+    border-color: #686868;
+    transform: translateY(-1px);
+}
+
+.motion-toggle-btn[aria-pressed="true"] {
+    background-color: #ececec;
+    color: #181818;
+    border-color: #ececec;
+    font-weight: 600;
+}
+
 @media(min-width: 700px) {
     .site-header {
         display: flex;
@@ -545,6 +697,42 @@ body.modal-open {
     }
 }
 
+@keyframes suggestionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .search-input,
+    #search-form .search-button,
+    .category-tag,
+    .search-suggestions.open,
+    .suggestion-item {
+        transition: none;
+        animation: none;
+        transform: none;
+    }
+}
+
+/* Disable transitions and animations when toggled on via the page button */
+body.reduced-motion .search-input,
+body.reduced-motion #search-form .search-button,
+body.reduced-motion .category-tag,
+body.reduced-motion .search-suggestions.open,
+body.reduced-motion .suggestion-item,
+body.reduced-motion .motion-toggle-btn,
+body.reduced-motion .loading-spinner {
+    transition: none;
+    animation: none;
+    transform: none;
+}
 /* The Retry Button */
 .retry-button {
     display: inline-flex;
