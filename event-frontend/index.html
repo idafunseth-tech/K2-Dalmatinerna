@@ -78,6 +78,7 @@
     </div>
 
     <div class="outer-card">
+        <!-- Filled by app.js with event cards fetched from the API -->
         <section id="activity-list" class="activity-list"></section>
     </div>
 
@@ -180,7 +181,7 @@
         </div>
     </section>
     </div>   
-
+        <!-- MODAL WINDOWS -->
     <dialog class="modal-window" data-id="5">
         <div class="modal-content">
             <div class="modal-header">
@@ -205,36 +206,35 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                        title="Ange för- och efternamn" placeholder=" " required>
+                        <input id="person-name" name="personName" type="text" 
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                         <label for="person-name">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
-                        title="Ange en giltig e-postadress" placeholder=" ">
+                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
                         <label for="person-email">E-post</label>
                     </div>
 
                     <div class="floating-group">
                         <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                        pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                        placeholder=" " required>
+                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                         <label for="person-phone-number">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
+                </div>
                 </div>
     </dialog>
 
@@ -262,30 +262,28 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                        title="Ange för- och efternamn" placeholder=" " required>
+                        <input id="person-name" name="personName" type="text" 
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                         <label for="person-name">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
-                        title="Ange en giltig e-postadress" placeholder=" ">
+                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
                         <label for="person-email">E-post</label>
                     </div>
 
                     <div class="floating-group">
                         <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                        pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                        placeholder=" " required>
+                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                         <label for="person-phone-number">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
@@ -293,6 +291,7 @@
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
                 </div>
+            </div>
     </dialog>
 
     <dialog class="modal-window" data-id="7">
@@ -322,30 +321,28 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                        title="Ange för- och efternamn" placeholder=" " required>
+                        <input id="person-name" name="personName" type="text" 
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                         <label for="person-name">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
-                        title="Ange en giltig e-postadress" placeholder=" ">
+                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
                         <label for="person-email">E-post</label>
                     </div>
 
                     <div class="floating-group">
                         <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                        pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                        placeholder=" " required>
+                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                         <label for="person-phone-number">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
@@ -353,6 +350,7 @@
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
                 </div>
+            </div>
     </dialog>
 
     <dialog class="modal-window" data-id="8">
@@ -381,30 +379,28 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                        title="Ange för- och efternamn" placeholder=" " required>
+                        <input id="person-name" name="personName" type="text" 
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                         <label for="person-name">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
-                        title="Ange en giltig e-postadress" placeholder=" ">
+                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
                         <label for="person-email">E-post</label>
                     </div>
 
                     <div class="floating-group">
                         <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                        pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                        placeholder=" " required>
+                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                         <label for="person-phone-number">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
@@ -412,6 +408,7 @@
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
                 </div>
+            </div>
     </dialog>
 
     <dialog class="modal-window" data-id="9">
@@ -439,7 +436,8 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
                         <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
@@ -462,7 +460,7 @@
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
@@ -470,6 +468,7 @@
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
                 </div>
+            </div>
     </dialog>
 
     <dialog class="modal-window" data-id="10">
@@ -500,30 +499,28 @@
                     <hr>
             </div>
                 <div class="modal-footer">
-                    <form class="event-booking-form">
+                    <div class="booking-card">
+                    <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                        title="Ange för- och efternamn" placeholder=" " required>
+                        <input id="person-name" name="personName" type="text" 
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                         <label for="person-name">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
-                        title="Ange en giltig e-postadress" placeholder=" ">
+                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
                         <label for="person-email">E-post</label>
                     </div>
 
                     <div class="floating-group">
                         <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                        pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                        placeholder=" " required>
+                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                         <label for="person-phone-number">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
@@ -531,8 +528,10 @@
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
                     </div>
                 </div>
+            </div>
     </dialog>
 
+    <!-- Filled by app.js with modals for the API-loaded events -->
     <section id="api-modals"></section>
 
 </main>

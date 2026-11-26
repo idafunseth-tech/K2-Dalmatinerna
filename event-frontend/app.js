@@ -1,17 +1,20 @@
 // Get the button that opens the modal
 const detailViewButton = document.querySelectorAll('.detail-view-button');
-// Get the <span> element that closes the modal
+// Get the <button> element that closes the modal
 const close = document.getElementsByClassName("close")[0];
 
 // Get modal
 function openModal(id) {
   const modalWindow = document.querySelector(`.modal-window[data-id = "${id}"]`);
+  // Do nothing if the modal doesn't exist or is already open
   if (!modalWindow || modalWindow.open) return;
 
+  // Open modal (top layer + backdrop) and lock scrolling on the page behind it
   modalWindow.showModal();
   document.body.classList.add('modal-open');
 }
 
+// Close modal; the 'close' listener below then unlocks page scrolling
 function closeModal(modalWindow) {
   modalWindow.close();
 }
@@ -23,12 +26,14 @@ detailViewButton.forEach(button => {
   });
 });
 
+// When any modal closes, allow the page to scroll again.
 document.addEventListener("close", (event) =>{
   if (event.target.matches(".modal-window")) {
     document.body.classList.remove('modal-open')
   }
 }, true);
 
+// When any modal closes, allow the page to scroll again.
 document.addEventListener("click", (event) => {
   // Close button
   const closeBtn = event.target.closest(".modal-window .close");
@@ -50,67 +55,107 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// Click listener (works for both API IDs 1-4 and hardcoded IDs 5-10)
-document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".detail-view-button");
-    if (!btn) return;
-
-    // Get the ID directly from the card's button
-    const eventId = btn.dataset.id;
-
-    // Locate the form
-    const modal = document.querySelector(`.modal-window[data-id="${eventId}"]`) || document.querySelector(".modal-window");
-    const form = modal.querySelector(".event-booking-form");
-
-    // THE CONNECTION: Save the button's ID directly onto the form.
-    form.dataset.eventId = eventId;
-});
-
-
-// EVENT BOOKING FORM
+// -------- EVENT BOOKING FORM --------
+// Listen for all form submissions via event delegation (works for both static and API modals)
 document.addEventListener("submit", (event) => {
-    const form = event.target.closest(".event-booking-form");
-    if (!form) return;
+  const form = event.target.closest(".event-booking-form");
+  if (!form) return;
 
-    event.preventDefault();
+  // Prevent page reload on submit
+  event.preventDefault();
+  
+  // Get modal elements and event title
+  const modalWindow = form.closest(".modal-window");
+  const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+  
+  // Get and trim user input values
+  const personName = form.querySelector('[name="personName"]').value.trim();
+  const personEmail = form.querySelector('[name="personEmail"]').value.trim();
+  const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
+  const rawQuantity = form.querySelector('[name="bookingQuantity"]').value.trim();
+  const bookingQuantity = Number(rawQuantity);
+  const feedback = modalWindow.querySelector(".booking-feedback");
 
-    // Retrieve the ID linked to the form by the card's button
-    const eventId = form.dataset.eventId;
+  // Helper function to display errors without repeating classList logic
+  const showError = (message) => {
+    feedback.textContent = message;
+    feedback.classList.add("error");
+    feedback.classList.remove("success");
+  };
 
-    const modalWindow = form.closest(".modal-window");
-    const activityName = modalWindow.querySelector(".modal-header h2").textContent.trim();
+  // Check if name field is completely empty
+  if (personName === "") {
+      showError("Vänligen fyll i ditt namn.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    const personName = form.querySelector('[name="personName"]').value.trim();
-    const personEmail = form.querySelector('[name="personEmail"]').value.trim();
-    const personPhoneNumber = form.querySelector('[name="personPhoneNumber"]').value.trim();
-    const bookingQuantity = form.querySelector('[name="bookingQuantity"]').value;
+  // Check if name is too short (at least 2 characters required)
+  if (personName.length < 2) {
+      showError("Namnet måste innehålla minst 2 bokstäver.");
+      form.querySelector('[name="personName"]').focus();
+      return;
+  }
 
-    const feedback = modalWindow.querySelector(".booking-feedback");
+  // Validate email format
+  if (personEmail === "" || !personEmail.includes("@")) {
+      showError("Vänligen fyll i en giltig e-postadress.");
+      form.querySelector('[name="personEmail"]').focus();
+      return;
+  }
 
-    if (personName === "" || personEmail === "" || personPhoneNumber === "" || bookingQuantity === "") {
-        feedback.textContent = "Fyll i namn, e-post, telefonnummer och välj antal biljetter.";
-        feedback.classList.add("error");
-        feedback.classList.remove("success");
-        return;
-    }
+  // Validate phone number (exactly 10 digits)
+  if (!/^[0-9]{10}$/.test(personPhoneNumber)) {
+      showError("Vänligen fyll i ett giltigt telefonnummer (10 siffror).");
+      form.querySelector('[name="personPhoneNumber"]').focus();
+      return;
+  }
 
-    feedback.textContent = `Tack ${personName} för din bokning! Du har reserverat ${bookingQuantity} platser på event ${activityName}. Bekräftelse har skickats till ${personEmail} och till telefonnummer ${personPhoneNumber}. Vid frågor kontakta oss på info@event.se`;
-    feedback.classList.add("success");
-    feedback.classList.remove("error");
+  // Validate ticket quantity (integer between 1 and 10)
+  if (rawQuantity === "" || bookingQuantity < 1 || bookingQuantity > 10 || !Number.isInteger(bookingQuantity)) {
+      showError("Välj mellan 1 och 10 biljetter.");
+      form.querySelector('[name="bookingQuantity"]').focus();
+      return;
+  }
+  // Format name (capitalize first letter) and ticket label
+  const formattedName = personName.charAt(0).toUpperCase() + personName.slice(1);
+  const ticketWord = bookingQuantity === 1 ? "plats" : "platser";
 
-    form.reset();
+  // Display booking confirmation and reset form
+  feedback.innerHTML = `
+    <h3>Tack för din bokning, ${escapeHtml(formattedName)}!</h3>
+    <p>Vi har reserverat dina biljetter för:</p>
+    <ul>
+      <li><b>Event:</b> ${escapeHtml(activityName)}</li>
+      <li><b>Antal:</b> ${escapeHtml(bookingQuantity)} ${escapeHtml(ticketWord)}</li>
+    </ul>
+    <p>En bekräftelse har skickats till ${escapeHtml(personEmail)} och via SMS till ${escapeHtml(personPhoneNumber)}.</p>
+    <p>Vid frågor, kontakta oss på info@event.se.</p>
+  `;
+
+  feedback.classList.add("success");
+  feedback.classList.remove("error");
+
+  form.reset();
 });
 
+// -------- API / RENDERING SECTION --------
+// Endpoint that returns the list of events
 const apiUrl = "http://localhost:5043/api/events";
+// Container for the API event cards
 const activityList = document.getElementById("activity-list");
+// Container for the modals that belong to the API event cards
 const apiModals = document.getElementById("api-modals")
 
+// Escape special HTML characters in API data so it can't inject markup (XSS protection).
+// Works by setting textContent on a temporary element and reading back the escaped innerHTML.
 function escapeHtml(value) {
   const div = document.createElement("div");
   div.textContent = value ?? "";
   return div.innerHTML;
 }
 
+// Convert an ISO date string to Swedish format, e.g. "5 jul 2027 - Kl 18:00"
 function formatDate(iso) {
   const d = new Date(iso);
   const date = d.toLocaleDateString("sv-SE", {
@@ -122,6 +167,7 @@ function formatDate(iso) {
   return `${date} - Kl ${time}`;
 }
 
+// Build the HTML for one event card from an API event object
 function createCard(activity) {
   return `
   <article class="activity-card">
@@ -135,6 +181,7 @@ function createCard(activity) {
   </article>`;
 }
 
+// Build the HTML for one modal (<dialog>) with event details and the booking form
 function createModal(activity) {
   return `
     <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
@@ -154,70 +201,90 @@ function createModal(activity) {
                     <hr>
             </div>
             <div class="modal-footer">
+              <div class="booking-card">
                 <form class="event-booking-form">
                 <h3>Boka event</h3>
                 <div class="floating-group">
-                    <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
-                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
-                    title="Ange för- och efternamn" placeholder=" " required>
+                    <input id="person-name" name="personName" type="text" 
+                    oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                     <label for="person-name">Namn</label>
                 </div>
 
                 <div class="floating-group">
-                    <input id="person-email" name="personEmail" type="email" 
-                    title="Ange en giltig e-postadress" placeholder=" ">
+                    <input id="person-email" name="personEmail" type="email" placeholder=" ">
                     <label for="person-email">E-post</label>
                 </div>
 
                 <div class="floating-group">
                     <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
-                    pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
-                    placeholder=" " required>
+                    maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
                     <label for="person-phone-number">Telefonnummer</label>
                 </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" " oninput="if(this.value < 1 && this.value !== '') this.value = 1;" required>
+                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
                         <label for="booking-quantity">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
                         <p class="booking-feedback" role="status" aria-live="polite"></p>
+              </div>
             </div>
         </div>
     </dialog>`
 }
 
+// Show a "loading" message and spinner while events are being fetched
 function loadingState() {
   activityList.innerHTML = `
   <section class="loading-state" role="status">
   <p>Hämtar events...</p>
-  <p class="loading-spinner"></p>
+  <p class="loading-spinner" aria-hidden="true"></p>
   </section>`
 }
 
-
+// Show a message (and retry button) when the API returns no events
 function emptyState() {
   activityList.innerHTML = `
   <div class="empty-state">
   <p>Det finns inga event att hitta just nu. Försök igen senare.</p>
-  <button class="retry-button">Försök igen</button>
+  <button type="button" class="retry-button">
+    <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+     stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+    </svg>
+    <span>Försök igen</span>
+  </button>
   </div>`;
 }
 
+// Show an error message (and retry button) when loading fails
 function errorState(message) {
   activityList.innerHTML = `
-  <div class="state-message error" role="alert">
+  <div class="error-state" role="alert">
   <p>${escapeHtml(message)}</p>
-  <button class="retry-button">Försök igen</button>
+  <button type="button" class="retry-button">
+    <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+     stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+    </svg>
+    <span>Försök igen</span>
+  </button>
   </div>`;
 }
 
+// Translate an error (with optional HTTP status) into a user-friendly Swedish message
 function getErrorMessage(error) {
+  // No status code means the request never reached the server (e.g. network error or server down)
   if (!error.status) {
     return "Servern kunde tyvärr inte nås just nu."
   }
 
+  // Pick a message based on the HTTP status code
   switch (error.status) {
       case 404:
         return "Något gick fel. Vi kan inte hitta några events just nu.";
@@ -229,21 +296,27 @@ function getErrorMessage(error) {
   }
 }
 
+// Fetch events from the API and render the cards and modals
 async function loadActivities() {
   loadingState();
 
 
   try {
+    // Request the events
     const response = await fetch(apiUrl);
 
+    // Treat non-2xx responses as errors and keep the status code for getErrorMessage()
     if (!response.ok) {
       const error = new Error(`HTTP ${response.status}`);
       error.status = response.status;
       throw error;
     }
 
+    // Parse the JSON body
     const data = await response.json();
 
+    /* Normalise the response to an array: the API may return an array,
+       an object with an 'items' array, or a single event object. */
     let activities;
     if (Array.isArray(data)) {
       activities = data;
@@ -255,27 +328,34 @@ async function loadActivities() {
       activities = [];
     }
 
+    // Checks if the response is empty
     if (activities.length === 0) {
       emptyState();
       return;
     }
 
+    // Render a card and a modal for every event
     activityList.innerHTML = activities.map(createCard).join("");
     apiModals.innerHTML = activities.map(createModal).join("");
   } catch (error) {
+    // Log the details for debugging and show a friendly message to the user
     console.error("ERROR", error);
     errorState(getErrorMessage(error));
   }
 }
 
+// Retry button (event delegation, since the button is re-created in every state)
 activityList.addEventListener("click", (event) => {
   if (event.target.closest(".retry-button")) {
     loadActivities();
   }
 });
 
+// Load the events when the page loads
 loadActivities();
 
+/* Open the modal when a "Läs mer och boka" button on an API-rendered card is clicked
+   (event delegation, since these cards are created after the page loads) */
 activityList.addEventListener("click", (event) => {
   const button = event.target.closest(".detail-view-button");
   if (!button) return;

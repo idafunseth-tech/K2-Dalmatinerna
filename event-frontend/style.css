@@ -347,95 +347,173 @@ main
     width: 100%;
     height: auto;
     display: block;
-    margin-top: 2px;    /* Luft mellan "Musik" och bilden */
-    margin-bottom: 10px; /* Luft mellan bilden och beskrivningen under */
+    margin-top: 2px;
+    margin-bottom: 10px;
 }
 
+/* ---- EVENT BOOKING FORM ---- */
+/* Main container for the booking section */
+.booking-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 16px 20px;
+    background-color: #222222;
+    border: 1px solid #444444;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+}
+/* Form wrapper stacking the heading, inputs, and submit button vertically */
 .event-booking-form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    gap: 23px;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
-
+/* Heading spacing inside the booking form */
+.event-booking-form h3 {
+    margin: 0 0 4px 0;
+}
+/* Submit booking-button styling */
 .event-booking-form button {
     justify-self: start;
-    color: #2b2a2a;
-    padding: 7px;
-    font-size: 1rem;
+    padding: 12px 24px;
     margin-top: 10px;
-    background: #acacac;
-    border: 0;
-    letter-spacing: 0.5px;
-    border-radius: 0.25rem;
-    gap: 2rem;
-    cursor: pointer;
     margin-bottom: 18px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-
+/* Lighter background and border when hovering over the submit booking-button */
 .event-booking-form button:hover {
-    background: #5c5c5c;
-    color: #ececec;
+    background-color: #444444;
+    border-color: #555555;
+}
+/* Base text styling for the booking confirmation message */
+.booking-feedback {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #e6f4ea;
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Styled confirmation card with fade-in animation, shown only when text is present */
+.booking-feedback:not(:empty) {
+    padding: 18px 20px;
+    background-color: #5e5e5e;
+    border: 1px solid #838383;
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease;
+}
+/* Hides the feedback container completely when no message is displayed */
+.booking-feedback:empty {
+    display: none;
 }
 
-.booking-feedback {
-    margin-top: 16px;
-    line-height: 1.5;
+/* Makes the feedback show up soft */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Centers all text inside the confirmation box */
+.booking-feedback.success {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-feedback.success ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 12px 0;
+}
+
+.booking-feedback.success li {
+  margin-bottom: 4px;
 }
 
 .floating-group {
     position: relative;
 }
-
+/* Styling for the text and number input fields inside the floating group */
 .floating-group input {
-    padding: 8px 10px;
-    font-size: 16px;
-    background-color: #ffffff;
-    color: #111111;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    width: 100%;
+    padding: 16px 14px 8px 14px; /* Add some extra top padding so the label fits inside the field */
+    font-size: 15px;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-sizing: border-box;
     outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    color-scheme: dark; /* Makes the browser's default number arrows dark */
 }
 
-/* The label in its default state (inside the white box). */
+/* The label in its default state (inside the dark box). */
 .floating-group label {
     position: absolute;
-    left: 10px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666666;
-    font-size: 16px;
-    pointer-events: none; 
+    color: #9a9a9a;
+    font-size: 15px;
+    pointer-events: none;
     transition: all 0.2s ease;
 }
 
 /* When the user focuses on the input field OR when the field contains text. */
 .floating-group input:focus + label,
 .floating-group input:not(:placeholder-shown) + label {
-    top: -12px;              /* Moves the label above the input field. */
-    left: 2px;
-    font-size: 12px;
-    color: #ffffff;
-    background-color: #141414; 
-    padding: 0 4px;
+    top: 10px;
+    left: 14px;
+    font-size: 11px;
+    color: #b0b0b0;
+    background-color: transparent;
+    padding: 0;
 }
 
 button {
     justify-self: start;
-    color: #2b2a2a;
+    color: #ffffff;
+    text-align: center;
     padding: 1px;
     font-size: 1rem;
     margin-top: 10px;
-    background: #acacac;
-    border: 0;
-    border-radius: 0.25rem;
+    background-color: #333333;
+    border: 1px solid #444;
+    border-radius: 8px;
     gap: 2rem;
     cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 button:hover {
-    background: #5c5c5c;
-    color: #ececec;
+    background-color: #444444;
+    border-color: #555555;
 }
 
 footer {
@@ -489,12 +567,25 @@ footer {
         padding: 0;
         white-space: nowrap;
     }
-
     .activity-list {
         flex-direction: row;
     }
     .activity-card {
         flex: 1;
+    }
+    .booking-card {
+        grid-template-columns: auto auto 1fr 1fr;
+        gap: 48px;
+        justify-content: center;
+        align-items: center;
+    }
+    .booking-feedback {
+        grid-column: 2 / -1;
+        margin: 0;
+        align-self: center;
+        width: 95%;
+        position: relative;
+        top: -15px;
     }
 }
 
@@ -511,15 +602,18 @@ footer {
     overflow: auto; /* Enable scroll if needed */
 }
 
+/* Dimmed, slightly blurred backdrop behind an open modal */
 .modal-window::backdrop {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(1.5px);
 }
 
+/* Stops the page behind the modal from scrolling while it is open */
 body.modal-open {
     overflow: hidden;
 }
 
+/* The modal box itself */
 .modal-content {
     background-color: #424242;
     margin: 5% auto; /* 15% from the top and centered */
@@ -556,17 +650,24 @@ body.modal-open {
     font-weight: bold;
 }
 
+/* Close button hover state */
 .close:hover{
     background: none;
     color: #ececec;
     cursor: pointer;
 }
 
+/* Visible focus outline on the close button for keyboard users */
 .close:focus-visible {
     background: none;
     color: #ececec;
     outline: 2px solid #ececec;
     outline-offset: 2px;
+}
+
+.modal-footer {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* So that the image adjusts to different screen sizes. */
@@ -578,6 +679,7 @@ body.modal-open {
     margin-bottom: 12px;
 }
 
+/* Spinner shown while events are loading */
 .loading-spinner{
     height: 30px;
     width: 30px;
@@ -588,6 +690,7 @@ body.modal-open {
     animation: spin 1.5s ease infinite;
 }
 
+/* Rotates the spinner one full turn */
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -629,4 +732,66 @@ body.reduced-motion .loading-spinner {
     transition: none;
     animation: none;
     transform: none;
+}
+/* The Retry Button */
+.retry-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0.6rem 1rem;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Retry button hover state */
+.retry-button:hover,
+.retry-button:focus-visible {
+    background: #404040;
+}
+
+/* The Retry arrow icon */
+.retry-icon {
+    flex-shrink: 0;
+}
+
+/* Plays retry-spin when retry button is hovered or has focus */
+.retry-button:hover .retry-icon,
+.retry-button:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
+}
+
+/* Rotates retry-icon one full turn */
+@keyframes retry-spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 131px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 131px;
+}
+
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 131px;
 }
