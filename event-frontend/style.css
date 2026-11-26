@@ -1,3 +1,8 @@
+html {
+    scrollbar-gutter: stable;
+    background: #141414;
+}
+
 body {
     font-family: Arial, sans-serif;
     color: #d4d4d4;
@@ -599,7 +604,14 @@ footer {
     border: none;
     background: transparent;
     color: inherit;
-    overflow: auto; /* Enable scroll if needed */
+    overflow: hidden;
+}
+
+/* Center modal window */
+.modal-window[open] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Dimmed, slightly blurred backdrop behind an open modal */
@@ -616,12 +628,15 @@ body.modal-open {
 /* The modal box itself */
 .modal-content {
     background-color: #424242;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 0;
     padding: 20px;
     border: 3px solid #404041;
     border-radius: 0.5rem;
     box-shadow: 0 10px 10px rgba(0,0,0,0.4);
     width: 80%; /* Could be more or less, depending on screen size */
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 .modal-content h2,
