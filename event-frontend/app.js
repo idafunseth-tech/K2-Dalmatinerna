@@ -529,6 +529,17 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Close suggestion dropdown when tabbing out of the search input area
+if (inputWrapper) {
+  inputWrapper.addEventListener("focusout", (event) => {
+    // Close suggestions if focus moves completely outside the search input wrapper
+    if (!inputWrapper.contains(event.relatedTarget)) {
+      suggestionsBox.classList.remove("open");
+      if (searchInput) searchInput.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
 // Handle category tag clicks
 if (categoryTagsContainer) {
   categoryTagsContainer.addEventListener("click", (event) => {
