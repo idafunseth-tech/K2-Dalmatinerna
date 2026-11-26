@@ -677,7 +677,7 @@ footer {
     font-weight: 600;
 }
 
-@media (max-width: 699px) {
+@media (min-width: 700px) {
     .site-header {
         flex-direction: column;
         align-items: flex-start;
