@@ -112,6 +112,7 @@ main
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
+
 .category-tag:hover {
     background-color: #3d3d3d;
     border-color: #686868;
@@ -295,10 +296,12 @@ main
 
 /* Primary button to reset search text and category filter, hidden by default */
 .clear-filters-btn:not([hidden]) {
+    grid-column: 3;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     margin-top: 0;
+    margin-left: auto;
     padding: 6px 14px;
     background-color: #2c2c2c;
     color: #e0e0e0;
@@ -309,23 +312,25 @@ main
     line-height: 1.2;
     cursor: pointer;
     box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.clear-filters-btn:not([hidden]):hover {
+
+.clear-filters-btn[hidden] {
+    display: none;
+}
+
+
+.clear-filters-btn:not([hidden]):not(.is-clearing):hover {
     background-color: #3d3d3d;
     border-color: #686868;
     color: #ffffff;
     transform: translateY(-1px);
 }
 
-.clear-filters-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.clear-filters-btn.is-clearing {
-    animation: clearPulse 0.35s ease;
-}
 
 /* Animation for the clear filters button when clicked */
 @keyframes clearPulse {
@@ -782,7 +787,8 @@ body.reduced-motion .category-tag,
 body.reduced-motion .search-suggestions.open,
 body.reduced-motion .suggestion-item,
 body.reduced-motion .motion-toggle-btn,
-body.reduced-motion .loading-spinner {
+body.reduced-motion .loading-spinner,
+body.reduce-motion .clear-filters-btn {
     transition: none;
     animation: none;
     transform: none;
