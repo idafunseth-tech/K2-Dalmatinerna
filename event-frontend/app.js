@@ -554,12 +554,52 @@ if (searchInput) {
     filterActivityCards();
   });
 
+  // Show suggestions again if the field already has text when focused
   searchInput.addEventListener("focus", () => {
     if (searchInput.value.trim().length > 0) {
       updateSuggestions();
     }
   });
+
+  // Handle ArrowDown and Escape while focus is in the search input
+  searchInput.addEventListener("keydown", (event) => {
+    const items = Array.from(suggestionsBox.querySelectorAll(".suggestion-item"));
+    if (!suggestionsBox.classList.contains("open") || items.length === 0) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault(); // Prevent the text cursor from jumping in the field
+      items[0].focus(); // Move focus to the first search suggestion
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      suggestionsBox.classList.remove("open"); // Close the suggestions list
+    }
+  });
+
+  // Handle ArrowUp, ArrowDown, and Escape inside the suggestions list
+  suggestionsBox.addEventListener("keydown", (event) => {
+    const items = Array.from(suggestionsBox.querySelectorAll(".suggestion-item"));
+    const currentIndex = items.indexOf(document.activeElement);
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      // Move to the next suggestion, wrapping back to the top (0) after the last item
+      const nextIndex = (currentIndex + 1) % items.length;
+      items[nextIndex].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (currentIndex <= 0) {
+        searchInput.focus(); // Jump back up to the search input from the top item
+      } else {
+        items[currentIndex - 1].focus(); // Move up one step in the list
+      }
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      suggestionsBox.classList.remove("open"); // Close the list
+      searchInput.focus(); // Return focus to the search input
+    }
+  });
 }
+
 // -------- REDUCED MOTION TOGGLE BUTTON --------
 const toggleMotionBtn = document.getElementById("toggle-motion-btn");
 const MOTION_STORAGE_KEY = "eventEtt_reduced_motion";
