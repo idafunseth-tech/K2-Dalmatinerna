@@ -795,3 +795,43 @@ body.reduced-motion .loading-spinner {
     width: 100%;
     min-height: 131px;
 }
+
+/* Matches the reset-filters button with .retry-button and the rest of the page */
+.reset-search-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.6rem 1.1rem;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.reset-search-filters-btn:hover,
+.reset-search-filters-btn:focus-visible {
+    background-color: #444444;
+    border-color: #666666;
+    transform: translateY(-1px);
+}
+
+.reset-search-filters-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.reset-search-filters-btn:hover .retry-icon,
+.reset-search-filters-btn:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
+}
+
+CSS
+body.reduced-motion .reset-search-filters-btn {
+    transition: none;
+    animation: none;
+    transform: none;
+}

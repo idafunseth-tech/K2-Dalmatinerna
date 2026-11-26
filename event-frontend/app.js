@@ -265,11 +265,11 @@ function loadingState() {
 }
 
 // Show a message (and retry button) when the API returns no events
-function emptyState() {
-  activityList.innerHTML = `
+function emptyState(appendOnly = false) {
+  const markup = `
   <div class="empty-state">
-  <p>Det finns inga event att hitta just nu. Försök igen senare.</p>
-  <button type="button" class="retry-button">
+  <p>Din sökning matchade inga event</p>
+  <button type="button" class="reset-search-filters-btn">Rensa alla filter
     <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
      stroke="currentColor" stroke-width="2" stroke-linecap="round"
      stroke-linejoin="round" aria-hidden="true">
@@ -279,6 +279,11 @@ function emptyState() {
     <span>Försök igen</span>
   </button>
   </div>`;
+
+  if (appendOnly) {
+    return markup;
+  }
+  activityList.innerHTML = markup;
 }
 
 // Show an error message (and retry button) when loading fails
@@ -286,7 +291,7 @@ function errorState(message) {
   activityList.innerHTML = `
   <div class="error-state" role="alert">
   <p>${escapeHtml(message)}</p>
-  <button type="button" class="retry-button">
+ <button type="button" class="reset-search-filters-btn">Clear all
     <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
      stroke="currentColor" stroke-width="2" stroke-linecap="round"
      stroke-linejoin="round" aria-hidden="true">
@@ -321,8 +326,7 @@ function getErrorMessage(error) {
 async function loadActivities() {
   loadingState();
 
-
-  try {
+try {
     // Request the events
     const response = await fetch(apiUrl);
 
@@ -371,18 +375,6 @@ activityList.addEventListener("click", (event) => {
     loadActivities();
   }
 });
-
-// Load the events when the page loads
-loadActivities();
-
-/* Open the modal when a "Läs mer och boka" button on an API-rendered card is clicked
-   (event delegation, since these cards are created after the page loads) */
-activityList.addEventListener("click", (event) => {
-  const button = event.target.closest(".detail-view-button");
-  if (!button) return;
-  openModal(button.dataset.id);
-});
-
 
 // -------- SEARCH & CATEGORY FILTER SECTION --------
 const searchForm = document.getElementById("search-form");
@@ -514,6 +506,19 @@ function filterActivityCards() {
       box.style.display = visibleCount === 0 ? "none" : "";
     }
   });
+
+  const hasVisibleCard = Array.from(cards).some(
+    (card) => card.style.display !== "none"
+  );
+  const existingEmpty = activityList.querySelector(".empty-state");
+
+  if (!hasVisibleCard && isFiltering) {
+    if (!existingEmpty) {
+      activityList.insertAdjacentHTML("beforeend", emptyState(true));
+    }
+  } else if (existingEmpty) {
+    existingEmpty.remove();
+  }
 }
 
 // Select a suggestion when clicked
@@ -531,6 +536,33 @@ suggestionsBox.addEventListener("click", (event) => {
 document.addEventListener("click", (event) => {
   if (!inputWrapper || !inputWrapper.contains(event.target)) {
     suggestionsBox.classList.remove("open");
+  }
+});
+
+// Helt egen funktion för att nollställa sökfält och vald kategori på denna sida
+function resetPageFilters() {
+  activeCategory = "";
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllCategory = (btn.dataset.category || "").trim() === "";
+      btn.classList.toggle("active", isAllCategory);
+    });
+  }
+
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+// Klicklyssnare för den egna knappen
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".reset-search-filters-btn")) {
+    resetPageFilters();
   }
 });
 
