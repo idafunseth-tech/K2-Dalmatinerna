@@ -517,6 +517,7 @@ suggestionsBox.addEventListener("click", (event) => {
   // Inform screen readers that the suggestions list is now closed after selecting an option
   searchInput.setAttribute("aria-expanded", "false");
   filterActivityCards();
+  searchInput.focus(); // Return focus to the search input so keyboard users don't lose their place
 });
 
 // Close suggestion dropdown when clicking outside the search input area
