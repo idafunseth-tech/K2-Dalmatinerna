@@ -814,3 +814,40 @@ body.reduced-motion .loading-spinner {
     width: 100%;
     min-height: 131px;
 }
+.no-results[hidden] {
+    display: none;
+}
+
+/* Matches .clear-filters-btn with the rest of the buttons and theme */
+.clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.6rem 1.1rem;
+    margin-top: 12px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.clear-filters-btn:hover,
+.clear-filters-btn:focus-visible {
+    background-color: #444444;
+    border-color: #666666;
+    transform: translateY(-1px);
+}
+
+.clear-filters-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.clear-filters-btn:hover .retry-icon,
+.clear-filters-btn:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
+}
