@@ -1,3 +1,7 @@
+* {
+    scrollbar-color: #333333 transparent;
+}
+
 html {
     scrollbar-gutter: stable;
     background: #141414;
