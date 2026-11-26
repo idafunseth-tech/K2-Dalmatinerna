@@ -373,8 +373,6 @@ const clearFiltersBtn = document.getElementById("clear-filters-btn");
 // Tracks the selected category filter (empty string means all categories)
 let activeCategory = "";
 
-const clearFiltersBtn = document.getElementById("clear-filters-btn");
-
 function hasActiveFilters() {
   const hasSearchText = searchInput ? searchInput.value.trim().length > 0 : false;
   const hasCategory = activeCategory.trim().length > 0;
