@@ -207,23 +207,23 @@ function createModal(activity) {
                 <div class="floating-group">
                     <input id="person-name-${escapeHtml(activity.id)}" name="personName" type="text" 
                     oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                    <label for="person-name">Namn</label>
+                    <label for="person-name-${escapeHtml(activity.id)}">Namn</label>
                 </div>
 
                 <div class="floating-group">
                     <input id="person-email-${escapeHtml(activity.id)}" name="personEmail" type="email" placeholder=" ">
-                    <label for="person-email">E-post</label>
+                    <label for="person-email-${escapeHtml(activity.id)}">E-post</label>
                 </div>
 
                 <div class="floating-group">
                     <input id="person-phone-number-${escapeHtml(activity.id)}" name="personPhoneNumber" type="tel" inputmode="numeric" 
                     maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                    <label for="person-phone-number">Telefonnummer</label>
+                    <label for="person-phone-number-${escapeHtml(activity.id)}">Telefonnummer</label>
                 </div>
 
                     <div class="floating-group">
                         <input id="booking-quantity-${escapeHtml(activity.id)}" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <label for="booking-quantity-${escapeHtml(activity.id)}">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
