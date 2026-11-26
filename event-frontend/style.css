@@ -293,21 +293,30 @@ main
     transform: translateY(0) scale(0.98);
 }
 
-/* Primary button to reset search text and category filter */
-.clear-filters-btn {
+/* Primary button to reset search text and category filter, hidden by default */
+.clear-filters-btn:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
     padding: 6px 14px;
     background-color: #2c2c2c;
-    color: #ececec;
-    border: 1px solid #555;
+    color: #e0e0e0;
+    border: 1px solid #444;
     border-radius: 999px;
+    font-family: inherit;
     font-size: 13px;
+    line-height: 1.2;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.clear-filters-btn:hover {
+.clear-filters-btn:not([hidden]):hover {
     background-color: #3d3d3d;
-    border-color: #777;
+    border-color: #686868;
+    color: #ffffff;
+    transform: translateY(-1px);
 }
 
 .clear-filters-btn:active {
@@ -336,6 +345,7 @@ main
         transform: scale(1);
     }
 }
+
 
 .activity-card 
 {
