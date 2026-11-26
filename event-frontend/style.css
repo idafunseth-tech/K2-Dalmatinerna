@@ -237,10 +237,13 @@ ul {
     border-bottom: none;
 }
 
-.suggestion-item:hover {
+.suggestion-item:hover,
+.suggestion-item:focus-visible {
     background-color: #383838;
     padding-left: 18px;
     color: #ffffff;
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
 }
 
 /* Subtle label showing which field matched (Title, Venue, Date, Organizer) */
