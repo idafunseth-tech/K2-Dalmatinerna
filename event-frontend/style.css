@@ -310,7 +310,7 @@ main
 
 .clear-filters-btn:hover {
     background-color: #383838;
-    padding-left: 18px;
+    transform: translateY(-1px);
     color: #ffffff;
 }
 
