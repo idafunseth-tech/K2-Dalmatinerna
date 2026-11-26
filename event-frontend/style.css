@@ -621,27 +621,6 @@ main
     margin: 8px 0;
 }
 
-@media (min-width: 700px) {
-    .contact-row {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 20px;
-    }
-
-    .contact-row .contact-form {
-        flex: 0 0 360px;
-        max-width: 360px;
-    }
-
-    .contact-row .contact-feedback:not(:empty) {
-        flex: 0 1 280px;
-        width: auto;
-        max-width: 280px;
-        text-align: left;
-    }
-}
-
 button {
     justify-self: start;
     color: #ffffff;
