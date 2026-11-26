@@ -389,6 +389,13 @@ const searchForm = document.getElementById("search-form");
 const searchInput = searchForm ? searchForm.querySelector(".search-input") : null;
 const inputWrapper = searchForm ? searchForm.querySelector(".input-wrapper") : null;
 const categoryTagsContainer = document.querySelector(".category-tags");
+const noResults = document.createElement("div");
+noResults.className = "empty-state no-results";
+noResults.setAttribute("role", "status");
+noResults.hidden = true;
+noResults.innerHTML = `<p>Inga event matchade din sökning. Prova ett annat sökord eller en annan kategori.</p>`;
+
+searchForm?.closest(".outer-card")?.after(noResults);
 
 // Tracks the selected category filter (empty string means all categories)
 let activeCategory = "";
@@ -505,6 +512,9 @@ function filterActivityCards() {
   // Hide outer cards that have zero visible activity cards
   document.querySelectorAll(".outer-card").forEach((box) => {
     if (box.contains(searchForm)) return;
+  
+     const visibleCards = Array.from(cards).filter((card) => card.style.display !== "none");
+  noResults.hidden = !(isFiltering && visibleCards.length === 0);
 
     const cardsInside = box.querySelectorAll(".activity-card");
     if (cardsInside.length > 0) {
@@ -581,6 +591,53 @@ if (searchInput) {
     }
   });
 }
+
+function clearFilterState() {
+  activeCategory = "";
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllCategory = (btn.dataset.category || "").trim() === "";
+      btn.classList.toggle("active", isAllCategory);
+    });
+  }
+
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+  function addResetFiltersButton(container) {
+  if (!container || container.querySelector(".clear-filters-btn")) return;
+
+  container.insertAdjacentHTML(
+    "beforeend",
+    `
+    <button type="button" class="clear-filters-btn">
+      <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+        <path d="M21 3v5h-5" />
+      </svg>
+      <span>Försök igen</span>
+    </button>
+    `
+  );
+}
+addResetFiltersButton(noResults);
+
+noResults.addEventListener("click", (event) => {
+  if (event.target.closest(".clear-filters-btn")) {
+    clearFilterState();
+  }
+});
+
+
 // -------- REDUCED MOTION TOGGLE BUTTON --------
 const toggleMotionBtn = document.getElementById("toggle-motion-btn");
 const MOTION_STORAGE_KEY = "eventEtt_reduced_motion";
