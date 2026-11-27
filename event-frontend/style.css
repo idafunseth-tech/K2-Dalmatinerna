@@ -40,6 +40,46 @@ main
     margin-inline: auto;
 }
 
+/* Mobile: 1 column (full width) */
+#activity-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+/* Override flex defaults only for API-fetched cards inside #activity-list */
+#activity-list .activity-card {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: none;
+    overflow-wrap: break-word;
+}
+
+/* Keep the "Read more and book" button aligned at the bottom of each card */
+#activity-list .activity-card .detail-view-button {
+    margin-top: auto;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* Tablet / medium screens: 2 columns (2x2) */
+@media (min-width: 650px) {
+    #activity-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop / large screens: 4 columns filling the full width */
+@media (min-width: 1150px) {
+    #activity-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 ul {
     list-style: none;
 }
