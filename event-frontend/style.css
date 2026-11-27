@@ -1,3 +1,12 @@
+* {
+    scrollbar-color: #333333 transparent;
+}
+
+html {
+    scrollbar-gutter: stable;
+    background: #141414;
+}
+
 body {
     font-family: Arial, sans-serif;
     color: #d4d4d4;
@@ -613,7 +622,14 @@ footer {
     border: none;
     background: transparent;
     color: inherit;
-    overflow: auto; /* Enable scroll if needed */
+    overflow: hidden;
+}
+
+/* Center modal window */
+.modal-window[open] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Dimmed, slightly blurred backdrop behind an open modal */
@@ -630,12 +646,15 @@ body.modal-open {
 /* The modal box itself */
 .modal-content {
     background-color: #424242;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 0;
     padding: 20px;
     border: 3px solid #404041;
     border-radius: 0.5rem;
     box-shadow: 0 10px 10px rgba(0,0,0,0.4);
     width: 80%; /* Could be more or less, depending on screen size */
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 .modal-content h2,
@@ -808,4 +827,41 @@ body.reduced-motion .loading-spinner {
     align-items: center;
     width: 100%;
     min-height: 131px;
+}
+.no-results[hidden] {
+    display: none;
+}
+
+/* Matches .clear-filters-btn with the rest of the buttons and theme */
+.clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.6rem 1.1rem;
+    margin-top: 12px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.clear-filters-btn:hover,
+.clear-filters-btn:focus-visible {
+    background-color: #444444;
+    border-color: #666666;
+    transform: translateY(-1px);
+}
+
+.clear-filters-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.clear-filters-btn:hover .retry-icon,
+.clear-filters-btn:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
 }
