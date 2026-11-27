@@ -541,19 +541,24 @@
 
         <div class="contact-row">
             <form id="contact-form" class="contact-form" novalidate>
+
                 <div class="floating-group">
                     <input type="text" id="contact-name" name="name" placeholder=" " required />
                     <label for="contact-name">Namn</label>
+                    <span id="name-error" class="field-error"></span>
+                    
                 </div>
 
                 <div class="floating-group">
                     <input type="email" id="contact-email" name="email" placeholder=" " required />
                     <label for="contact-email">E-post</label>
+                    <span id="email-error" class="field-error"></span>
                 </div>
 
                 <div class="floating-group">
                     <textarea id="contact-question" name="question" rows="2" placeholder=" " required></textarea>
                     <label for="contact-question">Fråga</label>
+                    <span id="question-error" class="field-error"></span>
                 </div>
 
                 <button type="submit" class="contact-submit-btn">Skicka</button>

@@ -619,6 +619,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle contact form validation and confirmation feedback
   const contactForm = document.getElementById("contact-form");
   const contactFeedback = document.getElementById("contact-feedback");
+  const nameError = document.getElementById("name-error");
+const emailError = document.getElementById("email-error");
+const questionError = document.getElementById("question-error");
 
   if (!contactForm || !contactFeedback) return;
 
@@ -634,23 +637,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput ? emailInput.value.trim() : "";
     const question = questionInput ? questionInput.value.trim() : "";
 
-    const missingFields = [];
-    if (!name) missingFields.push("Namn");
-    if (!email) missingFields.push("E-post");
-    if (!question) missingFields.push("Fråga");
+    // Clear previous error messages
+nameError.textContent = "";
+emailError.textContent = "";
+questionError.textContent = "";
 
-    if (missingFields.length > 0) {
-      contactFeedback.className = "contact-feedback error";
-      contactFeedback.textContent = `Vänligen fyll i: ${missingFields.join(", ")}.`;
-      return;
-    }
+const missingFields = [];
+let hasErrors = false;
 
-    if (emailInput && !emailInput.checkValidity()) {
-      contactFeedback.className = "contact-feedback error";
-      contactFeedback.textContent = "Vänligen ange en giltig e-postadress.";
-      emailInput.focus();
-      return;
-    }
+// Validate name
+if (!name) {
+    nameError.textContent = "Vänligen ange ditt namn.";
+    hasErrors = true;
+} else if (/\d/.test(name)) {
+    nameError.textContent = "Namnet får inte innehålla siffror.";
+    hasErrors = true;
+}
+
+// Validate email
+if (!email) {
+    emailError.textContent = "Vänligen ange din e-postadress.";
+    hasErrors = true;
+} else if (!emailInput.checkValidity()) {
+    emailError.textContent = "Vänligen ange en giltig e-postadress.";
+    hasErrors = true;
+}
+
+// Validate question
+if (!question) {
+    questionError.textContent = "Vänligen skriv din fråga.";
+    hasErrors = true;
+}
+
+if (hasErrors) return;
 
     contactFeedback.className = "contact-feedback success";
     contactFeedback.innerHTML = `
