@@ -550,23 +550,41 @@
     <section id="api-modals"></section>
 
 </main>
-    <footer>
-        <section id="contact" >
-            <form id="contact-form" class="contact">
-                <h2>Kontakt</h2>
-                <div>
-                    <label for="name">Namn</label>
-                    <input id="name" name="name" type="text">
+<footer id="contact">
+    <div class="contact">
+        <h2>Kontakta oss</h2>
+
+        <div class="contact-row">
+            <form id="contact-form" class="contact-form" novalidate>
+
+                <div class="floating-group">
+                    <input id="contact-name" name="name" type="text" oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
+                    <label for="contact-name">Namn</label>
+                    <span id="name-error" class="field-error"></span>
+                    
                 </div>
-                <div>
-                    <label for="email">E-post</label>
-                    <input id="email" name="email" type="email">
+
+                <div class="floating-group">
+                    <input type="email" id="contact-email" name="email" placeholder=" " required />
+                    <label for="contact-email">E-post</label>
+                    <span id="email-error" class="field-error"></span>
                 </div>
-                <button type="submit" class="contact-button">Skicka</button>
+
+                <div class="floating-group">
+                    <textarea id="contact-question" name="question" rows="2" placeholder=" " required></textarea>
+                    <label for="contact-question">Fråga</label>
+                    <span id="question-error" class="field-error"></span>
+                </div>
+
+                <button type="submit" class="contact-submit-btn">Skicka</button>
             </form>
-        <p>Kontakta oss på info@event.se</p>
-    </section>
-    </footer>
-    
+            
+            
+
+            <div id="contact-feedback" class="contact-feedback" role="status" aria-live="polite"></div>
+        </div>
+        <p>Kontaka oss på info@eventet.se</p>
+    </div>
+</footer>
 </body>
 </html>
