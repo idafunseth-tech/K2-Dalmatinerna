@@ -497,9 +497,9 @@ input:focus-visible {
   height: fit-content; 
   align-self: center; 
   justify-self: start; 
-  margin: auto;
-  padding: 12px 24px;
-  margin: 0 0 0 24px;
+  padding: 12px 20px;
+  margin: 0;
+  max-width: 100%;
 }
 
 
