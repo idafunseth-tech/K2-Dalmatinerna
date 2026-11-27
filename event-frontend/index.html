@@ -542,7 +542,7 @@
         <div class="contact-row">
             <form id="contact-form" class="contact-form" novalidate>
                 <div class="floating-group">
-                    <input type="text" id="contact-name" name="name" placeholder=" " required />
+                    <input id="contact-name" name="name" type="text" oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
                     <label for="contact-name">Namn</label>
                 </div>
 
