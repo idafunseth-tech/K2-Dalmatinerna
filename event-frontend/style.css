@@ -1,3 +1,12 @@
+* {
+    scrollbar-color: #333333 transparent;
+}
+
+html {
+    scrollbar-gutter: stable;
+    background: #141414;
+}
+
 body {
     font-family: Arial, sans-serif;
     color: #d4d4d4;
@@ -31,6 +40,10 @@ main
     margin-inline: auto;
 }
 
+ul {
+    list-style: none;
+}
+
 .site-header
 {
     width: 97%;
@@ -39,13 +52,12 @@ main
     padding-inline: 1rem;
     margin-bottom: 20px;
     box-sizing: border-box;
-
     display: flex;
     align-items: center;          
     gap: 2rem;              
 }  
 
-    .motion-toggle-btn {
+.motion-toggle-btn {
     margin-left: auto;
 }
 
@@ -56,8 +68,6 @@ main
     flex: 1;
 }
 
-
-
 .nav-list 
 {
     display: flex;
@@ -67,7 +77,6 @@ main
     max-width: 960px;
     margin-inline: auto;
     list-style: none;
-
 }
 
 .outer-card {
@@ -79,6 +88,12 @@ main
     width: 90%;
     max-width: 1600px;
     margin-inline: auto;
+}
+
+.outer-card h2 {
+    margin-top: 0;
+    margin-bottom: 14px; 
+    line-height: 1.2;
 }
 
 .search-form {
@@ -161,8 +176,8 @@ main
 }
 
 /* Makes the input border brighter when active */
-.search-input:focus {
-    border-color: #7a7a7a;
+.search-input:focus-visible {
+    border-color: #ffffff;
     background-color: #242424;
     box-shadow: 0 0 0 3px rgba(236, 236, 236, 0.08);
 }
@@ -238,10 +253,13 @@ main
     border-bottom: none;
 }
 
-.suggestion-item:hover {
+.suggestion-item:hover,
+.suggestion-item:focus-visible {
     background-color: #383838;
     padding-left: 18px;
     color: #ffffff;
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
 }
 
 /* Subtle label showing which field matched (Title, Venue, Date, Organizer) */
@@ -351,6 +369,18 @@ main
     }
 }
 
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 1px;
+}
+
+input:focus-visible {
+    border-color: #ffffff;
+    outline: 1px solid #ffffff;
+    outline-offset: 0px;
+}
 
 .activity-card 
 {
@@ -526,7 +556,6 @@ main
     border: 1px solid #444;
     border-radius: 8px;
     box-sizing: border-box;
-    outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease;
     color-scheme: dark; /* Makes the browser's default number arrows dark */
 }
@@ -658,7 +687,14 @@ footer {
     border: none;
     background: transparent;
     color: inherit;
-    overflow: auto; /* Enable scroll if needed */
+    overflow: hidden;
+}
+
+/* Center modal window */
+.modal-window[open] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Dimmed, slightly blurred backdrop behind an open modal */
@@ -675,12 +711,15 @@ body.modal-open {
 /* The modal box itself */
 .modal-content {
     background-color: #424242;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 0;
     padding: 20px;
     border: 3px solid #404041;
     border-radius: 0.5rem;
     box-shadow: 0 10px 10px rgba(0,0,0,0.4);
     width: 80%; /* Could be more or less, depending on screen size */
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 .modal-content h2,
@@ -860,4 +899,42 @@ body.reduced-motion .clear-filters-btn {
     transition: none;
     animation: none;
     transform: none;
+}
+.no-results[hidden] {
+    display: none;
+}
+
+/* Matches .clear-filters-btn with the rest of the buttons and theme */
+.clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.6rem 1.1rem;
+    margin-top: 12px;
+    margin: left;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.clear-filters-btn:hover,
+.clear-filters-btn:focus-visible {
+    background-color: #444444;
+    border-color: #666666;
+    transform: translateY(-1px);
+}
+
+.clear-filters-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.clear-filters-btn:hover .retry-icon,
+.clear-filters-btn:focus-visible .retry-icon {
+    animation: retry-spin 0.7s ease-in-out;
 }

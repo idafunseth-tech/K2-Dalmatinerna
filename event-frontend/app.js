@@ -156,15 +156,36 @@ function escapeHtml(value) {
 }
 
 // Convert an ISO date string to Swedish format, e.g. "5 jul 2027 - Kl 18:00"
+const DATE_FALLBACK = "Datum saknas";
+
 function formatDate(iso) {
-  const d = new Date(iso);
-  const date = d.toLocaleDateString("sv-SE", {
-    day: "numeric", month: "short", year: "numeric"
-  }).replace(".", "");
-  const time = d.toLocaleTimeString("sv-SE", {
-    hour: "2-digit", minute: "2-digit"
-  });
-  return `${date} - Kl ${time}`;
+  try {
+    const isValidType =
+      (typeof iso === "string" && iso.trim() !== "") ||
+      (typeof iso === "number" && Number.isFinite(iso));
+
+    if (!isValidType) {
+      console.warn("formatDate: invalid input", iso);
+      return DATE_FALLBACK;
+    }
+
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) {
+      console.warn("formatDate: could not parse date", iso);
+      return DATE_FALLBACK;
+    }
+
+    const date = d.toLocaleDateString("sv-SE", {
+      day: "numeric", month: "short", year: "numeric"
+    }).replace(".", "");
+    const time = d.toLocaleTimeString("sv-SE", {
+      hour: "2-digit", minute: "2-digit"
+    });
+    return `${date} - Kl ${time}`;
+  } catch (err) {
+    console.warn("formatDate: unexpected error", err);
+    return DATE_FALLBACK;
+  }
 }
 
 // Build the HTML for one event card from an API event object
@@ -184,11 +205,11 @@ function createCard(activity) {
 // Build the HTML for one modal (<dialog>) with event details and the booking form
 function createModal(activity) {
   return `
-    <dialog class="modal-window" data-id="${escapeHtml(activity.id)}">
+    <dialog class="modal-window" aria-labelledby="modal-title-${escapeHtml(activity.id)}" data-id="${escapeHtml(activity.id)}">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                <h2>${escapeHtml(activity.title)}</h2>
+                <h2 id="modal-title-${escapeHtml(activity.id)}">${escapeHtml(activity.title)}</h2>
                 <p>${escapeHtml(activity.category)}</p>
             </div>
             <div class="modal-body">
@@ -205,25 +226,25 @@ function createModal(activity) {
                 <form class="event-booking-form">
                 <h3>Boka event</h3>
                 <div class="floating-group">
-                    <input id="person-name" name="personName" type="text" 
+                    <input id="person-name-${escapeHtml(activity.id)}" name="personName" type="text" 
                     oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                    <label for="person-name">Namn</label>
+                    <label for="person-name-${escapeHtml(activity.id)}">Namn</label>
                 </div>
 
                 <div class="floating-group">
-                    <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                    <label for="person-email">E-post</label>
+                    <input id="person-email-${escapeHtml(activity.id)}" name="personEmail" type="email" placeholder=" ">
+                    <label for="person-email-${escapeHtml(activity.id)}">E-post</label>
                 </div>
 
                 <div class="floating-group">
-                    <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                    <input id="person-phone-number-${escapeHtml(activity.id)}" name="personPhoneNumber" type="tel" inputmode="numeric" 
                     maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                    <label for="person-phone-number">Telefonnummer</label>
+                    <label for="person-phone-number-${escapeHtml(activity.id)}">Telefonnummer</label>
                 </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-${escapeHtml(activity.id)}" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-${escapeHtml(activity.id)}">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -408,11 +429,16 @@ function clearAllFilters() {
 
 // Create suggestion dropdown element inside .input-wrapper
 const suggestionsBox = document.createElement("div");
+suggestionsBox.id = "search-suggestions-list"; // Unique ID required for aria-controls on the search input
 suggestionsBox.className = "search-suggestions";
 suggestionsBox.setAttribute("role", "listbox");
 suggestionsBox.setAttribute("aria-label", "Sökförslag");
 if (inputWrapper) {
   inputWrapper.appendChild(suggestionsBox);
+  // Link the search input to the dropdown list so screen readers know which element it controls
+  searchInput.setAttribute("aria-controls", "search-suggestions-list"); 
+  // Indicate to screen readers whether the suggestions dropdown is currently open or closed (starts closed)
+  searchInput.setAttribute("aria-expanded", "false"); 
 }
 
 // Extract searchable fields (title, venue, date, organizer) from a card element
@@ -450,6 +476,8 @@ function updateSuggestions() {
   if (query.length === 0) {
     suggestionsBox.innerHTML = "";
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed
+    searchInput.setAttribute("aria-expanded", "false");
     return;
   }
 
@@ -473,6 +501,8 @@ function updateSuggestions() {
   if (matches.length === 0) {
     suggestionsBox.innerHTML = "";
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed
+    searchInput.setAttribute("aria-expanded", "false");
     return;
   }
 
@@ -481,7 +511,7 @@ function updateSuggestions() {
     .slice(0, 8)
     .map(
       (item) => `
-      <button type="button" class="suggestion-item" data-value="${escapeHtml(item.value)}">
+      <button type="button" role="option" class="suggestion-item" data-value="${escapeHtml(item.value)}">
         <span>${escapeHtml(item.value)}</span>
         <span class="suggestion-meta">${escapeHtml(item.label)}</span>
       </button>`
@@ -489,6 +519,8 @@ function updateSuggestions() {
     .join("");
 
   suggestionsBox.classList.add("open");
+  // Inform screen readers that the suggestions list is now open
+  searchInput.setAttribute("aria-expanded", "true");
 }
 
 // Filters activity cards by both search query (matching title, venue, date, organizer) and category
@@ -519,6 +551,9 @@ function filterActivityCards() {
   // Hide outer cards that have zero visible activity cards
   document.querySelectorAll(".outer-card").forEach((box) => {
     if (box.contains(searchForm)) return;
+  
+     const visibleCards = Array.from(cards).filter((card) => card.style.display !== "none");
+  noResults.hidden = !(isFiltering && visibleCards.length === 0);
 
     const cardsInside = box.querySelectorAll(".activity-card");
     if (cardsInside.length > 0) {
@@ -538,15 +573,31 @@ suggestionsBox.addEventListener("click", (event) => {
   searchInput.value = item.dataset.value || "";
   searchInput.required = searchInput.value.trim().length > 0;
   suggestionsBox.classList.remove("open");
+  // Inform screen readers that the suggestions list is now closed after selecting an option
+  searchInput.setAttribute("aria-expanded", "false");
   filterActivityCards();
+  searchInput.focus(); // Return focus to the search input so keyboard users don't lose their place
 });
 
 // Close suggestion dropdown when clicking outside the search input area
 document.addEventListener("click", (event) => {
   if (!inputWrapper || !inputWrapper.contains(event.target)) {
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed when clicking outside
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
   }
 });
+
+// Close suggestion dropdown when tabbing out of the search input area
+if (inputWrapper) {
+  inputWrapper.addEventListener("focusout", (event) => {
+    // Close suggestions if focus moves completely outside the search input wrapper
+    if (!inputWrapper.contains(event.relatedTarget)) {
+      suggestionsBox.classList.remove("open");
+      if (searchInput) searchInput.setAttribute("aria-expanded", "false");
+    }
+  });
+}
 
 // Handle category tag clicks
 if (categoryTagsContainer) {
@@ -556,9 +607,12 @@ if (categoryTagsContainer) {
 
     activeCategory = (tag.dataset.category || "").trim();
 
-    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
-      btn.classList.toggle("active", btn === tag);
-    });
+  categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+    const isSelected = btn === tag;
+    btn.classList.toggle("active", isSelected);
+    // Sync aria-pressed so screen readers announce which category filter is active
+    btn.setAttribute("aria-pressed", String(isSelected));
+  });
 
     if (searchInput) {
       searchInput.value = "";
@@ -566,6 +620,8 @@ if (categoryTagsContainer) {
     }
 
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed when switching category
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
     filterActivityCards();
   });
 }
@@ -575,6 +631,8 @@ if (searchForm) {
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     suggestionsBox.classList.remove("open");
+    // Inform screen readers that the suggestions list is now closed upon form submission
+    if (searchInput) searchInput.setAttribute("aria-expanded", "false");
     filterActivityCards();
   });
 }
@@ -589,11 +647,92 @@ if (searchInput) {
     filterActivityCards();
   });
 
+  // Show suggestions again if the field already has text when focused
   searchInput.addEventListener("focus", () => {
     if (searchInput.value.trim().length > 0) {
       updateSuggestions();
     }
   });
+
+  // Handle ArrowDown and Escape while focus is in the search input
+  searchInput.addEventListener("keydown", (event) => {
+    const items = Array.from(suggestionsBox.querySelectorAll(".suggestion-item"));
+    if (!suggestionsBox.classList.contains("open") || items.length === 0) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault(); // Prevent the text cursor from jumping in the field
+      items[0].focus(); // Move focus to the first search suggestion
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      suggestionsBox.classList.remove("open"); // Close the suggestions list
+      // Inform screen readers that the suggestions list is now closed
+      searchInput.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Handle ArrowUp, ArrowDown, and Escape inside the suggestions list
+  suggestionsBox.addEventListener("keydown", (event) => {
+    const items = Array.from(suggestionsBox.querySelectorAll(".suggestion-item"));
+    const currentIndex = items.indexOf(document.activeElement);
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      // Move to the next suggestion, wrapping back to the top (0) after the last item
+      const nextIndex = (currentIndex + 1) % items.length;
+      items[nextIndex].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (currentIndex <= 0) {
+        searchInput.focus(); // Jump back up to the search input from the top item
+      } else {
+        items[currentIndex - 1].focus(); // Move up one step in the list
+      }
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      suggestionsBox.classList.remove("open"); // Close the list
+      // Inform screen readers that the suggestions list is now closed
+      searchInput.setAttribute("aria-expanded", "false");
+      searchInput.focus(); // Return focus to the search input
+    }
+  });
+}
+
+function clearFilterState() {
+  activeCategory = "";
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllCategory = (btn.dataset.category || "").trim() === "";
+      btn.classList.toggle("active", isAllCategory);
+    });
+  }
+
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+  function addResetFiltersButton(container) {
+  if (!container || container.querySelector(".clear-filters-btn")) return;
+
+  container.insertAdjacentHTML(
+    "beforeend",
+    `
+    <button type="button" class="clear-filters-btn">
+      <svg class="retry-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+        <path d="M21 3v5h-5" />
+      </svg>
+      <span>Försök igen</span>
+    </button>
+    `
+  );
 }
 
 // Reset search query, suggestion dropdown, and active category tag back to default
@@ -620,6 +759,14 @@ function clearAllFilters() {
 if (clearFiltersBtn) {
   clearFiltersBtn.addEventListener("click", clearAllFilters);
 }
+addResetFiltersButton(noResults);
+
+noResults.addEventListener("click", (event) => {
+  if (event.target.closest(".clear-filters-btn")) {
+    clearFilterState();
+  }
+});
+
 
 // -------- REDUCED MOTION TOGGLE BUTTON --------
 const toggleMotionBtn = document.getElementById("toggle-motion-btn");
