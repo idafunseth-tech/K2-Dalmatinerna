@@ -389,16 +389,43 @@ const searchForm = document.getElementById("search-form");
 const searchInput = searchForm ? searchForm.querySelector(".search-input") : null;
 const inputWrapper = searchForm ? searchForm.querySelector(".input-wrapper") : null;
 const categoryTagsContainer = document.querySelector(".category-tags");
-const noResults = document.createElement("div");
-noResults.className = "empty-state no-results";
-noResults.setAttribute("role", "status");
-noResults.hidden = true;
-noResults.innerHTML = `<p>Inga event matchade din sökning. Prova ett annat sökord eller en annan kategori.</p>`;
-
-searchForm?.closest(".outer-card")?.after(noResults);
+const clearFiltersBtn = document.getElementById("clear-filters-btn");
 
 // Tracks the selected category filter (empty string means all categories)
 let activeCategory = "";
+
+
+
+function hasActiveFilters() {
+  const hasSearchText = searchInput ? searchInput.value.trim().length > 0 : false;
+  const hasCategory = activeCategory.trim().length > 0;
+  return hasSearchText || hasCategory;
+}
+
+function updateClearFiltersButton() {
+  if (!clearFiltersBtn) return;
+  clearFiltersBtn.hidden = !hasActiveFilters();
+}
+
+function clearAllFilters() {
+  activeCategory = "";
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+  }
+
+  suggestionsBox.innerHTML = "";
+  suggestionsBox.classList.remove("open");
+  updateClearFiltersButton();
+  filterActivityCards();
+}
 
 // Create suggestion dropdown element inside .input-wrapper
 const suggestionsBox = document.createElement("div");
@@ -501,6 +528,7 @@ function filterActivityCards() {
   const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
   const normalizedCategory = activeCategory.trim().toLowerCase();
   const isFiltering = query.length > 0 || normalizedCategory.length > 0;
+  updateClearFiltersButton();
 
   // Hide informational sections while searching or filtering by category
   document.querySelectorAll(".hide-on-search").forEach((section) => {
@@ -706,6 +734,31 @@ function clearFilterState() {
     `
   );
 }
+
+// Reset search query, suggestion dropdown, and active category tag back to default
+function clearAllFilters() {
+  activeCategory = "";
+
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllTag = (btn.dataset.category || "") === "";
+      btn.classList.toggle("active", isAllTag);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.value = "";
+    searchInput.required = false;
+  }
+
+  suggestionsBox.innerHTML = "";
+  suggestionsBox.classList.remove("open");
+  filterActivityCards();
+}
+
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener("click", clearAllFilters);
+}
 addResetFiltersButton(noResults);
 
 noResults.addEventListener("click", (event) => {
@@ -746,4 +799,11 @@ if (toggleMotionBtn) {
   });
 }
 
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener("click", clearAllFilters);
+}
+
+updateClearFiltersButton();
+
 applySavedMotionPreference();
+

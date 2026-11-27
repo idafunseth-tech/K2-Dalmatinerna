@@ -110,9 +110,9 @@ ul {
 
 .category-tags {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     justify-content: center;
-    flex-wrap: wrap;       
-    gap: 0.5rem;
 }
 
 .category-tag {
@@ -126,6 +126,7 @@ ul {
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
+
 
 .category-tag:hover {
     background-color: #3d3d3d;
@@ -310,6 +311,64 @@ ul {
 #search-form .search-button:active {
     transform: translateY(0) scale(0.98);
 }
+
+/* Primary button to reset search text and category filter, hidden by default */
+.clear-filters-btn:not([hidden]) {
+    grid-column: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    margin-left: auto;
+    padding: 6px 14px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.2;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+
+.clear-filters-btn[hidden] {
+    display: none;
+}
+
+
+.clear-filters-btn:not([hidden]):not(.is-clearing):hover {
+    background-color: #3d3d3d;
+    border-color: #686868;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+
+/* Animation for the clear filters button when clicked */
+@keyframes clearPulse {
+    0% {
+        transform: scale(0.95);
+        background-color: #ececec;
+        color: #181818;
+        border-color: #ececec;
+    }
+    60% {
+        transform: scale(1.04);
+        background-color: #4a4a4a;
+        color: #ffffff;
+        border-color: #888888;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 a:focus-visible,
 button:focus-visible {
@@ -767,7 +826,8 @@ body.reduced-motion .category-tag,
 body.reduced-motion .search-suggestions.open,
 body.reduced-motion .suggestion-item,
 body.reduced-motion .motion-toggle-btn,
-body.reduced-motion .loading-spinner {
+body.reduced-motion .loading-spinner,
+body.reduce-motion .clear-filters-btn {
     transition: none;
     animation: none;
     transform: none;
@@ -834,6 +894,12 @@ body.reduced-motion .loading-spinner {
     width: 100%;
     min-height: 131px;
 }
+
+body.reduced-motion .clear-filters-btn {
+    transition: none;
+    animation: none;
+    transform: none;
+}
 .no-results[hidden] {
     display: none;
 }
@@ -846,6 +912,7 @@ body.reduced-motion .loading-spinner {
     gap: 6px;
     padding: 0.6rem 1.1rem;
     margin-top: 12px;
+    margin: left;
     background-color: #333333;
     color: #ffffff;
     border: 1px solid #444;
