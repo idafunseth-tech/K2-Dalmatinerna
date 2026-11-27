@@ -621,6 +621,11 @@ footer {
         position: relative;
         top: -15px;
     }
+    .booking-feedback.success {
+        align-self: center;
+        justify-self: start;
+        margin: 0 0 0 24px;
+    }
 }
 
 /* The Modal (background) */
