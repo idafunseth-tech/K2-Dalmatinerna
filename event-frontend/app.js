@@ -414,34 +414,78 @@ if (inputWrapper) {
   searchInput.setAttribute("aria-expanded", "false"); 
 }
 
-// Extract searchable fields (title, venue, date, organizer) from a card element
+// Extract searchable fields (title, venue, date, organizer, category) from a card element
 function getCardSearchFields(card) {
   const title = (card.querySelector("h3")?.textContent || "").trim();
+  const category = (card.querySelector("h4")?.textContent || "").trim();
   const paragraphs = Array.from(card.querySelectorAll("p"));
 
   const venueLine = paragraphs.find((p) => p.textContent.includes("Plats:"))?.textContent || "";
   const dateLine = paragraphs.find((p) => p.textContent.includes("Tid:"))?.textContent || "";
   const organizerLine = paragraphs.find((p) => p.textContent.includes("Arrangör:"))?.textContent || "";
-
+  
+  
   const venue = venueLine.replace(/Plats:\s*/i, "").trim();
   const date = dateLine.replace(/Tid:\s*/i, "").trim();
   const organizer = organizerLine.replace(/Arrangör:\s*/i, "").trim();
+ 
 
   return [
     { label: "Titel", value: title },
     { label: "Plats", value: venue },
     { label: "Datum", value: date },
-    { label: "Arrangör", value: organizer },
+    { label: "Kategori", value: category },
+    { label: "Arrangör", value: organizer }
   ].filter((field) => field.value.length > 0);
 }
 
 // Check if any word in a text value starts with the query prefix
 function startsWithWord(text, prefix) {
-  const words = text.toLowerCase().split(/[\s,–-]+/);
-  return words.some((word) => word.startsWith(prefix));
+  if (!text || !prefix) return false;
+
+  const normalizedText = text.toLowerCase().trim();
+  const normalizedPrefix = prefix.toLowerCase().trim();
+
+  return normalizedText.startsWith(normalizedPrefix);
 }
 
-// Build and display suggestions where title, venue, date, or organizer starts with query
+function matchesDigits(text, query) {
+  if (!text || !query) return false;
+
+  const digitsQuery = query.replace(/\D/g, "");
+  if (!digitsQuery) return false;
+
+  // Extract the date (first number in the date)
+  const datePart = text.split("- Kl")[0].trim();
+  const day = datePart.match(/^(\d{1,2})/);
+
+  // Extract only the hour, not the minutes
+  const time = text.match(/Kl\s*(\d{1,2}):\d{2}/i);
+
+  return (
+    (day && day[1].startsWith(digitsQuery)) ||
+    (time && time[1].startsWith(digitsQuery))
+  );
+}
+
+function matchesField(field, query) {
+  const normalizedQuery = query.toLowerCase().trim();
+  const normalizedValue = (field.value || "").toLowerCase().trim();
+
+  if (!normalizedQuery || !normalizedValue) return false;
+
+  if (normalizedValue.startsWith(normalizedQuery)) {
+    return true;
+  }
+
+  if (field.label === "Datum" || field.label === "Tid") {
+    return matchesDigits(field.value, normalizedQuery);
+  }
+
+  return false;
+}
+
+// Build and display suggestions where title, venue, date, category or organizer starts with query
 function updateSuggestions() {
   if (!searchInput) return;
 
@@ -460,8 +504,8 @@ function updateSuggestions() {
 
   cards.forEach((card) => {
     const fields = getCardSearchFields(card);
-    fields.forEach((field) => {
-      if (startsWithWord(field.value, query)) {
+      fields.forEach((field) => {
+      if (matchesField(field, query)) {
         const key = `${field.label.toLowerCase()}::${field.value.toLowerCase()}`;
         if (!seen.has(key)) {
           seen.add(key);
@@ -497,7 +541,7 @@ function updateSuggestions() {
 }
 
 // Filters activity cards by both search query (matching title, venue, date, organizer) and category
-function filterActivityCards() {
+ function filterActivityCards() {
   const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
   const normalizedCategory = activeCategory.trim().toLowerCase();
   const isFiltering = query.length > 0 || normalizedCategory.length > 0;
@@ -510,10 +554,10 @@ function filterActivityCards() {
   const cards = document.querySelectorAll(".activity-card");
   cards.forEach((card) => {
     const fields = getCardSearchFields(card);
-    const searchableText = fields.map((f) => f.value.toLowerCase()).join(" ");
     const cardFullText = card.textContent.toLowerCase();
 
-    const matchesQuery = query.length === 0 || searchableText.includes(query);
+    const matchesQuery = 
+      query.length === 0 || fields.some((field) => matchesField(field, query));
     const matchesCategory =
       normalizedCategory.length === 0 || cardFullText.includes(normalizedCategory);
 
@@ -523,9 +567,6 @@ function filterActivityCards() {
   // Hide outer cards that have zero visible activity cards
   document.querySelectorAll(".outer-card").forEach((box) => {
     if (box.contains(searchForm)) return;
-  
-     const visibleCards = Array.from(cards).filter((card) => card.style.display !== "none");
-  noResults.hidden = !(isFiltering && visibleCards.length === 0);
 
     const cardsInside = box.querySelectorAll(".activity-card");
     if (cardsInside.length > 0) {
@@ -535,20 +576,33 @@ function filterActivityCards() {
       box.style.display = visibleCount === 0 ? "none" : "";
     }
   });
+  const visibleCards = Array.from(cards).filter(
+    (card) => card.style.display !== "none"
+  );
+  noResults.hidden = !(isFiltering && visibleCards.length === 0);
+
 }
 
 // Select a suggestion when clicked
 suggestionsBox.addEventListener("click", (event) => {
-  const item = event.target.closest(".suggestion-item");
+ const item = event.target.closest(".suggestion-item");
   if (!item || !searchInput) return;
+
+  activeCategory = "";
+  if (categoryTagsContainer) {
+    categoryTagsContainer.querySelectorAll(".category-tag").forEach((btn) => {
+      const isAllCategory = (btn.dataset.category || "").trim() === "";
+      btn.classList.toggle("active", isAllCategory);
+      btn.setAttribute("aria-pressed", String(isAllCategory));
+    });
+  }
 
   searchInput.value = item.dataset.value || "";
   searchInput.required = searchInput.value.trim().length > 0;
   suggestionsBox.classList.remove("open");
-  // Inform screen readers that the suggestions list is now closed after selecting an option
   searchInput.setAttribute("aria-expanded", "false");
   filterActivityCards();
-  searchInput.focus(); // Return focus to the search input so keyboard users don't lose their place
+  searchInput.focus();
 });
 
 // Close suggestion dropdown when clicking outside the search input area
@@ -747,3 +801,4 @@ if (toggleMotionBtn) {
 }
 
 applySavedMotionPreference();
+
