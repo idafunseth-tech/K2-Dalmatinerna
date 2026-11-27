@@ -445,6 +445,9 @@ input:focus-visible {
     color: #e6f4ea;
     width: 100%;
     box-sizing: border-box;
+    text-align: center;
+    width: fit-content;
+
 }
 /* Styled confirmation card with fade-in animation, shown only when text is present */
 .booking-feedback:not(:empty) {
@@ -483,6 +486,22 @@ input:focus-visible {
 .booking-feedback.success li {
   margin-bottom: 4px;
 }
+
+.booking-feedback.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: fit-content; 
+  max-width: 100%; 
+  height: fit-content; 
+  align-self: center; 
+  justify-self: start; 
+  padding: 12px 20px;
+  margin: 0;
+  max-width: 100%;
+}
+
 
 .floating-group {
     position: relative;
