@@ -661,6 +661,7 @@ body.modal-open {
     max-height: 90vh;
     overflow-y: auto;
     scrollbar-gutter: stable;
+    max-width: 900px;
 }
 
 .modal-content h2,
