@@ -90,6 +90,12 @@ ul {
     margin-inline: auto;
 }
 
+.outer-card h2 {
+    margin-top: 0;
+    margin-bottom: 14px; 
+    line-height: 1.2;
+}
+
 .search-form {
     display: flex;
     flex-direction: column;
