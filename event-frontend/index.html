@@ -13,7 +13,7 @@
     <header class="site-header">
         <h1>eventEtt</h1>
         <nav aria-label="Huvudnavigation">
-            <ul class="nav-list">
+            <ul class="nav-list" role="list">
                 <li><a href="#activity">Event</a></li>               
                 <li><a href="#about">Om oss</a></li>
                 <li><a href="#contact">Kontakt</a></li>
@@ -32,7 +32,7 @@
                 <div class="search-row">
                 <div class="input-wrapper">
                 <!-- Icon inside the label-->
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
@@ -47,12 +47,12 @@
         <div class="category-filter-section">
             <div class="category-tags" role="group" aria-label="Filtrera på kategori">
                 <!-- "Alla" resets the active category filter -->
-                <button type="button" class="category-tag active" data-category="">Alla</button>
-                <button type="button" class="category-tag" data-category="Musik">Musik</button>
-                <button type="button" class="category-tag" data-category="Näringsliv">Näringsliv</button>
-                <button type="button" class="category-tag" data-category="Insamling">Insamling</button>
-                <button type="button" class="category-tag" data-category="Kultur">Kultur</button>
-                <button type="button" class="category-tag" data-category="Mat">Mat</button>
+                <button type="button" class="category-tag active" data-category="" aria-pressed="true">Alla</button>
+                <button type="button" class="category-tag" data-category="Musik" aria-pressed="false">Musik</button>
+                <button type="button" class="category-tag" data-category="Näringsliv" aria-pressed="false">Näringsliv</button>
+                <button type="button" class="category-tag" data-category="Insamling" aria-pressed="false">Insamling</button>
+                <button type="button" class="category-tag" data-category="Kultur" aria-pressed="false">Kultur</button>
+                <button type="button" class="category-tag" data-category="Mat" aria-pressed="false">Mat</button>
             </div>
         </div>
         </form>
@@ -66,14 +66,17 @@
             inspirerande föreläsningar.</p>
         <br>
         <h3>Det här kan du göra hos oss:</h3>
-        <li><b>Upptäcka event:</b> Sök och filtrera enkelt efter kategorier, datum och platser för att hitta 
+        <ul role="list">
+            <li><b>Upptäcka event:</b> Sök och filtrera enkelt efter kategorier, datum och platser för att hitta 
             det som passar just dig.</li>
-        <li><b>Boka din plats:</b> Säkra dina biljetter snabbt och smidigt direkt på sidan med några få klick.</li>
-        <li><b>Hålla dig uppdaterad:</b> Se alla viktiga detaljer inför eventet - såsom tider, platser, programupplägg 
+            <li><b>Boka din plats:</b> Säkra dina biljetter snabbt och smidigt direkt på sidan med några få klick.</li>
+            <li><b>Hålla dig uppdaterad:</b> Se alla viktiga detaljer inför eventet - såsom tider, platser, programupplägg 
             och praktisk besöksinformation.</li>
-        <li><b>Få inspiration:</b> Utforska populära evenemang och upptäck nya upplevelser du annars inte hade koll på.</li>
-        <p>Oavsett om du planerar en utekväll med vännerna, letar efter en helgaktivitet med familjen eller vill 
+            <li><b>Få inspiration:</b> Utforska populära evenemang och upptäck nya upplevelser du annars inte hade koll på.</li>
+        </ul>
+            <p>Oavsett om du planerar en utekväll med vännerna, letar efter en helgaktivitet med familjen eller vill 
             lära dig något nytt, hjälper vi dig att hitta rätt upplevelse och säkra din plats!</p>
+        
     </section>
     </div>
 
@@ -88,7 +91,7 @@
             <article class="activity-card">
             <h3>Sommarmusik festival</h3>
             <p>Musik</p>
-            <img src="images/sommar musikfestival.jpeg" alt="sommar musikfestivalen år 2025">
+            <img src="images/sommar musikfestival.jpeg" alt="AI genererad bild folk runt en scen">
             <p>En solig utomhusfestival med livemusik inom pop, rock, hiphop och elektroniskt, samt god mat, 
                 dryck och härlig stämning för alla åldrar.</p>
             <div class="card-bottom">
@@ -103,7 +106,8 @@
         <article class="activity-card">
             <h3>Toppmöte för teknisk innovation</h3>
             <p>Näringsliv</p>
-            <img src="images/toppmöte för teknisk innovation.jpeg" alt="AI genererad bild för TFTI 2026">
+            <img src="images/toppmöte för teknisk innovation.jpeg" alt="AI-genererad illustration av en futuristisk 
+            stad med teknik-ikoner och texten: Toppmöte för teknisk innovation">
             <p>En mötesplats där branschexperter och utvecklare samlas för att utforska nya tekniktrender. 
                 Eventet erbjuder inspirerande föreläsningar och nätverkande inom bland annat AI och modern 
                 mjukvaruutveckling.</p>
@@ -119,7 +123,8 @@
         <article class="activity-card">
             <h3>Vintergalan för välgörenhet</h3>
             <p>Insamling</p>
-            <img src="images/Vintergala för välgörenhet.jpeg" alt="AI genererad bild för vintergala">
+            <img src="images/Vintergala för välgörenhet.jpeg" alt="AI-genererad bild från en vintertemad välgörenhetsgala
+             i en stor festsal med kristallkronor, snötäckta granar, scenuppträdande och finklädda middagsgäster.">
             <p>Ett stämningsfullt vinterevenemang som samlar företag och privatpersoner för en kväll fylld av 
                 underhållning och god mat. Genom insamlingar, auktioner och lottdragningar går intäkterna till att
                  stötta utvalda välgörenhetsorganisationer och hjälpprojekt.</p>
@@ -135,7 +140,8 @@
         <article class="activity-card">
             <h3>Pitchkväll för startupbolag</h3>
             <p>Näringsliv</p>
-            <img src="images/Pitchkväll för startupbolag.jpg" alt="AI genererad bild för pitchkväll">
+            <img src="images/Pitchkväll för startupbolag.jpg" alt="AI-genererad bild av en rund bibliotekssal med bokhyllor
+             i flera plan, uppställd med stolar, projektor och roll-ups inför en pitchkväll">
             <p>Pitchkväll för startupbolag är ett intensivt event där entreprenörer pitchar sina affärsidéer inför
                  investerare och branschexperter. Kvällen erbjuder en unik chans för nystartade bolag att säkra kapital 
                  och knyta värdefulla kontakter för framtida tillväxt.</p>
@@ -151,7 +157,8 @@
         <article class="activity-card">
             <h3>Årlig bokmässa</h3>
             <p>Kultur</p>
-            <img src="images/bokmässa.jpg" alt="AI genererad bild för bokmässa">
+            <img src="images/bokmässa.jpg" alt="AI-genererad bild från en bokmässa med besökare vid bokbord och en sittande
+             publik framför en scen med ett pågående författarsamtal.">
             <p>Den årliga bokmässan är litteraturårets största mötesplats där författare, förlag och läsare samlas.
                  Besökare kan upptäcka nya böcker, gå på författarsamtal och ta del av inspirerande föreläsningar.</p>
             <div class="card-bottom">
@@ -166,7 +173,8 @@
         <article class="activity-card">
             <h3>Vårens matmarknad</h3>
             <p>Mat</p>
-            <img src="images/matmarknad.jpg" alt="AI genererad bild för matmarknad">
+            <img src="images/matmarknad.jpg" alt="AI-genererad bild av en livlig matmarknad utomhus med färgglada tält,
+             foodtrucks och stånd med färska grönsaker, ostar och charkuterier">
             <p>Vårens matmarknad är en livfull mötesplats där lokala producenter och matentusiaster samlas för 
                 att fira säsongens första primörer och smakupplevelser. Besökare kan ströva bland stånd fyllda med 
                 färska råvaror, hantverksmat och matkultur från både när och fjärran.</p>
@@ -182,15 +190,15 @@
     </section>
     </div>   
         <!-- MODAL WINDOWS -->
-    <dialog class="modal-window" data-id="5">
+    <dialog class="modal-window" aria-labelledby="modal-title-5" data-id="5">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                <h2>Sommarmusik festival</h2>
+                <h2 id="modal-title-5">Sommarmusik festival</h2>
                 <p>Musik</p>
             </div>
             <div class="modal-body">
-                <img src="images/sommar musikfestival.jpeg" alt="sommar musikfestivalen år 2025">
+                <img src="images/sommar musikfestival.jpeg" alt="AI genererad bild folk runt en scen">
                 <p>Summer Music Festival är en fartfylld och färgstark musikfestival som firar 
                     sommaren med liveframträdanden från populära artister inom genrer som pop, 
                     rock, elektroniskt och hiphop. Festivalen bjuder på en härlig utomhuskänsla med mat, 
@@ -210,25 +218,25 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" 
+                        <input id="person-name-5" name="personName" type="text" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-5">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <input id="person-email-5" name="personEmail" type="email" placeholder=" ">
+                        <label for="person-email-5">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-5" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-5">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-5" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-5">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -238,15 +246,16 @@
                 </div>
     </dialog>
 
-    <dialog class="modal-window" data-id="6">
+    <dialog class="modal-window" aria-labelledby="modal-title-6" data-id="6">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                <h2>Topmöte för teknisk innovation</h2>
+                <h2 id="modal-title-6">Topmöte för teknisk innovation</h2>
                 <p>Näringsliv</p>
             </div>
             <div class="modal-body">
-                <img src="images/toppmöte för teknisk innovation.jpeg" alt="AI genererad bild för TFTI 2026">
+                <img src="images/toppmöte för teknisk innovation.jpeg" alt="AI-genererad illustration av en futuristisk 
+                stad med teknik-ikoner och texten: Toppmöte för teknisk innovation">
                 <p>Tech Innovation Summit är en ledande konferens där branschexperter, entreprenörer och utvecklare 
                     samlas för att utforska nya teknologiska trender och framtidens digitala lösningar. Eventet 
                     erbjuder inspirerande föreläsningar, nätverkande och praktiska insikter inom områden som AI, 
@@ -266,25 +275,25 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" 
+                        <input id="person-name-6" name="personName" type="text" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-6">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <input id="person-email-6" name="personEmail" type="email" placeholder=" ">
+                        <label for="person-email-6">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-6" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-6">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-6" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-6">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -294,15 +303,16 @@
             </div>
     </dialog>
 
-    <dialog class="modal-window" data-id="7">
+    <dialog class="modal-window" aria-labelledby="modal-title-7" data-id="7">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                <h2>Vintergalan för välgörenhet</h2>
+                <h2 id="modal-title-7">Vintergalan för välgörenhet</h2>
                 <p>Insamling</p>
             </div>
             <div class="modal-body">
-                <img src="images/Vintergala för välgörenhet.jpeg" alt="AI genererad bild för vintergala">
+                <img src="images/Vintergala för välgörenhet.jpeg" alt="AI-genererad bild från en vintertemad välgörenhetsgala
+                 i en stor festsal med kristallkronor, snötäckta granar, scenuppträdande och finklädda middagsgäster.">
                 <p>Vintergalan för välgörenhet är ett stämningsfullt och engagerande evenemang som arrangeras under 
                     vinterhalvåret för att samla in medel till goda ändamål. Galan för samman företag, privatpersoner 
                     och lokalsamhället för en kväll fylld av underhållning, god mat och gemenskap. Programmet brukar 
@@ -325,25 +335,25 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" 
+                        <input id="person-name-7" name="personName" type="text" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-7">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <input id="person-email-7" name="personEmail" type="email" placeholder=" ">
+                        <label for="person-email-7">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-7" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-7">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-7" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-7">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -353,15 +363,16 @@
             </div>
     </dialog>
 
-    <dialog class="modal-window" data-id="8">
+    <dialog class="modal-window" aria-labelledby="modal-title-8" data-id="8">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                    <h2>Pitchkväll för startupbolag</h2>
+                    <h2 id="modal-title-8">Pitchkväll för startupbolag</h2>
                     <p>Näringsliv</p>
             </div>
             <div class="modal-body">
-                <img src="images/Pitchkväll för startupbolag.jpg" alt="AI genererad bild för pitchkväll">
+                <img src="images/Pitchkväll för startupbolag.jpg" alt="AI-genererad bild av en rund bibliotekssal med bokhyllor
+                 i flera plan, uppställd med stolar, projektor och roll-ups inför en pitchkväll">
                 <p>Pitchkväll för startupbolag är ett dynamiskt och inspirerande event där lovande entreprenörer kliver 
                     upp på scenen för att presentera sina affärsidéer inför en publik av investerare, branschexperter och 
                     potentiella partners. Under kvällen får varje startup ett par intensiva minuter på sig att sälja in 
@@ -383,25 +394,25 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" 
+                        <input id="person-name-8" name="personName" type="text" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-8">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <input id="person-email-8" name="personEmail" type="email" placeholder=" ">
+                        <label for="person-email-8">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-8" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-8">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-8" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-8">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -411,15 +422,16 @@
             </div>
     </dialog>
 
-    <dialog class="modal-window" data-id="9">
+    <dialog class="modal-window" aria-labelledby="modal-title-9" data-id="9">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                    <h2>Årlig bokmässa</h2>
+                    <h2 id="modal-title-9">Årlig bokmässa</h2>
                     <p>Kultur</p>
             </div>
             <div class="modal-body">
-                <img src="images/bokmässa.jpg" alt="AI genererad bild för bokmässa">
+                <img src="images/bokmässa.jpg" alt="AI-genererad bild från en bokmässa med besökare vid
+                 bokbord och en sittande publik framför en scen med ett pågående författarsamtal.">
                 <p>Den årliga bokmässan är en färgstark mötesplats som samlar författare, förlag och 
                     litteraturälskare under ett och samma tak för att fira boken och läsglädjen. 
                     Evenemanget erbjuder ett rikligt program med författarsamtal, boksigneringar, 
@@ -440,28 +452,28 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
+                        <input id="person-name-9" name="personName" type="text" inputmode="text" pattern="[A-Za-zÅÄÖåäö\s]+" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" 
                         title="Ange för- och efternamn" placeholder=" " required>
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-9">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" 
+                        <input id="person-email-9" name="personEmail" type="email" 
                         title="Ange en giltig e-postadress" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <label for="person-email-9">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-9" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         pattern="[0-9]{10}" maxlength="10" title="Ange ett giltigt telefonnummer" 
                         placeholder=" " required>
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-9">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-9" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-9">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -471,15 +483,16 @@
             </div>
     </dialog>
 
-    <dialog class="modal-window" data-id="10">
+    <dialog class="modal-window" aria-labelledby="modal-title-10" data-id="10">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Stäng">&times;</button>
-                    <h2>Vårens matmarknad</h2>
+                    <h2 id="modal-title-10">Vårens matmarknad</h2>
                     <p>Mat</p>
             </div>
             <div class="modal-body">
-                <img src="images/matmarknad.jpg" alt="AI genererad bild för matmarknad">
+                <img src="images/matmarknad.jpg" alt="AI-genererad bild av en livlig matmarknad utomhus med färgglada tält,
+                 foodtrucks och stånd med färska grönsaker, ostar och charkuterier">
                 <p>Vårens matmarknad är ett stämningsfullt och smakrikt vårevent som hyllar säsongens primörer,
                     lokala hantverk och passionen för god mat. När vårsolen tittar fram förvandlas torget till en 
                     levande mötesplats fylld av dofter, färger och smaker från både närområdet och världens alla hörn. 
@@ -503,25 +516,25 @@
                     <form class="event-booking-form" novalidate>
                     <h3>Boka event</h3>
                     <div class="floating-group">
-                        <input id="person-name" name="personName" type="text" 
+                        <input id="person-name-10" name="personName" type="text" 
                         oninput="this.value = this.value.replace(/[^a-zA-ZÅÄÖåäö\s]/g, '')" placeholder=" ">
-                        <label for="person-name">Namn</label>
+                        <label for="person-name-10">Namn</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-email" name="personEmail" type="email" placeholder=" ">
-                        <label for="person-email">E-post</label>
+                        <input id="person-email-10" name="personEmail" type="email" placeholder=" ">
+                        <label for="person-email-10">E-post</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="person-phone-number" name="personPhoneNumber" type="tel" inputmode="numeric" 
+                        <input id="person-phone-number-10" name="personPhoneNumber" type="tel" inputmode="numeric" 
                         maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder=" ">
-                        <label for="person-phone-number">Telefonnummer</label>
+                        <label for="person-phone-number-10">Telefonnummer</label>
                     </div>
 
                     <div class="floating-group">
-                        <input id="booking-quantity" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
-                        <label for="booking-quantity">Antal biljetter</label>
+                        <input id="booking-quantity-10" name="bookingQuantity" type="number" min="1" step="1" placeholder=" ">
+                        <label for="booking-quantity-10">Antal biljetter</label>
                     </div>
                         <button type="submit">Boka biljetter</button>
                     </form>
@@ -538,7 +551,7 @@
     <footer>
         <section id="contact" >
             <form id="contact-form" class="contact">
-                <h3>Kontakt</h3>
+                <h2>Kontakt</h2>
                 <div>
                     <label for="name">Namn</label>
                     <input id="name" name="name" type="text">
@@ -547,10 +560,9 @@
                     <label for="email">E-post</label>
                     <input id="email" name="email" type="email">
                 </div>
-                
+                <button type="submit" class="contact-button">Skicka</button>
+            </form>
         <p>Kontakta oss på info@event.se</p>
-        
-    
     </section>
     </footer>
     
