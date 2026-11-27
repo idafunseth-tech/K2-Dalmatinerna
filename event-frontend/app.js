@@ -453,36 +453,49 @@ function matchesDigits(text, query) {
   if (!text || !query) return false;
 
   const digitsQuery = query.replace(/\D/g, "");
-  if (!digitsQuery) return false;
+  const letterQuery = query.toLocaleLowerCase("sv-SE").trim();
 
-  // Extract the date (first number in the date)
+  // Extract the date
   const datePart = text.split("- Kl")[0].trim();
   const day = datePart.match(/^(\d{1,2})/);
+
+  // Extract the month name
+  const month = datePart.match(/^\d{1,2}\s+([a-zåäö]+)/i);
 
   // Extract only the hour, not the minutes
   const time = text.match(/Kl\s*(\d{1,2}):\d{2}/i);
 
-  return (
-    (day && day[1].startsWith(digitsQuery)) ||
-    (time && time[1].startsWith(digitsQuery))
-  );
+  // Match the beginning of the day or hour
+  if (digitsQuery) {
+    return (
+      (day && day[1].startsWith(digitsQuery)) ||
+      (time && time[1].startsWith(digitsQuery))
+    );
+  }
+
+  // Match the beginning of the month name
+  return !!month &&
+    month[1].toLocaleLowerCase("sv-SE").startsWith(letterQuery);
 }
 
 function matchesField(field, query) {
-  const normalizedQuery = query.toLowerCase().trim();
-  const normalizedValue = (field.value || "").toLowerCase().trim();
+  const normalizedQuery = query.toLocaleLowerCase("sv-SE").trim();
+  const normalizedValue = (field.value || "").toLocaleLowerCase("sv-SE").trim();
 
   if (!normalizedQuery || !normalizedValue) return false;
 
-  if (normalizedValue.startsWith(normalizedQuery)) {
-    return true;
-  }
-
   if (field.label === "Datum" || field.label === "Tid") {
+
+    // Allow exact suggestions and full date matches
+    if (normalizedValue.startsWith(normalizedQuery)) {
+      return true;
+    }
+
+    // Match dates, hours and month initials
     return matchesDigits(field.value, normalizedQuery);
   }
 
-  return false;
+  return normalizedValue.startsWith(normalizedQuery);
 }
 
 // Build and display suggestions where title, venue, date, category or organizer starts with query
