@@ -467,21 +467,26 @@ input:focus-visible {
 
 /* Centers all text inside the confirmation box */
 .booking-feedback.success {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    padding: 18px 20px;
+    margin: 0;
 }
 
 .booking-feedback.success ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 12px 0;
+    list-style: none;
+    padding-left: 0;
+    margin: 12px 0;
 }
 
 .booking-feedback.success li {
-  margin-bottom: 4px;
+    margin-bottom: 4px;
 }
 
 .floating-group {
